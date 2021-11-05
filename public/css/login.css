@@ -1,0 +1,122 @@
+.bg-gradient {
+background: #C9D6FF;
+background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF); 
+background: linear-gradient(to right, #E2E2E2, #C9D6FF);
+} 
+ul li {
+  margin-bottom:1.4rem;
+}
+.pricing-divider {
+border-radius: 20px;
+background: #C64545;
+padding: 1em 0 4em;
+position: relative;
+}
+.blue .pricing-divider{
+background: #2D5772; 
+}
+.green .pricing-divider {
+background: #1AA85C; 
+}
+.red b {
+  color:#C64545
+}
+.blue b {
+  color:#2D5772
+}
+.green b {
+  color:#1AA85C
+}
+.pricing-divider-img {
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 100%;
+	height: 40px;
+}
+.deco-layer {
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
+}
+.btn-custom  {
+  background:#C64545; color:#fff; border-radius:20px
+}
+
+.img-float {
+  width:10px; position:absolute;top:-3.5rem;right:1rem
+}
+
+
+
+.mb.card-body{
+    text-align: center;
+}
+.mb.btn{
+    border-radius: 0;
+    box-shadow: 0.5px 1px 2px hsla(0, 0%, 20%, 1);
+}
+.mb.btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 5px hsla(0, 0%, 20%, 1);
+}
+.mb.card{
+    border-radius: 0px / 0px;
+    overflow: hidden;
+    
+}
+
+.mb.card:hover{
+    border-radius: 0px / 0px;
+    overflow: hidden;
+    box-shadow: 0.5px 1px 2px hsla(0, 0%, 10%, 0.8);
+}
+
+.card-img-top
+{
+    height:auto;
+	width:80px;
+	margin: auto;
+}
+
+.login-container{
+    
+	margin: 0 auto;
+}
+.login-form-1{
+    padding: 0%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h3{
+    text-align: center;
+    color: #333;
+}
+
+.login-container form{
+    padding: 3%;
+}
+
+.login-form-1 .btnSubmit{
+    font-weight: 300;
+    color: #fff;
+    background-color: #0062cc;
+}
+
+.login-form-1 {
+    color: #0062cc;
+    text-decoration: none;
+}
+
+
+
+.form-control1 {
+    width:100%;
+	text-align:center;
+	margin:auto;
+	border: solid 1px #333333;
+	position: relative;
+	left:7%;
+}
+
+.mb{
+    width:auto;
+}
