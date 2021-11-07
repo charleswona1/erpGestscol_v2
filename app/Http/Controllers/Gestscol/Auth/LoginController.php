@@ -26,8 +26,7 @@ class LoginController extends Controller
             if (count($liste_etablissements) > 1) {
                 return redirect()->intended(route('gestscol.auth.switch'));
             } else {
-                Session::put("eltablissement", $liste_etablissements[0]);
-                return redirect()->intended(route('gestscol.index'));
+                return redirect()->intended(route('gestscol.index',$liste_etablissements[0]->etablissement));
             }
         }
         Session::flash('error', "Aucun compte n'a été trouvé avec ces identifiants");

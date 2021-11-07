@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EtablissementUser extends Model
+class Cycle extends Model
 {
     use HasFactory;
+
+    protected $fillable=['name','etablissement_id'];
 
     public function etablissement(){
         return $this->belongsTo(Etablissement::class);

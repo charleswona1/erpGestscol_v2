@@ -25,6 +25,7 @@ class RedirectIfAuthenticated
             if ($guard == 'infogeni') {
                 return redirect()->route('admin.index');
             } else {
+                
                 return redirect()->route('gestscol.index');
             } 
         }

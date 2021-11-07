@@ -18,5 +18,34 @@ Route::prefix('auth')->namespace('Auth')->name('auth.')->group(function(){
 });
 
 Route::middleware('auth')->group(function(){
-    Route::get('/', 'HomeController@index')->name('index');
+    Route::prefix('{etablissement}')->group(function(){
+        Route::get('/', 'HomeController@index')->name('index');
+
+        // gestion des ressources 
+
+        // ajout et liste des eleves
+        Route::prefix('student')->name('student.')->namespace('Eleves')->group(function(){
+            Route::get('/','ElevesController@index')->name('index');
+            Route::get('/add','ElevesController@create')->name('add');
+            Route::post('/add','ElevesController@store');
+            Route::prefix('{eleve}')->group(function(){
+                Route::get('/show','ElevesController@show')->name('show');
+                Route::get('/edit','ElevesController@edit')->name('edit');
+                Route::post('/edit','ElevesController@update');
+            });
+        });
+
+        // ajout et listes des cycles
+        Route::prefix('cycles')->name('cycles.')->namespace('Cycles')->group(function(){
+            Route::get('/','CyclesController@index')->name('index');
+            Route::get('/add','CyclesController@create')->name('add');
+            Route::post('/add','CyclesController@store');
+            Route::prefix('{cycle}')->group(function(){
+                Route::get('/show','CyclesController@show')->name('show');
+                Route::get('/edit','CyclesController@edit')->name('edit');
+                Route::post('/edit','CyclesController@update');
+                Route::get('/delete','CyclesController@delete')->name('delete');
+            });
+        });
+    });
 });

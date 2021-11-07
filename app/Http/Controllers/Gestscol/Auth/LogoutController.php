@@ -12,6 +12,7 @@ class LogoutController extends Controller
     public function __invoke()
     {
         Auth::guard()->logout();
+        Session::remove('etablissement');
         Session::flash('success', "Vous avez bien été déconnecté");
         return redirect()->route('gestscol.auth.login');
     }

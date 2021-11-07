@@ -3,8 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Gestion Scolaire</title>
-        <link rel="shortcut icon" href="{{ asset('favicon.png') }}" />
+        <title>Gestion Scolaire | @yield('title')</title>
+
+        <link rel="shortcut icon" href="{{ asset('assets1/images/favicon.png') }}" />
        
         @if (Request::is('gestscol/auth/login'))
             <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">

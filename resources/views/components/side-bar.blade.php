@@ -29,33 +29,36 @@
         </button>
         </span>
     </div>
+    @php
+        $etablissement = Session::get('etablissement');
+    @endphp
     <div class="scrollbar-sidebar">
         <div class="app-sidebar__inner">
             <h6 class="widget-heading" style="fond-weight:bolder; margin-bottom:30px; color:black; text-align:center;">
-                Collège François Xavier Vogt
+                {!! Session::get('etablissement')->type_etablissement !!} {!! Session::get('etablissement')->name !!} <br>
                 <span style="font-size:0.9em; color:grey;">Année Scolaire 2021-2022</span>
             </h6>
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Tableau de Bord</li>
                 <li>
-                    <a href="index.html" class="mm-active">
+                    <a href="" class="{{Request::is('gestscol/'.$etablissement->id)?"mm-active":""}}">
                         <i class="metismenu-icon pe-7s-graph1"></i> Tableau de bord
                     </a>
                 </li>
                 <li class="app-sidebar__heading">Ressources</li>
                 <li>
-                    <a href="#">
+                    <a href="#" class="{{Request::is('gestscol/'.$etablissement->id.'/student*')?"mm-active":""}}" aria-expanded={{Request::is('gestscol/'.$etablissement->id.'/student*')?true:false}}>
                         <i class="metismenu-icon pe-7s-study"></i> Apprenants
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{Request::is('gestscol/'.$etablissement->id.'/student*')?"mm-collapse mm-show":""}}">
                         <li>
-                            <a href="#">
+                            <a href="{{route('gestscol.student.index',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/student')?"mm-active":""}}">
                                 <i class="metismenu-icon"></i> Liste
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{route('gestscol.student.add',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/student/add')?"mm-active":""}}">
                                 <i class="metismenu-icon">
                                 </i>Créer un Apprenant
                             </a>
@@ -144,26 +147,27 @@
                         </li>
                     </ul>
                 </li>
+                
                 <li>
-                    <a href="#">
+                    <a href="#" class="{{Request::is('gestscol/'.$etablissement->id.'/cycles*')?"mm-active":""}}" aria-expanded={{Request::is('gestscol/'.$etablissement->id.'/cycles*')?true:false}}>
                         <i class="metismenu-icon pe-7s-help2"></i> Cycles
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{Request::is('gestscol/'.$etablissement->id.'/cycles*')?"mm-collapse mm-show":""}}">
                         <li>
-                            <a href="#">
-                                <i class="metismenu-icon">
-                            </i>Liste
+                            <a href="{{route('gestscol.cycles.index',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/cycles')?"mm-active":""}}">
+                                <i class="metismenu-icon"></i> Listes des cycles
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{route('gestscol.cycles.add',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/cycles/add')?"mm-active":""}}">
                                 <i class="metismenu-icon">
-                            </i>Créer un Cycle
+                                </i>Créer un cycle
                             </a>
                         </li>
                     </ul>
                 </li>
+            
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-network"></i> Niveaux Scolaires
