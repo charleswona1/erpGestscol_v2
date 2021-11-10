@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Niveau extends Model
 {
     use HasFactory;
+    protected $fillable=['name','cycle_id'];
+
+    public function cycles(){
+        return $this->belongsTo(Cycle::class,"cycle_id");
+    }
 }

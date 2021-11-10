@@ -47,5 +47,18 @@ Route::middleware('auth')->group(function(){
                 Route::get('/delete','CyclesController@delete')->name('delete');
             });
         });
+
+        // ajout et listes des Niveau
+        Route::prefix('niveaux')->name('niveaux.')->namespace('Niveau')->group(function(){
+            Route::get('/','NiveauController@index')->name('index');
+            Route::get('/add','NiveauController@create')->name('add');
+            Route::post('/add','NiveauController@store');
+            Route::prefix('{niveau}')->group(function(){
+                Route::get('/show','NiveauController@show')->name('show');
+                Route::get('/edit','NiveauController@edit')->name('edit');
+                Route::post('/edit','NiveauController@update');
+                Route::get('/delete','NiveauController@delete')->name('delete');
+            });
+        });
     });
 });

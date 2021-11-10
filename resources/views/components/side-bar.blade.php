@@ -167,27 +167,27 @@
                         </li>
                     </ul>
                 </li>
-            
+
                 <li>
-                    <a href="#">
+                    <a href="#" class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux*')?"mm-active":""}}" aria-expanded={{Request::is('gestscol/'.$etablissement->id.'/nuveau*')?true:false}}>
                         <i class="metismenu-icon pe-7s-network"></i> Niveaux Scolaires
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux*')?"mm-collapse mm-show":""}}">
                         <li>
-                            <a href="#">
-                                <i class="metismenu-icon">
-                            </i>Liste
+                            <a href="{{route('gestscol.niveaux.index',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux')?"mm-active":""}}">
+                                <i class="metismenu-icon"></i> Listes des niveaux
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{route('gestscol.niveaux.add',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux/add')?"mm-active":""}}">
                                 <i class="metismenu-icon">
-                            </i>Créer un Niveau
+                                </i>Créer un niveau
                             </a>
                         </li>
                     </ul>
                 </li>
+        
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-next"></i> Périodes
