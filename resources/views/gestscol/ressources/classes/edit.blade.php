@@ -1,4 +1,4 @@
-<x-gestscol title="Modification d'une classe">
+<x-gest-scol title="Modification d'une classe">
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title">

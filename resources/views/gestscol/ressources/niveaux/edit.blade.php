@@ -1,4 +1,4 @@
-<x-gestscol title="Modifier un niveau scolaire">
+<x-gest-scol title="Modifier un niveau scolaire">
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title">

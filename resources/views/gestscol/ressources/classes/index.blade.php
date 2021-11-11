@@ -1,4 +1,4 @@
-<x-gestscol title="Liste des Salles de Classe">
+<x-gest-scol title="Liste des Salles de Classe">
 
     <div class="app-main__outer">
         <div class="app-main__inner">

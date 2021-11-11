@@ -1,4 +1,4 @@
-<x-gestscol title="Creation des niveaux scolaires">
+<x-gest-scol title="Creation des niveaux scolaires">
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title">

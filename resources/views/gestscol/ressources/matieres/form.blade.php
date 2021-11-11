@@ -1,4 +1,4 @@
-<x-gestscol title="Creation d'une matiere">
+<x-gest-scol title="Creation d'une matiere">
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title">

@@ -1,4 +1,4 @@
-<x-gestscol title="Liste des matières">
+<x-gest-scol title="Liste des matières">
 
     <div class="app-main__outer">
         <div class="app-main__inner">

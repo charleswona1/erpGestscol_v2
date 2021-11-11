@@ -1,3 +1,3 @@
-<x-gestscol title="Ajouter un élève">
+<x-gest-scol title="Ajouter un élève">
 
 </x-gestscol>

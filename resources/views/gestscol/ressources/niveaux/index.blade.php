@@ -1,4 +1,4 @@
-<x-gestscol title="Liste des niveaux scolaires">
+<x-gest-scol title="Liste des niveaux scolaires">
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title" style="position:relative; top:0%;">
