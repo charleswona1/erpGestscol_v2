@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Session;
 class CyclesController extends Controller
 {
     public function index(Etablissement $etablissement){
-        $cycles = Cycle::all();
+        $cycles = $etablissement->getCycle;
         return view('gestscol.ressources.cycles.index',compact('etablissement','cycles'));
     }
 
     public function create(Etablissement $etablissement){
         return view('gestscol.ressources.cycles.form',compact('etablissement'));
     }
-
+    
     public function store(Etablissement $etablissement,Request $request){
         $data = $request->validate([
             "name" => 'required|unique:cycles',
@@ -45,11 +45,11 @@ class CyclesController extends Controller
     }
 
     public function update(Etablissement $etablissement, Cycle $cycle, Request $request){
-
+        
         $data = $request->validate([
             "name" => 'required|unique:cycles,name,'.$cycle->id,
         ]);
-
+        
         $cycle->fill($data);
         $cycle->etablissement_id = $etablissement->id;
         if ($cycle->save()) {

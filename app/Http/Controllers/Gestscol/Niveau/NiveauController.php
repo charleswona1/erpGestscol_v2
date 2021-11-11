@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Session;
 class NiveauController extends Controller
 {
     public function index(Etablissement $etablissement){
-        $niveaux = Niveau::all();
+        $niveaux = $etablissement->getNiveaux;
         return view('gestscol.ressources.niveaux.index',compact('niveaux','etablissement'));
     }
 
     public function create(Etablissement $etablissement){
-        $cycles = Cycle::all();
+        $cycles = $etablissement->getCycle;
         return view('gestscol.ressources.niveaux.form',compact('cycles','etablissement'));
     }
 
@@ -29,6 +29,8 @@ class NiveauController extends Controller
 
         $Niveau = new Niveau();
         $Niveau->fill($data);
+        $Niveau->etablissement_id = $etablissement->id;
+        
         if ($Niveau->save()) {
             Session::flash('success','le Niveau a bien été ajouté');
             return redirect()->route('gestscol.niveaux.index',$etablissement);
@@ -42,7 +44,7 @@ class NiveauController extends Controller
     }
 
     public function edit(Etablissement $etablissement, Niveau $niveau){
-        $cycles = Cycle::all();
+        $cycles = $etablissement->getCycle;;
         return view('gestscol.ressources.niveaux.edit',compact('cycles','niveau','etablissement'));
     }
 

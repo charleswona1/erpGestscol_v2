@@ -60,5 +60,32 @@ Route::middleware('auth')->group(function(){
                 Route::get('/delete','NiveauController@delete')->name('delete');
             });
         });
+
+         // ajout et listes des Classes
+         Route::prefix('classes')->name('classes.')->namespace('Classes')->group(function(){
+            Route::get('/','ClassesController@index')->name('index');
+            Route::get('/add','ClassesController@create')->name('add');
+            Route::post('/add','ClassesController@store');
+            Route::prefix('{classe}')->group(function(){
+                Route::get('/show','ClassesController@show')->name('show');
+                Route::get('/edit','ClassesController@edit')->name('edit');
+                Route::post('/edit','ClassesController@update');
+                Route::get('/delete','ClassesController@delete')->name('delete');
+            });
+        });
+
+          // ajout et listes des matières
+          Route::prefix('matiere')->name('matieres.')->namespace('Matieres')->group(function(){
+            Route::get('/','MatieresController@index')->name('index');
+            Route::get('/add','MatieresController@create')->name('add');
+            Route::post('/add','MatieresController@store');
+            Route::prefix('{classe}')->group(function(){
+                Route::get('/show','MatieresController@show')->name('show');
+                Route::get('/edit','MatieresController@edit')->name('edit');
+                Route::post('/edit','MatieresController@update');
+                Route::get('/delete','MatieresController@delete')->name('delete');
+            });
+        });
+
     });
 });
