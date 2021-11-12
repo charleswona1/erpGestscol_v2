@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function(){
             Route::get('/','MatieresController@index')->name('index');
             Route::get('/add','MatieresController@create')->name('add');
             Route::post('/add','MatieresController@store');
-            Route::prefix('{classe}')->group(function(){
+            Route::prefix('{matiere}')->group(function(){
                 Route::get('/show','MatieresController@show')->name('show');
                 Route::get('/edit','MatieresController@edit')->name('edit');
                 Route::post('/edit','MatieresController@update');
@@ -87,5 +87,43 @@ Route::middleware('auth')->group(function(){
             });
         });
 
+           // ajout et listes des periodes
+           Route::prefix('periode')->name('periodes.')->namespace('Periodes')->group(function(){
+            Route::get('/','PeriodesController@index')->name('index');
+            Route::get('/add','PeriodesController@create')->name('add');
+            Route::post('/add','PeriodesController@store');
+            Route::prefix('{periode}')->group(function(){
+                Route::get('/show','PeriodesController@show')->name('show');
+                Route::get('/edit','PeriodesController@edit')->name('edit');
+                Route::post('/edit','PeriodesController@update');
+                Route::get('/delete','PeriodesController@delete')->name('delete');
+            });
+        });
+    
+        // ajout et listes des sous periodes
+        Route::prefix('sousperiode')->name('sousperiodes.')->namespace('Sousperiodes')->group(function(){
+            Route::get('/','SousperiodesController@index')->name('index');
+            Route::get('/add','SousperiodesController@create')->name('add');
+            Route::post('/add','SousperiodesController@store');
+            Route::prefix('{sousPeriode}')->group(function(){
+                Route::get('/show','SousperiodesController@show')->name('show');
+                Route::get('/edit','SousperiodesController@edit')->name('edit');
+                Route::post('/edit','SousperiodesController@update');
+                Route::get('/delete','SousperiodesController@delete')->name('delete');
+            });
+        });
+
+           // ajout et listes des evaluations
+           Route::prefix('evaluation')->name('evaluations.')->namespace('Evaluations')->group(function(){
+            Route::get('/','EvaluationsController@index')->name('index');
+            Route::get('/add','EvaluationsController@create')->name('add');
+            Route::post('/add','EvaluationsController@store');
+            Route::prefix('{evaluation}')->group(function(){
+                Route::get('/show','EvaluationsController@show')->name('show');
+                Route::get('/edit','EvaluationsController@edit')->name('edit');
+                Route::post('/edit','EvaluationsController@update');
+                Route::get('/delete','EvaluationsController@delete')->name('delete');
+            });
+        });
     });
 });

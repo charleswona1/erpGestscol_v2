@@ -15,9 +15,9 @@
                         </div>
                     </div>
                     <div class="page-title-actions">
-                        <a href="">
+                        <a href="{{ route('gestscol.matieres.add', $etablissement) }}">
                             <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal"
-                                data-target=".bd-example-modal-lg"">
+                                data-target=".bd-example-modal-lg">
                                 <i class="  fa fa-plus"></i> Nouvelle Matière
                             </button>
                         </a>
@@ -95,7 +95,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($matieres as $matiere)
+                                    @forelse ($matieres as $key => $matiere)
                                         <tr>
                                             <th>
                                                 <div class="custom-checkbox custom-control">
@@ -105,17 +105,18 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <td></td>
-                                            <td>{{ $matiere->nom }}</td>
+                                            <td>{{$key + 1}}</td>
+                                            <td>{{ $matiere->name }}</td>
                                             <td>{{ $matiere->abreviation }}</td>
 
                                             <td class="mdc-data-table__cell">
-                                                <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></i></a>
-                                                <a href=""><i
-                                                        class="fas fa-edit"></i></i></a>
-                                                <a href=""><i class="fas fa-print"></i></i></a>
-                                                <a href=""
-                                                    style="color:red;"><i class="fas fa-trash"></i></i></a>
+                                                <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></a>
+                                                <a
+                                                href="{{ route('gestscol.matieres.edit', [$etablissement, $matiere]) }}"><i
+                                                    class="fas fa-edit"></i></a>
+                                                <a href=""><i class="fas fa-print"></i></a>
+                                                <a href="{{ route('gestscol.matieres.delete', [$etablissement, $matiere]) }}"
+                                                    style="color:red;"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     @empty

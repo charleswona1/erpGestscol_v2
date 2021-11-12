@@ -26,7 +26,7 @@
                 <span class="btn-icon-wrapper">
                     <i class="fa fa-ellipsis-v fa-w-6"></i>
                 </span>
-        </button>
+            </button>
         </span>
     </div>
     @php
@@ -41,24 +41,27 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Tableau de Bord</li>
                 <li>
-                    <a href="" class="{{Request::is('gestscol/'.$etablissement->id)?"mm-active":""}}">
+                    <a href="" class="{{ Request::is('gestscol/' . $etablissement->id) ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-graph1"></i> Tableau de bord
                     </a>
                 </li>
                 <li class="app-sidebar__heading">Ressources</li>
                 <li>
-                    <a href="#" class="{{Request::is('gestscol/'.$etablissement->id.'/student*')?"mm-active":""}}" aria-expanded={{Request::is('gestscol/'.$etablissement->id.'/student*')?true:false}}>
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/student*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/student*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-study"></i> Apprenants
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul class="{{Request::is('gestscol/'.$etablissement->id.'/student*')?"mm-collapse mm-show":""}}">
+                    <ul class="{{ Request::is('gestscol/' . $etablissement->id . '/student*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="{{route('gestscol.student.index',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/student')?"mm-active":""}}">
+                            <a href="{{ route('gestscol.student.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/student') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon"></i> Liste
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('gestscol.student.add',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/student/add')?"mm-active":""}}">
+                            <a href="{{ route('gestscol.student.add', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/student/add') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Créer un Apprenant
                             </a>
@@ -76,82 +79,87 @@
                         <li>
                             <a href="#">
                                 <i class="metismenu-icon">
-                            </i>Liste
+                                </i>Liste
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="metismenu-icon">
-                            </i>Créer un Enseignant
+                                </i>Créer un Enseignant
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="metismenu-icon">
-                            </i>Emploi du temps
+                                </i>Emploi du temps
                             </a>
                         </li>
                     </ul>
                 </li>
-                
+
                 <li>
-                    <a href="#" class="{{Request::is('gestscol/'.$etablissement->id.'/classe*')?"mm-active":""}}" aria-expanded={{Request::is('gestscol/'.$etablissement->id.'/student*')?true:false}}>
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/classe*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/student*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-folder"></i> Classes
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul class="{{Request::is('gestscol/'.$etablissement->id.'/classe*')?"mm-collapse mm-show":""}}">
+                    <ul class="{{ Request::is('gestscol/' . $etablissement->id . '/classe*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="{{route('gestscol.classes.index',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/classe')?"mm-active":""}}">
+                            <a href="{{ route('gestscol.classes.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/classe') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon"></i> Liste des classes.
                             </a>
                         </li>
                         <li>
-                          
+
                         </li>
                     </ul>
                 </li>
-                
-                
                 <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-note2"></i> Matières
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/classe*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/student*') ? true : false }}>
+                        <i class="metismenu-icon pe-7s-folder"></i> Matière
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{ Request::is('gestscol/' . $etablissement->id . '/classe*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('gestscol.matieres.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/matiere') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon"></i> Liste des matières.
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('gestscol.matieres.add', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/matiere') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                            </i>Liste des matières
+                                </i>Créer une Matière
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="metismenu-icon">
-                            </i>Créer une Matière
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="metismenu-icon">
-                            </i>Groupe de Matières
+                                </i>Groupe de Matières
                             </a>
                         </li>
                     </ul>
                 </li>
-                
+
                 <li>
-                    <a href="#" class="{{Request::is('gestscol/'.$etablissement->id.'/cycles*')?"mm-active":""}}" aria-expanded={{Request::is('gestscol/'.$etablissement->id.'/cycles*')?true:false}}>
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/cycles*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/cycles*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-help2"></i> Cycles
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul class="{{Request::is('gestscol/'.$etablissement->id.'/cycles*')?"mm-collapse mm-show":""}}">
+                    <ul class="{{ Request::is('gestscol/' . $etablissement->id . '/cycles*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="{{route('gestscol.cycles.index',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/cycles')?"mm-active":""}}">
+                            <a href="{{ route('gestscol.cycles.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/cycles') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon"></i> Listes des cycles
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('gestscol.cycles.add',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/cycles/add')?"mm-active":""}}">
+                            <a href="{{ route('gestscol.cycles.add', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/cycles/add') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Créer un cycle
                             </a>
@@ -160,81 +168,96 @@
                 </li>
 
                 <li>
-                    <a href="#" class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux*')?"mm-active":""}}" aria-expanded={{Request::is('gestscol/'.$etablissement->id.'/nuveau*')?true:false}}>
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/niveaux*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/nuveau*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-network"></i> Niveaux Scolaires
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux*')?"mm-collapse mm-show":""}}">
+                    <ul class="{{ Request::is('gestscol/' . $etablissement->id . '/niveaux*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="{{route('gestscol.niveaux.index',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux')?"mm-active":""}}">
+                            <a href="{{ route('gestscol.niveaux.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/niveaux') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon"></i> Listes des niveaux
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('gestscol.niveaux.add',$etablissement)}}" class="{{Request::is('gestscol/'.$etablissement->id.'/niveaux/add')?"mm-active":""}}">
+                            <a href="{{ route('gestscol.niveaux.add', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/niveaux/add') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Créer un niveau
                             </a>
                         </li>
                     </ul>
                 </li>
-        
+
                 <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-next"></i> Périodes
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/periodes*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/periode*') ? true : false }}>
+                        <i class="metismenu-icon pe-7s-network"></i> Périodes
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul
+                        class="{{ Request::is('gestscol/' . $etablissement->id . '/periodes*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('gestscol.periodes.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/periodes') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                            </i>Liste des Périodes
+                                </i>Liste des Périodes
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="metismenu-icon">
-                            </i>Créer une Période
+                                </i>Créer une Période
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#"
+                        class="{{ Request::is('gestscol/' . $etablissement->id . '/sousperiodes*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/sousperiode*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-albums"></i> Sous-Périodes
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul
+                        class="{{ Request::is('gestscol/' . $etablissement->id . '/sousperiodes*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('gestscol.sousperiodes.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/sousperiodes') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                            </i>Liste des sous-Périodes
+                                </i>Liste des sous-Périodes
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="metismenu-icon">
-                            </i>Créer une sous-Période
+                                </i>Créer une sous-Période
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#"
+                    class="{{ Request::is('gestscol/' . $etablissement->id . '/evaluations*') ? 'mm-active' : '' }}"
+                    aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/evaluation*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-news-paper"></i> Evaluations
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul
+                    class="{{ Request::is('gestscol/' . $etablissement->id . '/evaluations*') ? 'mm-collapse mm-show' : '' }}">
+                   
                         <li>
-                            <a href="#">
+                            <a href="{{ route('gestscol.evaluations.index', $etablissement) }}"
+                            class="{{ Request::is('gestscol/' . $etablissement->id . '/evaluations') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
-                            </i>Liste des evaluations
+                                </i>Liste des evaluations
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="metismenu-icon">
-                            </i>Créer un type d'evaluation
+                                </i>Créer un type d'evaluation
                             </a>
                         </li>
                     </ul>
@@ -296,19 +319,19 @@
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-mouse">
-                    </i>Consultation
+                        </i>Consultation
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-eyedropper">
-                    </i>Sanction
+                        </i>Sanction
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-pendrive">
-                    </i>Paramétrage de Sanctions
+                        </i>Paramétrage de Sanctions
                     </a>
                 </li>
             </ul>

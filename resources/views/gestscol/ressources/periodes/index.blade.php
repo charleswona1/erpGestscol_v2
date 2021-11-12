@@ -1,4 +1,4 @@
-<x-gest-scol title="Liste des Salles de Classe">
+<x-gest-scol title="Liste des Périodes">
 
     <div class="app-main__outer">
         <div class="app-main__inner">
@@ -6,22 +6,19 @@
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">
                         <div class="page-title-icon">
-                            <i class="pe-7s-folder icon-gradient bg-happy-itmeo">
+                            <i class="pe-7s-next icon-gradient bg-happy-itmeo">
                             </i>
                         </div>
-                        <div>Liste des Salles de Classe
-                            <!-- <div class="page-title-subheading">Liste des Apprenants.
-                        </div> -->
+                        <div>Liste des Périodes
                         </div>
                     </div>
                     <div class="page-title-actions">
-                        <a href="{{ route('gestscol.classes.add', $etablissement) }}">
+                        <a href="{{ route('gestscol.periodes.add', $etablissement) }}">
                             <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal"
-                                data-target=".bd-example-modal-lg"">
-                            <i class="  fa fa-plus"></i> Nouvelle Salle de Classe
+                                data-target=".bd-example-modal-lg">
+                                <i class=" fa fa-plus"></i> Nouvelle Période
                             </button>
                         </a>
-
                         <div class="d-inline-block dropdown">
                             <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                 class="btn-shadow dropdown-toggle btn btn-secondary">
@@ -74,7 +71,6 @@
                 <div class="col-lg-12">
                     <div class="main-card mb-3 card">
                         <x-flash-back></x-flash-back>
-
                         <div class="card-body" class="scroll-area-md">
                             <!-- <h5 class="card-title">Table with hover</h5> -->
                             <table class="mb-0 table table-hover">
@@ -88,79 +84,62 @@
                                                 </label>
                                             </div>
                                         </th>
-                                        <th width="10%">Ordre</th>
-                                        <th>Nom de Classe</th>
-                                        <th>Nom du Professeur Titulaire</th>
-                                        <th>Niveau Scolaire</th>
-                                        <th>Effectif</th>
+                                        <th width="10%">Numéro</th>
+                                        <th>Intitulé</th>
+                                        <th>Date de Début</th>
+                                        <th>Date de Fin</th>
+                                        <th>% Annuel</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($classes as $classe)
+                                    @forelse ($periodes as $key => $periode)
                                         <tr>
                                             <th>
                                                 <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" id="exampleCustomCheckbox6"
+                                                    <input type="checkbox" id="exampleCustomCheckbox"
                                                         class="custom-control-input">
-                                                    <label class="custom-control-label" for="exampleCustomCheckbox6">
+                                                    <label class="custom-control-label" for="exampleCustomCheckbox">
                                                     </label>
                                                 </div>
                                             </th>
-                                            <td>{{ $classe->getNiveau->id }}</td>
-                                            <td>{{ $classe->name }}</td>
-                                            <td></td>
-                                            <td>{{ $classe->getNiveau->name }}</td>
-                                            <td></td>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $etablissement ->nom_periode }}</td>
+                                            <td>{{ $periode->startAt }}</td>
+                                            <td>{{ $periode->endAt }}</td>
+                                            <td>{{ $periode->pourcentage }}</td>
 
                                             <td class="mdc-data-table__cell">
-                                                <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></a>
+                                                <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></i></a>
                                                 <a
-                                                    href="{{ route('gestscol.classes.edit', [$etablissement, $classe]) }}"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href=""><i class="fas fa-print"></i></a>
-                                                <a href="{{ route('gestscol.classes.delete', [$etablissement, $classe]) }}"
-                                                    style="color:red;"><i class="fas fa-trash"></i></a>
+                                                    href="{{ route('gestscol.periodes.edit', [$etablissement, $periode]) }}"><i
+                                                        class="fas fa-edit"></i></i></a>
+                                                <a href="#"><i class="fas fa-print"></i></i></a>
+                                                <a href="{{ route('gestscol.periodes.delete', [$etablissement, $periode]) }}"
+                                                    style="color:red;"><i class="fas fa-trash"></i></i></a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
                                             <td colspan="10">
                                                 <div class="lead text-center text-muted pt-30 pb-30">
-                                                    Pas de classe
+                                                    Pas de periodes
                                                 </div>
                                             </td>
                                         </tr>
-
                                     @endforelse
 
 
-
                                     <tr>
-                                        <th scope="row" colspan="7">
+                                        <th scope="row" colspan="5">
                                     </tr>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
-                        <!--   <div class="col-lg-6">
-                        <nav class="" aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">1</a></li>
-                                <li class="page-item active"><a href="javascript:void(0);" class="page-link">2</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">3</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">4</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">5</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
-                            </ul>
-                        </nav>
-
-            </div> -->
-
-
                     </div>
                 </div>
             </div>
-            </x-gestscol>
+        </div>
+    </div>
+    </x-gestscol>

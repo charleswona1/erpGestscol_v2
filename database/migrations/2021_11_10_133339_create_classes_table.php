@@ -13,15 +13,16 @@ class CreateClassesTable extends Migration
      */
     public function up()
     {
-        Schema::create('classes', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('niveau_id');
-            $table->foreign('niveau_id')->references('id')->on('niveaux');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('classes')) {
+            Schema::create('classes', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->unsignedBigInteger('niveau_id');
+                $table->foreign('niveau_id')->references('id')->on('niveaux');
+                $table->timestamps();
+            });
+        }
     }
-
     /**
      * Reverse the migrations.
      *
