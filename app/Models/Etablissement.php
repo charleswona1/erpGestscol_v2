@@ -70,4 +70,9 @@ class Etablissement extends Model
             
             return $data;
         }
+    public function getAnneeAccademic(){
+        return $this->hasMany(AnneeAccademique::class);
+    }
+
+    
 }
