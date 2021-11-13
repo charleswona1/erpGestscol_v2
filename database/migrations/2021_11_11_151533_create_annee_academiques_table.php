@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnneeAccademiquesTable extends Migration
+class CreateAnneeAcademiquesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAnneeAccademiquesTable extends Migration
      */
     public function up()
     {
-        Schema::create('annee_accademiques', function (Blueprint $table) {
+        Schema::create('annee_academiques', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('etablissement_id');
             $table->string('name');

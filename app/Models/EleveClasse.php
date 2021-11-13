@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Eleve extends Model
+class EleveClasse extends Model
 {
     use HasFactory;
 
     protected $fillable=[
         'etablissement_id',
+        'annee_academique_id',
         'nom',
         'sexe',
         'date_naissance',
@@ -31,5 +32,20 @@ class Eleve extends Model
         'tel_pere',
         'tel_mere',
         'tel_tuteur',
+        'aptitude',
+        'ancien',
+        'interne',
+        'precedent_etablissement',
+        'precedent_niveau',
+        'is_redouble',
+        'niveau_id',
+        'matricule',
+        'avatar_url',
+        'numero',
+        'is_redouble',
+        'decision',
+        'next_classe',
+        'niveau_id',
+        'classe_annee_id'
     ];
 }

@@ -17,7 +17,8 @@ class ClassesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Etablissement $etablissement){
-        $classes = $etablissement->getClasses()[0]->get();
+        $classes = $etablissement->getClasses;
+        
        //dd($classes->getNiveau()[0);
         return view('gestscol.ressources.classes.index', compact('classes', 'etablissement'));
     }
