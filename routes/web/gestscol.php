@@ -58,6 +58,22 @@ Route::middleware('auth')->group(function(){
                 Route::get('/edit','NiveauController@edit')->name('edit');
                 Route::post('/edit','NiveauController@update');
                 Route::get('/delete','NiveauController@delete')->name('delete');
+
+            
+                    // ajout et listes des goupes de matières
+            Route::prefix('groupeMatiere')->name('groupeMatieres.')->namespace('GroupeMatieres')->group(function(){
+                Route::get('/','GroupeMatieresController@index')->name('index');
+                Route::post('/','GroupeMatieresController@store');
+            /* Route::get('/add','GroupeMatieresController@create')->name('add');
+                Route::post('/add','GroupeMatieresController@store');*/
+                Route::prefix('{groupeMatiere}')->group(function(){
+                //  Route::get('/show','GroupeMatieresController@show')->name('show');
+                    Route::get('/edit','GroupeMatieresController@edit')->name('edit');
+                    Route::post('/edit','GroupeMatieresController@update');
+                    Route::get('/delete','GroupeMatieresController@delete')->name('delete');
+                });
+            });
+
             });
         });
 
@@ -86,6 +102,7 @@ Route::middleware('auth')->group(function(){
                 Route::get('/delete','MatieresController@delete')->name('delete');
             });
         });
+    
 
            // ajout et listes des periodes
            Route::prefix('periode')->name('periodes.')->namespace('Periodes')->group(function(){

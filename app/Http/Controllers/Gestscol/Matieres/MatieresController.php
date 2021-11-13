@@ -29,7 +29,7 @@ class MatieresController extends Controller
         return view('gestscol.ressources.matieres.form',compact('etablissement'));
     }
     
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -43,7 +43,7 @@ class MatieresController extends Controller
             "abreviation" => 'required',
         
         ]);
-
+        
         $matiere = new Matiere();
         $matiere->fill($data);
         $matiere->annee_academique_id=$etablissement->getAnneeAcademique->id;

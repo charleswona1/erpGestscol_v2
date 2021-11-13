@@ -49,8 +49,11 @@
     
                                         <td class="mdc-data-table__cell">
                                             <a href="#"><i class="fas fa-eye"></i></i></a>
-                                            <a href="{{route('gestscol.niveaux.edit',[$etablissement,$niveau])}}"><i class="fas fa-edit"></i></i></a>
-                                            <a href="{{route('gestscol.niveaux.delete',[$etablissement,$niveau])}}" style="color:red;"><i class="fas fa-trash"></i></i></a>
+                                            <a href="{{route('gestscol.niveaux.edit',[$etablissement,$niveau])}}"><i class="fas fa-edit"></i></a>
+                                            <a href="{{route('gestscol.niveaux.delete',[$etablissement,$niveau])}}" style="color:red;"><i class="fas fa-trash"></i></a>
+                                            <a href="{{ route('gestscol.niveaux.groupeMatieres.index',[$etablissement,$niveau]) }}"><i class="fa fa-bars" aria-hidden="true"></i>
+                                            </a>
+                                        
                                         </td>
                                     </tr>
                                     @empty
