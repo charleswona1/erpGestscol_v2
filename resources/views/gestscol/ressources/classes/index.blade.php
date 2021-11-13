@@ -107,11 +107,11 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <td>{{ $classe->getNiveau->id }}</td>
+                                            <td>{{ $classe->ordre }}</td>
                                             <td>{{ $classe->name }}</td>
-                                            <td></td>
+                                            <td>/</td>
                                             <td>{{ $classe->getNiveau->name }}</td>
-                                            <td></td>
+                                            <td>{{ $classe->effectif }}</td>
 
                                             <td class="mdc-data-table__cell">
                                                 <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></a>

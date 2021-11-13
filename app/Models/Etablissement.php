@@ -28,12 +28,16 @@ class Etablissement extends Model
     //recuperer les classes de l'établissement en cours
     public function getClasses()
     {
-        $data = Classe::join('niveaux', 'classes.niveau_id', '=', 'niveaux.id')
+        $data = ClasseAnnee::join('niveaux', 'classe_annees.niveau_id', '=', 'niveaux.id')
         ->join('etablissements', 'niveaux.etablissement_id', '=', 'etablissements.id')
         ->where('etablissements.id', $this->id)
-        ->get(['classes.*']);
+        ->get(['classe_annees.*']);
         
         return $data;
+    }
+
+    public function getClasseAnne(){
+        return $this->hasMany(ClasseAnnee::class);
     }
 
       //recuperer les matières d'un l'établissement en cours et de l'annee en cours

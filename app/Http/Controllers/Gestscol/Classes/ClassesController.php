@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Gestscol\Classes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classe;
+use App\Models\ClasseAnnee;
 use App\Models\Etablissement;
 use Illuminate\Support\Facades\Session;
 
@@ -17,7 +18,7 @@ class ClassesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Etablissement $etablissement){
-        $classes = $etablissement->getClasses;
+        $classes = $etablissement->getClasses();
         
        //dd($classes->getNiveau()[0);
         return view('gestscol.ressources.classes.index', compact('classes', 'etablissement'));
@@ -45,12 +46,16 @@ class ClassesController extends Controller
         $data = $request->validate([
             "name" => 'required',
             "niveau_id" => 'required',
-        
         ]);
 
         $classe = new Classe();
         $classe->fill($data);
         if ($classe->save()) {
+            $classeAnnee = new ClasseAnnee();
+            $classeAnnee->fill($data);
+            $classeAnnee->effectif = 0;
+            $classeAnnee->annee_academique_id = $etablissement->getAnneeAcademique->id;
+            $classeAnnee->save();
             Session::flash('success','la classe a bien été ajoutée');
             return redirect()->route('gestscol.classes.index',$etablissement);
         }
@@ -97,6 +102,11 @@ class ClassesController extends Controller
         
         $classe->fill($data);
         if ($classe->save()) {
+            $classeAnnee = ClasseAnnee::find($classe->id);
+            $classeAnnee->fill($data);
+            $classeAnnee->effectif = 0;
+            $classeAnnee->annee_academique_id = $etablissement->getAnneeAcademique->id;
+            $classeAnnee->save();
             Session::flash('success','la classe a bien été modifiée');
             return redirect()->route('gestscol.classes.index',$etablissement);
         }
