@@ -24,7 +24,7 @@ class CyclesController extends Controller
         $data = $request->validate([
             "name" => 'required|unique:cycles',
         ]);
-
+        
         $cycle = new Cycle();
         $cycle->fill($data);
         $cycle->etablissement_id = $etablissement->id;

@@ -29,7 +29,7 @@ class MatieresController extends Controller
         return view('gestscol.ressources.matieres.form',compact('etablissement'));
     }
     
-
+    
     /**
      * Store a newly created resource in storage.
      *

@@ -135,12 +135,7 @@
                                 </i>Créer une Matière
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <i class="metismenu-icon">
-                                </i>Groupe de Matières
-                            </a>
-                        </li>
+                      
                     </ul>
                 </li>
 
