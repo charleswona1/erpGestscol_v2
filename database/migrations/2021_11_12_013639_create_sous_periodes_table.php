@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMatieresTable extends Migration
+class CreateSousPeriodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateMatieresTable extends Migration
      */
     public function up()
     {
-       
-        Schema::create('matieres', function (Blueprint $table) {
+        Schema::create('sous_periodes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('abreviation');
-            $table->unsignedBigInteger('annee_academique_id');
-            $table->foreign('annee_academique_id')->references('id')->on('annee_academiques');
+            $table->integer('numero');
+            $table->date('startAt');
+            $table->date('endAt');
+            $table->unsignedBigInteger('periode_id');
+            $table->foreign('periode_id')->references('id')->on('periodes');
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -30,6 +31,6 @@ class CreateMatieresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matieres');
+        Schema::dropIfExists('sous_periodes');
     }
 }

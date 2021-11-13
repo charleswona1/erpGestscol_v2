@@ -17,8 +17,8 @@
                     <div class="page-title-actions">
                         <a href="{{ route('gestscol.classes.add', $etablissement) }}">
                             <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal"
-                                data-target=".bd-example-modal-lg"">
-                            <i class=" fa fa-plus"></i> Nouvelle Salle de Classe
+                                data-target=".bd-example-modal-lg">
+                            <i class="  fa fa-plus"></i> Nouvelle Salle de Classe
                             </button>
                         </a>
 
@@ -114,13 +114,13 @@
                                             <td></td>
 
                                             <td class="mdc-data-table__cell">
-                                                <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></i></a>
+                                                <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></a>
                                                 <a
                                                     href="{{ route('gestscol.classes.edit', [$etablissement, $classe]) }}"><i
-                                                        class="fas fa-edit"></i></i></a>
-                                                <a href=""><i class="fas fa-print"></i></i></a>
+                                                        class="fas fa-edit"></i></a>
+                                                <a href=""><i class="fas fa-print"></i></a>
                                                 <a href="{{ route('gestscol.classes.delete', [$etablissement, $classe]) }}"
-                                                    style="color:red;"><i class="fas fa-trash"></i></i></a>
+                                                    style="color:red;"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     @empty
@@ -143,24 +143,7 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <!--   <div class="col-lg-6">
-                        <nav class="" aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">1</a></li>
-                                <li class="page-item active"><a href="javascript:void(0);" class="page-link">2</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">3</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">4</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link">5</a></li>
-                                <li class="page-item"><a href="javascript:void(0);" class="page-link" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
-                            </ul>
-                        </nav>
-
-            </div> -->
-
-
                     </div>
                 </div>
             </div>
-</x-gestscol>
+            </x-gestscol>

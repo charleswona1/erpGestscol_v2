@@ -1,4 +1,4 @@
-<x-gest-scol title="Liste des matières">
+<x-gest-scol title="Liste des evaluations">
 
     <div class="app-main__outer">
         <div class="app-main__inner">
@@ -6,22 +6,21 @@
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">
                         <div class="page-title-icon">
-                            <i class="pe-7s-note2 icon-gradient bg-happy-itmeo">
+                            <i class="pe-7s-news-paper icon-gradient bg-happy-itmeo">
                             </i>
                         </div>
-                        <div>Liste des Matières
+                        <div>Liste des Intitulés des Evaluations
                             <!-- <div class="page-title-subheading">Liste des Apprenants.
                             </div> -->
                         </div>
                     </div>
                     <div class="page-title-actions">
-                        <a href="{{ route('gestscol.matieres.add', $etablissement) }}">
+                        <a href="{{ route('gestscol.evaluations.add', $etablissement) }}">
                             <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal"
-                                data-target=".bd-example-modal-lg">
-                                <i class="  fa fa-plus"></i> Nouvelle Matière
+                                data-target=".bd-example-modal-lg"">
+                                <i class=" fa fa-plus"></i> Nouvelle Evaluation
                             </button>
                         </a>
-
                         <div class="d-inline-block dropdown">
                             <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                 class="btn-shadow dropdown-toggle btn btn-secondary">
@@ -30,7 +29,41 @@
                                 </span>
                                 Actions
                             </button>
-                            
+                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            <i class="nav-link-icon lnr-inbox"></i>
+                                            <i class="fa fa-download fa-w-20"></i> &ensp; &ensp;
+                                            <span>
+                                                Exporter
+                                            </span>
+
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            <i class="nav-link-icon lnr-inbox"></i>
+                                            <i class="fa fa-print fa-w-20"></i> &ensp; &ensp;
+                                            <span>
+                                                Imprimer
+                                            </span>
+
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            <i class="nav-link-icon lnr-inbox"></i>
+                                            <i class="fa fa-trash fa-w-20"></i> &ensp; &ensp;
+                                            <span>
+                                                Supprimer
+                                            </span>
+
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,8 +72,7 @@
 
                 <div class="col-lg-12">
                     <div class="main-card mb-3 card">
-                        <x-flash-back></x-flash-back>
-
+                        
                         <div class="card-body" class="scroll-area-md">
                             <!-- <h5 class="card-title">Table with hover</h5> -->
                             <table class="mb-0 table table-hover">
@@ -55,13 +87,13 @@
                                             </div>
                                         </th>
                                         <th width="20%">Numéro</th>
-                                        <th>Nom de la Matière</th>
-                                        <th>Abréviation</th>
+                                        <th width="50%">Nom de l'Evaluation</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($matieres as $key => $matiere)
+
+                                    @forelse ($evaluations as $key => $item)
                                         <tr>
                                             <th>
                                                 <div class="custom-checkbox custom-control">
@@ -71,17 +103,16 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <td>{{$key + 1}}</td>
-                                            <td>{{ $matiere->name }}</td>
-                                            <td>{{ $matiere->abreviation }}</td>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $item->name }}</td>
 
                                             <td class="mdc-data-table__cell">
                                                 <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></a>
                                                 <a
-                                                href="{{ route('gestscol.matieres.edit', [$etablissement, $matiere]) }}"><i
+                                                href="{{ route('gestscol.evaluations.edit', [$etablissement, $item]) }}"><i
                                                     class="fas fa-edit"></i></a>
                                                 <a href=""><i class="fas fa-print"></i></a>
-                                                <a href="{{ route('gestscol.matieres.delete', [$etablissement, $matiere]) }}"
+                                                <a href="{{ route('gestscol.evaluations.delete', [$etablissement, $item]) }}"
                                                     style="color:red;"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -89,7 +120,7 @@
                                         <tr>
                                             <td colspan="10">
                                                 <div class="lead text-center text-muted pt-30 pb-30">
-                                                    Pas de matières
+                                                    Pas d'évaluations
                                                 </div>
                                             </td>
                                         </tr>
@@ -97,7 +128,7 @@
 
 
                                     <tr>
-                                        <th scope="row">
+                                        <th scope="row" colspan="5">
                                     </tr>
                                     </tr>
                                 </tbody>
@@ -106,6 +137,4 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</x-gestscol>
+            </x-gestscol>

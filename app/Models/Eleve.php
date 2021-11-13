@@ -21,6 +21,7 @@ class Eleve extends Model
         'religion',
         'domicile',
         'type_contact',
+        'aptitude',
         'autres',
         'nom_pere',
         'nom_mere',

@@ -80,10 +80,7 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            <div class="custom-checkbox custom-control">
-                                                <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input">
-                                                <label class="custom-control-label" for="exampleCustomCheckbox"> </label>
-                                            </div>
+                                           #
                                         </th>
                                         <th>Nom Complet</th>
                                         <th>Date de Naissance</th>
@@ -93,25 +90,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
-                                    <tr>
-                                        <th>
-                                            <div class="custom-checkbox custom-control">
-                                                <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input">
-                                                <label class="custom-control-label" for="exampleCustomCheckbox"> </label>
-                                            </div>
-                                        </th>
-                                        <td>exemple</td>
-                                        <td>exemple</td>
-                                        <td>exemple</td>
-                                        <td>/</td>
-                                        <td class="mdc-data-table__cell">
-                                            <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></i></a>
-                                            <a href="utilisateur-profiledit.html"><i class="fas fa-edit"></i></i></a>
-                                            <a href=""><i class="fas fa-print"></i></i></a>
-                                            <a href="" style="color:red;"><i class="fas fa-trash"></i></i></a>
-                                        </td>
-                                    </tr>
+                                    @forelse ($eleves as $key=>$eleve)
+                                        <tr>
+                                            <th>
+                                                {{$key + 1}}
+                                            </th>
+                                            <td>{{$eleve->nom}}</td>
+                                            <td>{{ date('Y-m-d', strtotime($eleve->date_naissance)) }}</td>
+                                            <td>{{$eleve->lieu_naissance}}</td>
+                                            <td>{{isset($eleve->classe_annee)? $eleve->getClasseAnnee->name:"/"}}</td>
+                                            <td class="mdc-data-table__cell">
+                                                <a href="#"><i class="fas fa-eye"></i></i></a>
+                                                <a href="{{route('gestscol.student.edit',[$etablissement,$eleve])}}"><i class="fas fa-edit"></i></i></a>
+                                                {{-- <a href=""><i class="fas fa-print"></i></i></a> --}}
+                                                <a href="{{route('gestscol.student.delete',[$etablissement,$eleve])}}" style="color:red;"><i class="fas fa-trash"></i></i></a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        
+                                    @endforelse
+                                   
                                     
                                 </tbody>
                             </table>

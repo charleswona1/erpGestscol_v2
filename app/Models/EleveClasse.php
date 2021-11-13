@@ -33,19 +33,18 @@ class EleveClasse extends Model
         'tel_mere',
         'tel_tuteur',
         'aptitude',
-        'ancien',
-        'interne',
         'precedent_etablissement',
         'precedent_niveau',
-        'is_redouble',
-        'niveau_id',
         'matricule',
         'avatar_url',
         'numero',
-        'is_redouble',
         'decision',
         'next_classe',
         'niveau_id',
         'classe_annee_id'
     ];
+
+    public function getClasseAnnee(){
+        return $this->belongsTo(ClasseAnnee::class, "classe_annee_id");
+    }
 }

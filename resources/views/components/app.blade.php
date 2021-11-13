@@ -18,7 +18,6 @@
             <x-conf-icon></x-conf-icon>
             <div class="app-main">
                 <x-side-bar></x-side-bar>
-                <x-flashback></x-flashback>
                 {{$slot}}
             </div>
         </div>

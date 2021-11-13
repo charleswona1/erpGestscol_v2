@@ -39,7 +39,7 @@ class CreateEleveClassesTable extends Migration
             $table->string('tel_mere');
             $table->string('tel_tuteur')->nullable();
             $table->string('aptitude');
-            $table->integer('numero');
+            $table->integer('numero')->nullable();
             $table->string('avatar_url')->nullable();
             $table->boolean('ancien')->default(false);
             $table->boolean('interne')->default(false);

@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Matiere extends Model
+class Evaluation extends Model
 {
     use HasFactory;
+    protected $fillable=['name','annee_academique_id'];
 
-    protected $fillable = [
-        'abreviation',
-        'name'
-    ];
+
 }

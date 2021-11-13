@@ -24,6 +24,7 @@ class AdminEtablissementsController extends Controller
             'email' => ['required', 'email', Rule::unique('users')],
             'password' => ['required','min:5'],
             'telephone'=>['required'],
+            'etablissement_id'=>['required'],
             'is_default_annee'=>['required']
         ]);
 

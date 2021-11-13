@@ -45,7 +45,7 @@
                                                 @if ($niveau->id == $classe->getNiveau->id)
                                                     <option value="{{ $niveau->id }}" selected>{{ $niveau->name }}
                                                     </option>
-
+                                                
                                                 @else
                                                     <option value="{{ $niveau->id }}">{{ $niveau->name }}</option>
                                                 @endif

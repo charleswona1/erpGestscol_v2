@@ -13,18 +13,21 @@ class Etablissement extends Model
     {
         return $this->hasMany(Cycle::class, 'etablissement_id');
     }
-
+    
     public function getNiveaux()
     {
         return $this->hasMany(Niveau::class, 'etablissement_id');
     }
+    
+    public function getAnneeAcademique()
+    {
+        return $this->hasOne(AnneeAcademique::class, 'etablissement_id')
+                      ->where('isdefault', 1);
+    }
+
     //recuperer les classes de l'établissement en cours
     public function getClasses()
     {
-      /*  $data = Classe::join('state', 'state.country_id', '=', 'country.country_id')
-        ->join('city', 'city.state_id', '=', 'state.state_id')
-        ->get(['country.country_name', 'state.state_name', 'city.city_name']);*/
-        
         $data = Classe::join('niveaux', 'classes.niveau_id', '=', 'niveaux.id')
         ->join('etablissements', 'niveaux.etablissement_id', '=', 'etablissements.id')
         ->where('etablissements.id', $this->id)
@@ -33,9 +36,39 @@ class Etablissement extends Model
         return $data;
     }
 
-    public function getAnneeAccademic(){
-        return $this->hasMany(AnneeAccademique::class);
-    }
+      //recuperer les matières d'un l'établissement en cours et de l'annee en cours
+       public function getMatieres()
+      {
+          $data = Matiere::join('annee_academiques', 'matieres.annee_academique_id', '=', 'annee_academiques.id')
+          ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
+          ->where('etablissements.id', $this->id)
+          ->where('annee_academiques.isdefault', 1)
+          ->get(['matieres.*']);
+          
+          return $data;
+      }
 
-    
+      //recuperer les periodes d'un établissement en cours et de l'annee en cours
+      public function getPeriodes()
+      {
+          $data = Periode::join('annee_academiques', 'periodes.annee_academique_id', '=', 'annee_academiques.id')
+          ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
+          ->where('etablissements.id', $this->id)
+          ->where('annee_academiques.isdefault', 1)
+          ->get(['periodes.*']);
+          
+          return $data;
+      }
+        //recuperer la liste des evaluations d'un établissement en cours et de l'annee en cours
+        public function getEvaluations()
+        {
+            $data = Evaluation::join('annee_academiques', 'evaluations.annee_academique_id', '=', 'annee_academiques.id')
+            ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
+            ->where('etablissements.id', $this->id)
+            ->where('annee_academiques.isdefault', 1)
+            ->get(['evaluations.*']);
+            
+            return $data;
+        }
+
 }

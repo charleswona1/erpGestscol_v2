@@ -23,7 +23,6 @@ class CreateClassesTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

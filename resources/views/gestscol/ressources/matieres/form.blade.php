@@ -35,29 +35,25 @@
                             <div class="main-card mb-3 card">
 
                                 <div class="card-body ">
-                                    <form action="{{ route('gestscol.matiere.store') }}" method="POST">
-                                        @csrf
-                                        <div class="position-relative form-group">
-                                            <label for="exampleEmail" class="">Nom de la Matière <span
-                                                    style="color:red;">*</span></label>
-                                            <input name="nom" placeholder="Classe" type="texte" class="form-control"
-                                                required>
-                                        </div>
-                                        <div class="position-relative form-group">
-                                            <label for="exampleEmail" class="">Abréviation <span
-                                                    style="color:red;">*</span></label>
-                                            <input name="abreviation" placeholder="Classe" type="texte"
-                                                class="form-control" required>
-                                        </div>
+                                    {{ html()->form('POST', URL::full())->open() }}
+                                    @csrf
+                                    <div class="position-relative form-group">
+                                        <label for="exampleEmail" class="">Nom de la Matière <span
+                                                style="color:red;">*</span></label>
+                                        <input name="name" placeholder="Classe" type="texte" class="form-control"
+                                            required>
+                                    </div>
+                                    <div class="position-relative form-group">
+                                        <label for="exampleEmail" class="">Abréviation <span
+                                                style="color:red;">*</span></label>
+                                        <input name="abreviation" placeholder="Classe" type="texte"
+                                            class="form-control" required>
+                                    </div>
+                                    <button class="mt-1 btn btn-secondary"><a href="matiere-liste.html"
+                                            style="color:white; text-decoration:none;">Annuler</a></button>
+                                    <button class="mt-1 btn btn-success" type="submit">Enregistrer</button>
 
-
-
-
-                                        <button class="mt-1 btn btn-secondary"><a href="matiere-liste.html"
-                                                style="color:white; text-decoration:none;">Annuler</a></button>
-                                        <button class="mt-1 btn btn-success" type="submit">Enregistrer</button>
-
-                                    </form>
+                                    {{ html()->form()->close() }}
                                 </div>
                             </div>
                         </div>
@@ -68,4 +64,4 @@
             </div>
         </div>
     </div>
-</x-gestscol>
+    </x-gestscol>

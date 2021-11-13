@@ -33,7 +33,7 @@ class ClassesController extends Controller
         $niveaux = $etablissement->getNiveaux;
         return view('gestscol.ressources.classes.form',compact('etablissement', 'niveaux'));
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
