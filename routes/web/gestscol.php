@@ -131,8 +131,8 @@ Route::middleware('auth')->group(function(){
             });
         });
 
-           // ajout et listes des evaluations
-           Route::prefix('evaluation')->name('evaluations.')->namespace('Evaluations')->group(function(){
+        // ajout et listes des evaluations
+        Route::prefix('evaluation')->name('evaluations.')->namespace('Evaluations')->group(function(){
             Route::get('/','EvaluationsController@index')->name('index');
             Route::get('/add','EvaluationsController@create')->name('add');
             Route::post('/add','EvaluationsController@store');
@@ -141,6 +141,18 @@ Route::middleware('auth')->group(function(){
                 Route::get('/edit','EvaluationsController@edit')->name('edit');
                 Route::post('/edit','EvaluationsController@update');
                 Route::get('/delete','EvaluationsController@delete')->name('delete');
+            });
+        });
+
+        Route::prefix('enseignants')->name('enseignants.')->namespace('Enseignants')->group(function(){
+            Route::get('/','EnseignantsController@index')->name('index');
+            Route::get('/add','EnseignantsController@create')->name('add');
+            Route::post('/add','EnseignantsController@store');
+            Route::prefix('{enseignantAnnee}')->group(function(){
+                Route::get('/show','EnseignantsController@show')->name('show');
+                Route::get('/edit','EnseignantsController@edit')->name('edit');
+                Route::post('/edit','EnseignantsController@update');
+                Route::get('/delete','EnseignantsController@delete')->name('delete');
             });
         });
     });

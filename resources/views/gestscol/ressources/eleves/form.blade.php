@@ -116,7 +116,8 @@
                                     </div>
                                 </div>
                                 <div class="main-card mb-3 card ">
-                                    <div class="card-body"><label for="exampleSelect" class="">Groupe Sanguin <span style="color:red;">*</span></label>
+                                    <div class="card-body">
+                                        <label for="exampleSelect" class="">Groupe Sanguin <span style="color:red;">*</span></label>
                                         <fieldset class="position-relative form-group">
                                             <div class="position-relative form-check">
                                                 <label class="form-check-label"><input name="groupe_sanguin" type="radio" class="form-check-input" value="A+"> A+ &nbsp; &nbsp; &nbsp;</label>
