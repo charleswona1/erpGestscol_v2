@@ -107,7 +107,10 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        
+                                    <tr>
+                                        <th colspan="4" class="text-center">Aucune donnéés disponibles</th>
+                                    </tr> 
+                                    
                                     @endforelse
                                    
                                     

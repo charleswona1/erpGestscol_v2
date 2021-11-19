@@ -13,6 +13,7 @@ class CreateAnneeAcademiquesTable extends Migration
      */
     public function up()
     {
+        if(!Schema::hasTable('annee_academiques')){
         Schema::create('annee_academiques', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('etablissement_id');
@@ -25,6 +26,7 @@ class CreateAnneeAcademiquesTable extends Migration
             $table->foreign('etablissement_id')->references('id')->on('etablissements');
             $table->timestamps();
         });
+    }
     }
 
     /**
