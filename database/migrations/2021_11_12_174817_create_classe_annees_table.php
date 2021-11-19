@@ -17,7 +17,7 @@ class CreateClasseAnneesTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('effectif');
-            $table->integer('ordre');
+            $table->integer('ordre')->nullable();
             $table->unsignedBigInteger('niveau_id');
             $table->unsignedBigInteger('annee_academique_id');
             $table->unsignedBigInteger('enseignant_annee_id')->nullable();

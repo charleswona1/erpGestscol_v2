@@ -30,12 +30,15 @@
         </span>
     </div>
     @php
-        $etablissement = Session::get('etablissement');
+        $part_url = Request::path();
+        $etablissement_id = $part_url[9];
+        \Debugbar::info($etablissement_id);
+        $etablissement = App\Models\Etablissement::find($etablissement_id);
     @endphp
     <div class="scrollbar-sidebar">
         <div class="app-sidebar__inner">
             <h6 class="widget-heading" style="fond-weight:bolder; margin-bottom:30px; color:black; text-align:center;">
-                {!! Session::get('etablissement')->type_etablissement !!} {!! Session::get('etablissement')->name !!} <br>
+                {{ $etablissement->type_etablissement }} {{ $etablissement->name }} <br>
                 <span style="font-size:0.9em; color:grey;">Année Scolaire 2021-2022</span>
             </h6>
             <ul class="vertical-nav-menu">
@@ -69,33 +72,29 @@
                     </ul>
                 </li>
 
-
                 <li>
-                    <a href="#">
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/enseignants*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/enseignants*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-add-user"></i> Enseignants
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{ Request::is('gestscol/' . $etablissement->id . '/enseignants*') ? 'mm-collapse mm-show' : '' }}">
                         <li>
-                            <a href="#">
-                                <i class="metismenu-icon">
-                                </i>Liste
+                            <a href="{{ route('gestscol.enseignants.index', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/enseignants') ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon"></i> Liste
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('gestscol.enseignants.add', $etablissement) }}"
+                                class="{{ Request::is('gestscol/' . $etablissement->id . '/enseignants/add') ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon">
                                 </i>Créer un Enseignant
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <i class="metismenu-icon">
-                                </i>Emploi du temps
-                            </a>
-                        </li>
                     </ul>
                 </li>
+
 
                 <li>
                     <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/classe*') ? 'mm-active' : '' }}"

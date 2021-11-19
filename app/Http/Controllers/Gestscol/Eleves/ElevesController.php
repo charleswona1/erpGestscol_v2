@@ -84,12 +84,12 @@ class ElevesController extends Controller
     public function update(Etablissement $etablissement, EleveClasse $eleve, Request $request){
 
         $data = $request->validate([
-            'nom'=>['required', 'string', 'max:255','unique:eleves'],
+            'nom'=>['required', 'string', 'max:255','unique:eleves,nom,'.$eleve->id],
             'sexe'=>['required'],
             'date_naissance'=>['required', 'date'],
             'lieu_naissance'=>['required'],
-            'email'=>['','unique:eleves'],
-            'telephone'=>['required','unique:eleves'],
+            'email'=>['','unique:eleves,email,'.$eleve->id],
+            'telephone'=>['required','unique:eleves,telephone,'.$eleve->id],
             'groupe_sanguin'=>['required'],
             'religion'=>['required'],
             'domicile'=>['required'],
@@ -138,7 +138,7 @@ class ElevesController extends Controller
         $eleve->delete();
         $eleveUnlink = Eleve::find($eleve->id);
         $eleveUnlink->delete();
-        Session::flash('success','le cycle a bien été supprimé');
+        Session::flash('success','l\'éleve a bien été supprimé');
         return redirect()->back();
     }
 }

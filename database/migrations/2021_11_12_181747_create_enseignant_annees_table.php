@@ -33,7 +33,6 @@ class CreateEnseignantAnneesTable extends Migration
             $table->string('telephone', 15);
             $table->string('email', 100)->nullable();
             $table->string('localisation', 255);
-            $table->string('rhesus', 20)->nullable();
             $table->string('groupe_sanguin', 10)->nullable();
             $table->text('autres')->nullable();
             $table->foreign('annee_academique_id')->references('id')->on('annee_academiques');
