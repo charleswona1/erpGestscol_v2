@@ -155,5 +155,16 @@ Route::middleware('auth')->group(function(){
                 Route::get('/delete','EnseignantsController@delete')->name('delete');
             });
         });
+
+        // configuratioon des ressources 
+
+        Route::prefix('affectations')->group(function(){
+            Route::prefix('student')->name('student.')->namespace('Eleves')->group(function(){
+                Route::get('/','EleveClassesController@index')->name('affectations');
+                Route::post('/affectations','EleveClassesController@store')->name('affectations');
+                Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
+                Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
+            });
+        });
     });
 });

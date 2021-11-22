@@ -257,7 +257,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a  href="#">
                         <i class="metismenu-icon pe-7s-display2"></i> Matricules
                     </a>
                 </li>
@@ -265,7 +265,8 @@
 
                 <li class="app-sidebar__heading">Configurations</li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('gestscol.student.affectations', $etablissement) }}"
+                    class="{{ Request::is('gestscol/' . $etablissement->id . '/affectations/student') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-display2"></i> Elèves dans les classes
                     </a>
                 </li>
