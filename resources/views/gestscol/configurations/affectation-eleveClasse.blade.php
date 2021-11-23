@@ -228,7 +228,7 @@
                 }
 
                 $.ajax({
-                    url: "{{route('gestscol.student.affectations',$etablissement)}}",
+                    url: "{{route('gestscol.student.addaffectations',$etablissement)}}",
                     type: "POST",
                     data:{
                         "_token": "{{ csrf_token() }}",

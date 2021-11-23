@@ -161,7 +161,7 @@ Route::middleware('auth')->group(function(){
         Route::prefix('affectations')->group(function(){
             Route::prefix('student')->name('student.')->namespace('Eleves')->group(function(){
                 Route::get('/','EleveClassesController@index')->name('affectations');
-                Route::post('/affectations','EleveClassesController@store')->name('affectations');
+                Route::post('/affectations','EleveClassesController@store')->name('addaffectations');
                 Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
                 Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
             });
