@@ -97,8 +97,8 @@
 
 
                 <li>
-                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/classe*') ? 'mm-active' : '' }}"
-                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/student*') ? true : false }}>
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/classes*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/classes*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-folder"></i> Classes
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
@@ -121,8 +121,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/classe*') ? 'mm-active' : '' }}"
-                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/student*') ? true : false }}>
+                    <a href="#" class="{{ Request::is('gestscol/' . $etablissement->id . '/matieres*') ? 'mm-active' : '' }}"
+                        aria-expanded={{ Request::is('gestscol/' . $etablissement->id . '/matieres*') ? true : false }}>
                         <i class="metismenu-icon pe-7s-folder"></i> Matière
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>

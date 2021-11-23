@@ -72,6 +72,7 @@
 
                 <div class="col-lg-12">
                     <div class="main-card mb-3 card">
+                        <x-flashback></x-flashback>
                         
                         <div class="card-body" class="scroll-area-md">
                             <!-- <h5 class="card-title">Table with hover</h5> -->
