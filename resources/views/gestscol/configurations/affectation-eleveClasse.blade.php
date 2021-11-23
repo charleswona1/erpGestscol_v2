@@ -30,7 +30,7 @@
                     </div>    
                 </div>
             </div>
-            <x-flash-back></x-flash-back>
+            <x-flashback></x-flashback>
             <div class="card mb-3 main-card">
                 <div class="card-body">
                     <div class="form-group row">

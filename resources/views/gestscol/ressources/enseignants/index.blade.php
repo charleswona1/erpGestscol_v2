@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <x-flash-back></x-flash-back>
+            <x-flashback></x-flashback>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="main-card mb-3 card">

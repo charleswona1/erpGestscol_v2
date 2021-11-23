@@ -81,7 +81,7 @@
 
                     <div class="col-md-10">
                         <div class="main-card mb-3 card">
-                            <x-flash-back></x-flash-back>
+                            <x-flashback></x-flashback>
 
                             <div class="card-body ">
                                 {{ html()->form('POST', URL::full())->open() }}
