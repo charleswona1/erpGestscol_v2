@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function(){
                     Route::get('/delete','GroupeMatieresController@delete')->name('delete');
                 });
             });
-
+            
             });
         });
 
@@ -119,15 +119,15 @@ Route::middleware('auth')->group(function(){
         });
     
         // ajout et listes des sous periodes
-        Route::prefix('sousperiode')->name('sousperiodes.')->namespace('Sousperiodes')->group(function(){
-            Route::get('/','SousperiodesController@index')->name('index');
-            Route::get('/add','SousperiodesController@create')->name('add');
-            Route::post('/add','SousperiodesController@store');
+        Route::prefix('sousperiode')->name('sousperiodes.')->namespace('SousPeriodes')->group(function(){
+            Route::get('/','SousPeriodesController@index')->name('index');
+            Route::get('/add','SousPeriodesController@create')->name('add');
+            Route::post('/add','SousPeriodesController@store');
             Route::prefix('{sousPeriode}')->group(function(){
-                Route::get('/show','SousperiodesController@show')->name('show');
-                Route::get('/edit','SousperiodesController@edit')->name('edit');
-                Route::post('/edit','SousperiodesController@update');
-                Route::get('/delete','SousperiodesController@delete')->name('delete');
+                Route::get('/show','SousPeriodesController@show')->name('show');
+                Route::get('/edit','SousPeriodesController@edit')->name('edit');
+                Route::post('/edit','SousPeriodesController@update');
+                Route::get('/delete','SousPeriodesController@delete')->name('delete');
             });
         });
 

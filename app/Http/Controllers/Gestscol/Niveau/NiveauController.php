@@ -42,19 +42,19 @@ class NiveauController extends Controller
     public function show(Niveau $Niveau){
         return view('gestscol.ressources.niveaux.show',compact('etablissement','Niveau'));
     }
-
+    
     public function edit(Etablissement $etablissement, Niveau $niveau){
         $cycles = $etablissement->getCycle;;
         return view('gestscol.ressources.niveaux.edit',compact('cycles','niveau','etablissement'));
     }
-
+    
     public function update(Etablissement $etablissement, Niveau $niveau, Request $request){
-
+        
         $data = $request->validate([
             "name" => 'required|unique:niveaux,name,'.$niveau->id,
             "cycle_id"=>"required",
         ]);
-
+        
         $niveau->fill($data);
         $niveau->etablissement_id = $etablissement->id;
         if ($niveau->save()) {
@@ -64,7 +64,7 @@ class NiveauController extends Controller
         Session::flash('error','une erreur c\'est produite lors de l\'enregistrement');
         return route('gestscol.niveaux.edit',[$etablissement,$niveau]);
     }
-
+    
     public function delete(Etablissement $etablissement, Niveau $Niveau){
         $Niveau->delete();
         Session::flash('success','le Niveau a bien été supprimé');

@@ -29,7 +29,7 @@ class ClassesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    
     public function create(Etablissement $etablissement){
         $niveaux = $etablissement->getNiveaux;
         return view('gestscol.ressources.classes.form',compact('etablissement', 'niveaux'));
