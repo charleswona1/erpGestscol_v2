@@ -165,6 +165,12 @@ Route::middleware('auth')->group(function(){
                 Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
                 Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
             });
+            Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
+                Route::get('/','MatieresController@indexAffectation')->name('affectations');
+                // Route::post('/affectations','EleveClassesController@store')->name('addaffectations');
+                // Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
+                // Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
+            });
         });
     });
 });

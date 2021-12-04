@@ -59,6 +59,7 @@ class ElevesController extends Controller
             $eleveClasse = new EleveClasse();
             $eleveClasse->fill($data);
             $eleveClasse->etablissement_id = $etablissement->id;
+            $eleveClasse->eleve_id = $eleve->id;
             $eleveClasse->annee_academique_id = $etablissement->getAnneeAcademique->id;
             $eleveClasse->ancien  = (isset($request->ancien))?true:false;
             $eleveClasse->interne  = (isset($request->interne))?true:false;
@@ -113,30 +114,28 @@ class ElevesController extends Controller
             'niveau_id'=>['required']
        ]);
 
-        $eleve = Eleve::find($eleve->id);
-        $eleve->fill($data);
-        $eleve->etablissement_id = $etablissement->id;
-        if ($eleve->save()) {
-            $eleveClasse = EleveClasse::find($eleve->id);
-            $eleveClasse->fill($data);
-            $eleveClasse->etablissement_id = $etablissement->id;
-            $eleveClasse->annee_academique_id = $etablissement->getAnneeAcademique->id;
-            $eleveClasse->ancien  = (isset($request->ancien))?true:false;
-            $eleveClasse->interne  = (isset($request->interne))?true:false;
-            $eleveClasse->is_redouble  = (isset($request->is_redouble))?true:false;
-            $eleveClasse->fill($data);
-            $eleveClasse->save();
+        $eleveClasse = $eleve;
+        $eleveClasse->fill($data);
+        $eleveClasse->etablissement_id = $etablissement->id;
+        $eleveClasse->annee_academique_id = $etablissement->getAnneeAcademique->id;
+        $eleveClasse->ancien  = (isset($request->ancien))?true:false;
+        $eleveClasse->interne  = (isset($request->interne))?true:false;
+        $eleveClasse->is_redouble  = (isset($request->is_redouble))?true:false;
+        if ($eleveClasse->save()) {
+            $eleveUpdate = Eleve::find($eleveClasse->eleve_id);
+            $eleveUpdate->fill($data);
+            $eleveUpdate->etablissement_id = $etablissement->id;
+            $eleveUpdate->save();
             Session::flash('success','l\'eleve a bien été modifié');
             return redirect()->route('gestscol.student.index',$etablissement);
         }
         Session::flash('error','echec de modification');
         return redirect()->route('gestscol.student.add',$etablissement);
-        return redirect()->back();
     }
 
     public function delete(Etablissement $etablissement, EleveClasse $eleve){
         $eleve->delete();
-        $eleveUnlink = Eleve::find($eleve->id);
+        $eleveUnlink = Eleve::find($eleve->eleve_id);
         $eleveUnlink->delete();
         Session::flash('success','l\'éleve a bien été supprimé');
         return redirect()->back();

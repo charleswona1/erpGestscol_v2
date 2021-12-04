@@ -282,7 +282,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="">
                         <i class="metismenu-icon pe-7s-display2"></i> Elèves et matières d'option
                     </a>
                 </li>
@@ -292,12 +292,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('gestscol.matiere.affectations', $etablissement) }}" 
+                    class="{{ Request::is('gestscol/' . $etablissement->id . '/affectations/matiere') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-shuffle"></i> Affectations des matières
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" >
                         <i class="metismenu-icon pe-7s-share"></i> Paramétrages des matières
                     </a>
                 </li>

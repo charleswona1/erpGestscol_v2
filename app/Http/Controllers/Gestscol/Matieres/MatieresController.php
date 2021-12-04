@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Gestscol\Matieres;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
+use App\Models\ClasseAnnee;
+use App\Models\EnseignantAnnee;
 use App\Models\Matiere;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
+use App\Models\Niveau;
 
 class MatieresController extends Controller
 {
@@ -113,5 +116,17 @@ class MatieresController extends Controller
         $matiere->delete();
         Session::flash('success','la matiere a bien été supprimée');
         return redirect()->back();
+    }
+
+    public function indexAffectation(Etablissement $etablissement, Request $request){
+        $niveaux = $etablissement->getNiveaux;
+        $enseignants = EnseignantAnnee::where([['etablissement_id',$etablissement->id],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
+        $classes = collect();
+        $niveauSeleted = "";
+        if ($request->niveau) {
+            $niveauSeleted = Niveau::find($request->niveau)->id;
+            $classes = ClasseAnnee::where([['niveau_id',$request->niveau],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
+        }
+        return view('gestscol.configurations.affectation-matiere',compact('etablissement','niveaux','enseignants','niveauSeleted','classes'));
     }
 }

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 class EnseignantsController extends Controller
 {
     public function index(Etablissement $etablissement){
-        $enseignants = EnseignantAnnee::where('etablissement_id',$etablissement->id)->get();
+        $enseignants = EnseignantAnnee::where([['etablissement_id',$etablissement->id],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
         return view('gestscol.ressources.enseignants.index', compact('etablissement','enseignants'));
     }
 
@@ -48,6 +48,7 @@ class EnseignantsController extends Controller
            $enseignantAnnee = new EnseignantAnnee();
            $enseignantAnnee->fill($data);
            $enseignantAnnee->etablissement_id = $etablissement->id;
+           $enseignantAnnee->enseignant_id = $enseignant->id;
            $enseignantAnnee->annee_academique_id = $etablissement->getAnneeAcademique->id;
            $enseignantAnnee->save();
            Session::flash('success','l\'enseigant a bien été crée');
@@ -87,15 +88,14 @@ class EnseignantsController extends Controller
             'titre'=>['required'],
        ]);
 
-       $enseignant = Enseignant::find($enseignantAnnee->id);
-       $enseignant->fill($data);
-       $enseignant->etablissement_id = $etablissement->id;
-       if($enseignant->save()){
-           $enseignantAnnee = EnseignantAnnee::find($enseignantAnnee->id);
-           $enseignantAnnee->fill($data);
-           $enseignantAnnee->etablissement_id = $etablissement->id;
-           $enseignantAnnee->annee_academique_id = $etablissement->getAnneeAcademique->id;
-           $enseignantAnnee->save();
+       $enseignantAnnee->fill($data);
+       $enseignantAnnee->etablissement_id = $etablissement->id;
+       $enseignantAnnee->annee_academique_id = $etablissement->getAnneeAcademique->id;
+       if($enseignantAnnee->save()){
+           $enseignant = Enseignant::find($enseignantAnnee->enseignant_id);
+           $enseignant->fill($data);
+           $enseignant->etablissement_id = $etablissement->id;
+           $enseignant->save();
            Session::flash('success','l\'enseigant a bien été modifié');
            return redirect()->route('gestscol.enseignants.index',$etablissement);
        }
@@ -105,7 +105,7 @@ class EnseignantsController extends Controller
 
     public function delete(Etablissement $etablissement, EnseignantAnnee $enseignantAnnee){
         $enseignantAnnee->delete();
-        $enseignantUnlink = EnseignantAnnee::find($enseignantAnnee->id);
+        $enseignantUnlink = Enseignant::find($enseignantAnnee->enseignant_id);
         $enseignantUnlink->delete();
         Session::flash('success','l\'enseignant a bien été supprimé');
         return redirect()->back();

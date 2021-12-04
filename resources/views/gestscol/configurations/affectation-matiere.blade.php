@@ -1,4 +1,4 @@
-<x-gest-scol title="Affection des eleves dans une classe">
+<x-gest-scol title="Affectation des matieres">
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title" style="position:relative; top:0%;">
@@ -8,18 +8,11 @@
                             <i class="pe-7s-display2 icon-gradient bg-happy-itmeo">
                             </i>
                         </div>
-                        <div>Répartition des Apprenants dans les Classes
-                           <!-- <div class="page-title-subheading">Liste des Apprenants.
-                            </div> -->
-                        </div>
+                        <div>Répartition des Enseignants dans les Classes</div>
                     </div>
                     <div class="page-title-actions">
-                        <!--<a href="cycle-formulaire.html">
-                            <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"">
-                                <i class="fa fa-plus"></i> Nouveau Cycle
-                            </button>
-                        </a>-->
-                       <div class="d-inline-block dropdown">
+                       
+                        <div class="d-inline-block dropdown">
                             <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-secondary">
                                 <span class="btn-icon-wrapper pr-2 opacity-7">
                                     <i class="fa fa-cog fa-w-20"></i>
@@ -27,10 +20,10 @@
                                 Actions
                             </button>
                         </div>
-                    </div>    
+                    </div>
                 </div>
             </div>
-            
+
             <x-flashback></x-flashback>
             <div class="card mb-3 main-card">
                 <div class="card-body">
@@ -61,7 +54,7 @@
                                     <td>
                                         <div class="search-wrapper">
                                             <div class="input-holder">
-                                                <input type="text" class="search-input" placeholder="Rechercher un Apprenant...">
+                                                <input type="text" class="search-input" placeholder="Rechercher un enseignant...">
                                                 <button class="search-icon"><span></span></button>
                                             </div>
                                             <button class="close"></button>
@@ -76,25 +69,25 @@
                         </div>
                         
                         <div class="card-body pt-3"> 
-                            <h5 class="card-title" style="color:black;">Apprenants sans classe</h5>
+                            <h5 class="card-title" style="color:black;">Tous les enseignants</h5>
                             <table id="myTable" class="table" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Nom de l'Apprenant</th>
-                                        <th></th>
+                                        <th>Nom de l'Enseignant</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($elevesNiveaux as $key => $eleve)
+                                    @forelse ($enseignants as $key => $enseignant)
                                         <tr>
                                             <td width="10%">{{$key + 1}}</td>
-                                            <td width="80%">{{$eleve->nom}}</td>
-                                            <td><input type="checkbox" name="" class="appSansClass"  id="{{$eleve->id}}"></td>
+                                            <td width="80%">{{$enseignant->name}}</td>
+                                            <td><input type="radio" name="enseignant" class="enseignant"  id="{{$enseignant->id}}"></td>
                                         </tr>
                                     @empty
                                     <tr>
-                                        <td class="text-center">Aucun éleve dans ce niveau</td>
+                                        <td class="text-center">Aucun enseignant crée</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -134,13 +127,14 @@
                             </table>
     
                         </div>
+                      
                         <div class="card-body pt-1">
-                            <h5 class="card-title" style="color:black;"> Eleves affectés</h5>
+                            <h5 class="card-title" style="color:black;"> Matiere du niveau</h5>
                             <table class="table" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Nom de l'Apprenant</th>
+                                        <th>Nom de la matiere</th>
                                         <th>action</th>
 
                                     </tr>
@@ -151,13 +145,49 @@
                             </table>
                         </div>
                     </div>
+                    <button class="mt-1 btn btn-secondary"><a href="index.html" style="color:white; text-decoration:none;">Annuler</a></button>
+                    <a href="index.html"><button class="mt-1 btn btn-success">Affecter</button></a>
+                </div>
+                </td>
+                </tr>
+    
+                <tr>
+                    <th scope="row" colspan="5">
+                </tr>
+                </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="main-card mb-3 card">
+    
+                <div class="card-body" class="scroll-area-md">
+                    <!-- <h5 class="card-title">Table with hover</h5> -->
+                    <table class="mb-0 table table-hover">
+                        <thead>
+                            <tr>
+    
+                                <th>Matière</th>
+                                <th>Enseignant</th>
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+    
+                                <td width="50%">Anglais</td>
+                                <td>ABAH BIKOA Léonie Caline Neully</td>
+    
+    
+    
+                            </tr>
+    
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <button class="mt-1 btn btn-secondary" id="remove">Retirer</button>
-            <button class="mt-1 btn btn-success" id="envoyer">Ajouter</button>
+    
         </div>
     </div>
-
     <script>
         function selectNiveau(requestUrl,id) {
             if (id === null) {
@@ -168,12 +198,13 @@
             }
         }
     </script>
+
     @push('javascripts')
         <script>
             let niveau = "";
             $('#niveau').on('change',function(ev){
                 niveau = ev.target.value;
-                selectNiveau("{{route('gestscol.student.affectations', $etablissement)}}",niveau)
+                selectNiveau("{{route('gestscol.matiere.affectations', $etablissement)}}",niveau)
             });
 
             $('#result-apprenant').empty();
@@ -181,36 +212,36 @@
             let classe_id = "";
 
 
-            $('#classe').on('change',function (ev) {
-                classe_id = ev.target.value;
-                niveau = $('#niveau').val();
-                console.log($('#niveau'))
-                $.ajax({
-                    url: "{{route('gestscol.student.eleve-classe',$etablissement)}}",
-                    type: "POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        classe: classe_id,
-                        niveau: niveau
-                    },
+            // $('#classe').on('change',function (ev) {
+            //     classe_id = ev.target.value;
+            //     niveau = $('#niveau').val();
+            //     console.log($('#niveau'))
+            //     $.ajax({
+            //         url: "{{route('gestscol.student.eleve-classe',$etablissement)}}",
+            //         type: "POST",
+            //         data:{
+            //             "_token": "{{ csrf_token() }}",
+            //             classe: classe_id,
+            //             niveau: niveau
+            //         },
 
-                    success:function(response){
-                        console.log(response);
-                        let data = ""
-                        let effectif = "Effectifs : "+response.length
-                        $('#effectif').append(effectif);
+            //         success:function(response){
+            //             console.log(response);
+            //             let data = ""
+            //             let effectif = "Effectifs : "+response.length
+            //             $('#effectif').append(effectif);
 
-                        $.each(response, function(key,val){
-                            console.log(key+'=='+val);
-                            data+=generatTBody(key+1,val?.nom,'<input type="checkbox" class="appClass" name="" id="'+val.id+'">');
-                        });
-                        $('#result-apprenant').append(data);
-                    },
-                    error: function(errors){
-                       console.log(errors)
-                    }
-                });
-            });
+            //             $.each(response, function(key,val){
+            //                 console.log(key+'=='+val);
+            //                 data+=generatTBody(key+1,val?.nom,'<input type="checkbox" class="appClass" name="" id="'+val.id+'">');
+            //             });
+            //             $('#result-apprenant').append(data);
+            //         },
+            //         error: function(errors){
+            //         console.log(errors)
+            //         }
+            //     });
+            // });
 
             $('#envoyer').on('click',function(){
                 let apprenants = [];
@@ -242,7 +273,7 @@
                         location.reload();
                     },
                     error: function(errors){
-                       console.log(errors)
+                    console.log(errors)
                     }
                 });
             });
@@ -259,7 +290,7 @@
                     alert('selectionnez au moins un eleve');
                     return;
                 }
-               
+            
 
                 $.ajax({
                     url: "{{route('gestscol.student.removeaffectations',$etablissement)}}",
@@ -274,22 +305,22 @@
                         location.reload();
                     },
                     error: function(errors){
-                       console.log(errors)
+                    console.log(errors)
                     }
                 });
             });
 
-           
+        
 
             var generatTBody = function (...val) {
                 var th = "";
                 var tr = "";
-               
+            
                 for (let i = 0; i < val.length; i++) {
-                     th += '<th>'+val[i]+'</th>';
+                    th += '<th>'+val[i]+'</th>';
                 }
                 tr = '<tr>'+th+'</tr>';
-               
+            
                 return tr;
             }
         </script>
