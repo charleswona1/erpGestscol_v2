@@ -71,7 +71,19 @@ class Etablissement extends Model
             
             return $data;
         }
-      
+       //recuperer les goupes de matières par niveau d'un l'établissement en cours et de l'annee en cours
+     /*  public function getGroupeMatieresNiveau()
+       {
+           $data = GroupeMatiere::join('annee_academiques', 'groupe_matieres.annee_academique_id', '=', 'annee_academiques.id')
+           ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
+           ->join('niveaux', 'niveau_id', '=', 'niveaux.id')
+           
+           ->where('etablissements.id', $this->id)
+           ->where('annee_academiques.isdefault', 1)
+           ->get(['groupe_matieres.*']);
+           
+           return $data;
+       }*/
 
       //recuperer les periodes d'un établissement en cours et de l'annee en cours
       public function getPeriodes()
@@ -84,6 +96,16 @@ class Etablissement extends Model
           
           return $data;
       }
+       //recuperer les matieres d'un niveau d'un établissement en cours et de l'annee en cours
+       public function getMatiereNiveau()
+       {
+        $data = MatiereNiveau::join('niveaux', 'matiere_niveaux.niveau_id', '=', 'niveaux.id')
+        ->join('etablissements', 'niveaux.etablissement_id', '=', 'etablissements.id')
+        ->where('etablissements.id', $this->id)
+        ->get(['matiere_niveaux.*']);
+        
+        return $data;
+       }
         //recuperer la liste des evaluations d'un établissement en cours et de l'annee en cours
         public function getEvaluations()
         {

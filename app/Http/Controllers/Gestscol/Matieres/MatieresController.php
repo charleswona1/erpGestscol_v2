@@ -120,15 +120,19 @@ class MatieresController extends Controller
     //parametrage matiere
     public function indexParametrage(Etablissement $etablissement){
         $matieres = $etablissement->getMatieres();        
-        $niveaux =Niveau::all();
-        $matiere_niveaux=MatiereNiveau::all();
-        return view('gestscol.configurations.parametrage_matiere.index', compact('niveaux', 'matieres', 'matiere_niveaux'));
+        $niveaux =$etablissement->getNiveaux;
+        //dd($niveaux);
+        $matiere_niveaux=$etablissement->getMatiereNiveau();
+       // dd($matiere_niveaux[0]->groupe_matiere);
+        return view('gestscol.configurations.parametrage_matiere.index', compact('niveaux', 'matieres', 'matiere_niveaux','etablissement'));
     }
     public function storeParametrage(Etablissement $etablissement,Request $request){
+       // dd($request->all());
+        
         $data = $request->validate([
-            "id_matiere" => 'required',
-            "id_niveau_scolaire" => 'required',
-            "id_groupe_matiere" => 'required',
+            "matiere_id" => 'required',
+            "niveau_id" => 'required',
+            "groupe_matiere_id" => 'required',
             "coefficient" => 'required',
         ]);
         $matiereNiveau = new MatiereNiveau();
@@ -141,5 +145,34 @@ class MatieresController extends Controller
         }
         Session::flash('error','une erreur c\'est produite lors de l\'enregistrement');
         return route('gestscol.parametrages.matiere.index',$etablissement);
+    }
+    public function editParametrage(Etablissement $etablissement, MatiereNiveau $matiereNiveau){
+        $matieres = $etablissement->getMatieres();        
+        $niveaux =$etablissement->getNiveaux;
+        //dd($niveaux);
+        $matiere_niveaux=$etablissement->getMatiereNiveau();
+       // dd($matiere_niveaux[0]->groupe_matiere);
+        return view('gestscol.configurations.parametrage_matiere.edit', compact('niveaux','matiereNiveau', 'matieres', 'matiere_niveaux','etablissement'));
+    }
+    public function updateParametrage(Etablissement $etablissement, MatiereNiveau $matiereNiveau, Request $request){
+        
+        $data = $request->validate([
+            "matiere_id" => 'required',
+            "niveau_id" => 'required',
+            "groupe_matiere_id" => 'required',
+            "coefficient" => 'required',
+        ]);
+        $matiereNiveau->fill($data);        
+        if ($matiereNiveau->save()) {
+            Session::flash('success','le parametrage de matiere a bien été modifiée');
+            return redirect()->route('gestscol.parametrages.matiere.index',$etablissement);
+        }
+        Session::flash('error','une erreur c\'est produite lors de l\'enregistrement');
+        return redirect()->route('gestscol.parametrages.matiere.index',$etablissement);
+    }
+    public function deleteParametrage(Etablissement $etablissement, MatiereNiveau $matiereNiveau){
+        $matiereNiveau->delete();
+        Session::flash('success','le parametrage de matiere a bien été supprimée');
+        return redirect()->back();
     }
 }

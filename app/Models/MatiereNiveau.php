@@ -16,16 +16,18 @@ class MatiereNiveau extends Model
     
     public function groupe_matiere()
     {
-        return $this->belongsTo('App\Models\groupe_matiere', 'id_groupe_matiere', 'id_groupe_matiere');
+        return $this->belongsTo(GroupeMatiere::class,"groupe_matiere_id");
     }
   
     public function niveau_scolaire()
     {
-        return $this->belongsTo('App\Models\niveau_scolaire' ,  'id_niveau_scolaire', 'id_niveau');
+        return $this->belongsTo(Niveau::class,"niveau_id");
+    
     }
     public function matiere()
     {
-        return $this->belongsTo('App\Models\matiere', 'id_matiere', 'id_matiere');
+        return $this->belongsTo(Matiere::class,"matiere_id");
+        
     }
 
     //

@@ -170,9 +170,9 @@ Route::middleware('auth')->group(function(){
             Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
                 Route::get('/parametrage','MatieresController@indexParametrage')->name('index');
                 Route::post('/parametrage','MatieresController@storeParametrage')->name('index');;
-                Route::prefix('{parametrageSanction}')->group(function(){
+                Route::prefix('{matiereNiveau}')->group(function(){
                     Route::get('/parametrage/edit','MatieresController@editParametrage')->name('edit');
-                    Route::post('/parametrage/edit','MatieresController@updateParametrage');
+                    Route::post('/parametrage/edit','MatieresController@updateParametrage')->name('edit');
                     Route::get('/parametrage/delete','MatieresController@deleteParametrage')->name('delete');
                 });
             });
