@@ -8,6 +8,7 @@ use App\Models\EnseignantAnnee;
 use App\Models\Matiere;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
+use App\Models\MatiereNiveau;
 use App\Models\Niveau;
 
 class MatieresController extends Controller
@@ -128,5 +129,31 @@ class MatieresController extends Controller
             $classes = ClasseAnnee::where([['niveau_id',$request->niveau],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
         }
         return view('gestscol.configurations.affectation-matiere',compact('etablissement','niveaux','enseignants','niveauSeleted','classes'));
+    }
+        //parametrage matiere
+    public function indexParametrage(Etablissement $etablissement){
+        $matieres = $etablissement->getMatieres();        
+        $niveaux =Niveau::all();
+        $matiere_niveaux=MatiereNiveau::all();
+        return view('gestscol.configurations.parametrage_matiere.index', compact('niveaux', 'matieres', 'matiere_niveaux'));
+    }
+    
+    public function storeParametrage(Etablissement $etablissement,Request $request){
+        $data = $request->validate([
+            "id_matiere" => 'required',
+            "id_niveau_scolaire" => 'required',
+            "id_groupe_matiere" => 'required',
+            "coefficient" => 'required',
+        ]);
+        $matiereNiveau = new MatiereNiveau();
+        $matiereNiveau->fill($data);
+       // $matiereNiveau->annee_academique_id=$etablissement->getAnneeAcademique->id;
+        
+        if ($matiereNiveau->save()) {
+            Session::flash('success','le parametrage matiere a bien été ajouté');
+            return redirect()->route('gestscol.parametrages.matiere.index',$etablissement);
+        }
+        Session::flash('error','une erreur c\'est produite lors de l\'enregistrement');
+        return route('gestscol.parametrages.matiere.index',$etablissement);
     }
 }

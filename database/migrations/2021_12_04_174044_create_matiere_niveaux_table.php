@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupeMatieresTable extends Migration
+class CreateMatiereNiveauxTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateGroupeMatieresTable extends Migration
      */
     public function up()
     {
-        
-        Schema::create('groupe_matieres', function (Blueprint $table) {
+        Schema::create('matiere_niveaux', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('numero');
-            $table->unsignedBigInteger('annee_academique_id');
-            $table->foreign('annee_academique_id')->references('id')->on('annee_academiques');
+            $table->unsignedBigInteger('matiere_id');
+            $table->foreign('matiere_id')->references('id')->on('matieres');
             $table->unsignedBigInteger('niveau_id');
             $table->foreign('niveau_id')->references('id')->on('niveaux');
+            $table->unsignedBigInteger('groupe_matiere_id');
+            $table->foreign('groupe_matiere_id')->references('id')->on('groupe_matieres');
+            $table->integer('coefficient');
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateGroupeMatieresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groupe_matieres');
+        Schema::dropIfExists('matiere_niveaux');
     }
 }

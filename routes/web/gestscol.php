@@ -157,7 +157,7 @@ Route::middleware('auth')->group(function(){
         });
 
         // configuratioon des ressources 
-
+        
         Route::prefix('affectations')->group(function(){
             Route::prefix('student')->name('student.')->namespace('Eleves')->group(function(){
                 Route::get('/','EleveClassesController@index')->name('affectations');
@@ -172,5 +172,70 @@ Route::middleware('auth')->group(function(){
                 // Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
             });
         });
+        Route::prefix('parametrages')->name('parametrages.')->group(function(){
+            Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
+                Route::get('/parametrage','MatieresController@indexParametrage')->name('index');
+                Route::post('/parametrage','MatieresController@storeParametrage')->name('index');;
+                Route::prefix('{parametrageSanction}')->group(function(){
+                    Route::get('/parametrage/edit','MatieresController@editParametrage')->name('edit');
+                    Route::post('/parametrage/edit','MatieresController@updateParametrage');
+                    Route::get('/parametrage/delete','MatieresController@deleteParametrage')->name('delete');
+                });
+            });
+     });
+
+         // parametrage des matieres par niveaux 
+        
+         Route::prefix('affectations')->group(function(){
+            Route::prefix('student')->name('student.')->namespace('Eleves')->group(function(){
+                Route::get('/','EleveClassesController@index')->name('affectations');
+                Route::post('/affectations','EleveClassesController@store')->name('addaffectations');
+                Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
+                Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
+            });
+        });
+
+        //gestion des disciplines
+           // ajout et listes des evaluations
+           
+            Route::prefix('sanction')->name('sanctions.')->namespace('Disciplines\Sanctions')->group(function(){
+                Route::get('/','SanctionsController@index')->name('index');
+                Route::get('/add','SanctionsController@create')->name('add');
+                Route::post('/add','SanctionsController@store');
+                Route::prefix('{sanction}')->group(function(){
+                    Route::get('/show','SanctionsController@show')->name('show');
+                    Route::get('/edit','SanctionsController@edit')->name('edit');
+                    Route::post('/edit','SanctionsController@update');
+                    Route::get('/delete','SanctionsController@delete')->name('delete');
+                });
+            });
+              // ajout et listes des parametrages des sanctions
+           
+              Route::prefix('parametragesanction')->name('parametragesanctions.')->namespace('Disciplines\Sanctions')->group(function(){
+                Route::get('/','ParametrageSanctionsController@index')->name('index');
+                Route::post('/','ParametrageSanctionsController@store')->name('index');
+                
+               /* Route::get('/add','ParametrageSanctionsController@create')->name('add');
+                Route::post('/add','ParametrageSanctionsController@store');*/
+                Route::prefix('{parametrageSanction}')->group(function(){
+                    Route::get('/show','ParametrageSanctionsController@show')->name('show');
+                    Route::get('/edit','ParametrageSanctionsController@edit')->name('edit');
+                    Route::post('/edit','ParametrageSanctionsController@update');
+                    Route::get('/delete','ParametrageSanctionsController@delete')->name('delete');
+                });
+            });
+                // ajout et listes des consultations
+           
+                Route::prefix('consultation')->name('consultations.')->namespace('Disciplines\Consultations')->group(function(){
+                    Route::get('/','ConsultationsController@index')->name('index');
+                    Route::get('/add','ConsultationsController@create')->name('add');
+                    Route::post('/add','ConsultationsController@store');
+                    Route::prefix('{consultation}')->group(function(){
+                        Route::get('/show','ConsultationsController@show')->name('show');
+                        Route::get('/edit','ConsultationsController@edit')->name('edit');
+                        Route::post('/edit','ConsultationsController@update');
+                        Route::get('/delete','ConsultationsController@delete')->name('delete');
+                    });
+                });
     });
 });
