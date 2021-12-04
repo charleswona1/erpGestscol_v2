@@ -297,7 +297,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('gestscol.parametrages.matiere.index', $etablissement ) }}"
+                    class="{{ Request::is('gestscol/' . $etablissement->id . '/configurations/matiere') ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-share"></i> Paramétrages des matières
                     </a>
                 </li>
@@ -329,13 +330,17 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('gestscol.sanctions.index', $etablissement) }}"
+                    class="{{ Request::is('gestscol/' . $etablissement->id . '/sanctions/index') ? 'mm-active' : '' }}"
+                    >
                         <i class="metismenu-icon pe-7s-eyedropper">
                         </i>Sanction
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('gestscol.parametragesanctions.index', $etablissement) }}"
+                    class="{{ Request::is('gestscol/' . $etablissement->id . '/parametragesanctions/index') ? 'mm-active' : '' }}"
+                    >
                         <i class="metismenu-icon pe-7s-pendrive">
                         </i>Paramétrage de Sanctions
                     </a>

@@ -35,7 +35,16 @@ class Etablissement extends Model
         
         return $data;
     }
-
+      //recuperer les parametrages de l'établissement en cours
+      public function getParametrageSanctions()
+      {
+          $data = ParametrageSanction::join('cycles', 'parametrage_sanctions.cycle_id', '=', 'cycles.id')
+          ->join('etablissements', 'cycles.etablissement_id', '=', 'etablissements.id')
+          ->where('etablissements.id', $this->id)
+          ->get(['parametrage_sanctions.*']);
+          
+          return $data;
+      }
     public function getClasseAnne(){
         return $this->hasMany(ClasseAnnee::class);
     }
