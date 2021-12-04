@@ -83,7 +83,7 @@
                                         <tr>
                                             <td width="10%">{{$key + 1}}</td>
                                             <td width="80%">{{$enseignant->name}}</td>
-                                            <td><input type="radio" name="enseignant" class="enseignant"  id="{{$enseignant->id}}"></td>
+                                            <td><input type="radio" name="enseignant_annee_id" id="{{$enseignant->id}}"></td>
                                         </tr>
                                     @empty
                                     <tr>
@@ -106,7 +106,7 @@
                                         <div class="row ">
                                             <div class="col-md-8">
                                                 <div class="position-relative form-group">
-                                                    <select name="select" id="classe" class="form-control" required>
+                                                    <select name="select" id="classe" name="classe_annee_id" class="form-control" required>
                                                         <option value="">liste des classes</option>
                                                         @forelse ($classes as $classe)
                                                             <option value="{{$classe->id}}" >{{$classe->name}}</option>

@@ -84,16 +84,16 @@ class Etablissement extends Model
           
           return $data;
       }
-        //recuperer la liste des evaluations d'un établissement en cours et de l'annee en cours
-        public function getEvaluations()
-        {
-            $data = Evaluation::join('annee_academiques', 'evaluations.annee_academique_id', '=', 'annee_academiques.id')
-            ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
-            ->where('etablissements.id', $this->id)
-            ->where('annee_academiques.isdefault', 1)
-            ->get(['evaluations.*']);
-            
-            return $data;
-        }
+    //recuperer la liste des evaluations d'un établissement en cours et de l'annee en cours
+    public function getEvaluations()
+    {
+        $data = Evaluation::join('annee_academiques', 'evaluations.annee_academique_id', '=', 'annee_academiques.id')
+        ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
+        ->where('etablissements.id', $this->id)
+        ->where('annee_academiques.isdefault', 1)
+        ->get(['evaluations.*']);
+        
+        return $data;
+    }
 
 }

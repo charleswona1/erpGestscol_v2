@@ -123,10 +123,12 @@ class MatieresController extends Controller
         $niveaux = $etablissement->getNiveaux;
         $enseignants = EnseignantAnnee::where([['etablissement_id',$etablissement->id],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
         $classes = collect();
+        $matieres = collect();
         $niveauSeleted = "";
         if ($request->niveau) {
             $niveauSeleted = Niveau::find($request->niveau)->id;
             $classes = ClasseAnnee::where([['niveau_id',$request->niveau],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
+            $matieres = MatiereNiveau::where('niveau_id',$request->niveau)->get();
         }
         return view('gestscol.configurations.affectation-matiere',compact('etablissement','niveaux','enseignants','niveauSeleted','classes'));
     }
@@ -137,7 +139,7 @@ class MatieresController extends Controller
         $matiere_niveaux=MatiereNiveau::all();
         return view('gestscol.configurations.parametrage_matiere.index', compact('niveaux', 'matieres', 'matiere_niveaux'));
     }
-    
+
     public function storeParametrage(Etablissement $etablissement,Request $request){
         $data = $request->validate([
             "id_matiere" => 'required',

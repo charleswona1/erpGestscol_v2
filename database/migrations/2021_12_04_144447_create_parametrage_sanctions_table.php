@@ -17,7 +17,7 @@ class CreateParametrageSanctionsTable extends Migration
         
         Schema::create('parametrage_sanctions', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle2');
+            $table->string('libelle');
             $table->integer('valeur');
             $table->integer('valeur2');
             $table->integer('sanction_id2');
