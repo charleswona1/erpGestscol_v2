@@ -45,7 +45,8 @@
                 </div>
             </div>
 
-            <div class="row">
+            {{ html()->form('POST', URL::full())->open() }}
+            <div class="row mb-4">
                 <div class="col-lg-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
@@ -83,7 +84,7 @@
                                         <tr>
                                             <td width="10%">{{$key + 1}}</td>
                                             <td width="80%">{{$enseignant->name}}</td>
-                                            <td><input type="radio" name="enseignant_annee_id" id="{{$enseignant->id}}"></td>
+                                            <td><input type="radio" name="enseignant_annee_id" value="{{$enseignant->id}}" id="{{$enseignant->id}}"></td>
                                         </tr>
                                     @empty
                                     <tr>
@@ -106,7 +107,7 @@
                                         <div class="row ">
                                             <div class="col-md-8">
                                                 <div class="position-relative form-group">
-                                                    <select name="select" id="classe" name="classe_annee_id" class="form-control" required>
+                                                    <select id="classe" name="classe_annee_id" class="form-control" required>
                                                         <option value="">liste des classes</option>
                                                         @forelse ($classes as $classe)
                                                             <option value="{{$classe->id}}" >{{$classe->name}}</option>
@@ -140,24 +141,27 @@
                                     </tr>
                                 </thead>
                                 <tbody id="result-apprenant">
-                            
+                                    @forelse ($matieres as $key => $matiere)
+                                    <tr>
+                                        <td width="10%">{{$key + 1}}</td>
+                                        <td width="80%">{{$matiere->matiere->name}}</td>
+                                        <td><input type="checkbox" value="{{$matiere->id}}" class="matiere_niveau"></td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td class="text-center">Aucun enseignant crée</td>
+                                    </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
+                            <input type="hidden" name="matiere_niveau_id" id="matiereNiveau">
                         </div>
                     </div>
-                    <button class="mt-1 btn btn-secondary"><a href="index.html" style="color:white; text-decoration:none;">Annuler</a></button>
-                    <a href="index.html"><button class="mt-1 btn btn-success">Affecter</button></a>
-                </div>
-                </td>
-                </tr>
-    
-                <tr>
-                    <th scope="row" colspan="5">
-                </tr>
-                </tr>
-                </tbody>
-                </table>
+                    
+                    <button class="mt-1 btn btn-success" type="submit">Affecter</button>
+                </div>   
             </div>
+            {{ html()->form()->close() }}
             <div class="main-card mb-3 card">
     
                 <div class="card-body" class="scroll-area-md">
@@ -165,21 +169,25 @@
                     <table class="mb-0 table table-hover">
                         <thead>
                             <tr>
-    
                                 <th>Matière</th>
                                 <th>Enseignant</th>
-    
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-    
-                                <td width="50%">Anglais</td>
-                                <td>ABAH BIKOA Léonie Caline Neully</td>
-    
-    
-    
-                            </tr>
+                            @php
+                                \Debugbar::info($matieresClasses)
+                            @endphp
+                            @foreach ($matieresClasses as $matiereClasse)
+                                <tr>
+                                    <td width="50%">{{$matiereClasse->Enseignant->name}}</td>
+                                    <td width="40%">{{$matiereClasse->matiereNiveau->matiere->name}}</td>
+                                    <td>
+                                        <a href="" style="color:red;"><i class="fas fa-trash"></i></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            
     
                         </tbody>
                     </table>
@@ -207,122 +215,25 @@
                 selectNiveau("{{route('gestscol.matiere.affectations', $etablissement)}}",niveau)
             });
 
-            $('#result-apprenant').empty();
-            $('#effectif').empty();
-            let classe_id = "";
+            let niveaux = [];
 
-
-            // $('#classe').on('change',function (ev) {
-            //     classe_id = ev.target.value;
-            //     niveau = $('#niveau').val();
-            //     console.log($('#niveau'))
-            //     $.ajax({
-            //         url: "{{route('gestscol.student.eleve-classe',$etablissement)}}",
-            //         type: "POST",
-            //         data:{
-            //             "_token": "{{ csrf_token() }}",
-            //             classe: classe_id,
-            //             niveau: niveau
-            //         },
-
-            //         success:function(response){
-            //             console.log(response);
-            //             let data = ""
-            //             let effectif = "Effectifs : "+response.length
-            //             $('#effectif').append(effectif);
-
-            //             $.each(response, function(key,val){
-            //                 console.log(key+'=='+val);
-            //                 data+=generatTBody(key+1,val?.nom,'<input type="checkbox" class="appClass" name="" id="'+val.id+'">');
-            //             });
-            //             $('#result-apprenant').append(data);
-            //         },
-            //         error: function(errors){
-            //         console.log(errors)
-            //         }
-            //     });
-            // });
-
-            $('#envoyer').on('click',function(){
-                let apprenants = [];
-                $('.appSansClass').each(function(key,val){
-                    if ($(this)[0].checked) {
-                        apprenants.push($(this)[0].id)
-                    }
-                });
-
-                if(apprenants.length == 0){
-                    alert('selectionnez au moins un eleve');
-                    return;
-                }
-                if(classe_id == ""){
-                    alert('selectionnez un classe');
-                    return;
+            $('.matiere_niveau').on('change',function(ev){
+                $('#matiereNiveau').val('');
+                console.log($(this).val());
+                console.log($(this)[0].checked);
+                if ($(this)[0].checked) {
+                    niveaux.push($(this).val());
+                }else{
+                    let val = $(this).val();
+                    niveaux = $.grep(niveaux, function(value) {
+                        return value != val;
+                    });
                 }
 
-                $.ajax({
-                    url: "{{route('gestscol.student.addaffectations',$etablissement)}}",
-                    type: "POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        dataAffectation: apprenants,
-                        classe : classe_id
-                    },
-
-                    success:function(response){
-                        location.reload();
-                    },
-                    error: function(errors){
-                    console.log(errors)
-                    }
-                });
+                console.log(niveaux);
+                $('#matiereNiveau').val(niveaux.toString());
+                console.log($('#matiereNiveau').val());
             });
-
-            $('#remove').on('click',function(){
-                let apprenants = [];
-                $('.appClass').each(function(key,val){
-                    if ($(this)[0].checked) {
-                        apprenants.push($(this)[0].id)
-                    }
-                });
-
-                if(apprenants.length == 0){
-                    alert('selectionnez au moins un eleve');
-                    return;
-                }
-            
-
-                $.ajax({
-                    url: "{{route('gestscol.student.removeaffectations',$etablissement)}}",
-                    type: "POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        dataAffectation: apprenants,
-                        classe : classe_id
-                    },
-
-                    success:function(response){
-                        location.reload();
-                    },
-                    error: function(errors){
-                    console.log(errors)
-                    }
-                });
-            });
-
-        
-
-            var generatTBody = function (...val) {
-                var th = "";
-                var tr = "";
-            
-                for (let i = 0; i < val.length; i++) {
-                    th += '<th>'+val[i]+'</th>';
-                }
-                tr = '<tr>'+th+'</tr>';
-            
-                return tr;
-            }
         </script>
     @endpush
 </x-gest-scol>

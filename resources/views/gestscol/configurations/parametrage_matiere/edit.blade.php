@@ -1,5 +1,5 @@
-<x-gest-scol title="Paramétrage des Matières par Niveau">
-    
+<x-gestscol title="Paramétrage des Matières par Niveau">
+
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title" style="position:relative; top:0%;">
@@ -74,7 +74,8 @@
 
                     <div class="col-md-10">
                         <div class="main-card mb-3 card">
-                            <x-flashback></x-flashback>
+                            <x-flash-back></x-flash-back>
+
                             <div class="card-body ">
                                 {{ html()->form('POST', URL::full())->open() }}
                                 @csrf
@@ -86,10 +87,14 @@
                                                         style="color:red;">*</span></label>
                                                 <select name="niveau_id" class="form-control" required>
                                                     @foreach ($niveaux as $niveau)
-                                                        <option value="{{ $niveau->id }}">{{ $niveau->name }}
-                                                        </option>
+                                                        @if ($niveau->id == $matiereNiveau->niveau_scolaire->id)
+                                                            <option value="{{ $niveau->id }}" selected>
+                                                                {{ $niveau->name }}</option>
+                                                        @else
+                                                            <option value="{{ $niveau->id }}">{{ $niveau->name }}
+                                                            </option>
+                                                        @endif
                                                     @endforeach
-
                                                 </select>
                                             </div>
                                         </td>
@@ -98,11 +103,16 @@
                                                     class="">Matière <span
                                                         style="color:red;">*</span></label>
                                                 <select name="matiere_id" class="form-control" required>
-                                                    @foreach ($matieres as $matiere)
-                                                        <option value="{{ $matiere->id }}">
-                                                            {{ $matiere->name }}</option>
-                                                    @endforeach
 
+                                                    @foreach ($matieres as $matiere)
+                                                        @if ($matiere->id == $matiereNiveau->matiere->id)
+                                                            <option value="{{ $matiere->id }}" selected>
+                                                                {{ $matiere->name }}</option>
+                                                        @else
+                                                            <option value="{{ $matiere->id }}">{{ $matiere->name }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </td>
@@ -110,15 +120,18 @@
                                         <td>
                                             <div class="position-relative form-group">
                                                 <label for="exampleEmail" class="">Coefficient <span
-                                                        style="color:red;">*</span></label><input name="coefficient"
-                                                    placeholder=" " type="float" class="form-control" required>
+                                                        style="color:red;">*</span></label>
+                                                <input name="coefficient" placeholder=" " type="float"
+                                                    value="{{ $matiereNiveau->coefficient }}" class="form-control"
+                                                    required>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="position-relative form-group">
                                                 <label for="exampleEmail" class="">Groupe <span
-                                                        style="color:red;">*</span></label><input
-                                                    name="groupe_matiere_id" placeholder=" " type="number"
+                                                        style="color:red;">*</span></label>
+                                                <input name="groupe_matiere_id" placeholder=" " type="number"
+                                                    value="{{ $matiereNiveau->groupe_matiere_numero() }}"
                                                     class="form-control" required>
                                             </div>
                                         </td>
@@ -129,7 +142,7 @@
 
                                 <button class="mt-1 btn btn-secondary"><a href="classe-liste.html"
                                         style="color:white; text-decoration:none;">Annuler</a></button>
-                                <button class="mt-1 btn btn-success" type="submit">Enregistrer</button>
+                                <button class="mt-1 btn btn-success" type="submit">Modifier</button>
 
                                 {{ html()->form()->close() }}
                             </div>
@@ -177,10 +190,10 @@
                                                     <a href="utilisateur-profil.html"><i
                                                             class="fas fa-eye"></i></i></a>
                                                     <a
-                                                        href="{{ route('gestscol.parametrages.matiere.edit', [$etablissement,$item]) }}"><i
+                                                        href="{{ route('gestscol.parametrages.matiere.edit', [$etablissement, $item]) }}"><i
                                                             class="fas fa-edit"></i></i></a>
                                                     <a href=""><i class="fas fa-print"></i></i></a>
-                                                    <a href="{{ route('gestscol.parametrages.matiere.delete', [$etablissement,$item]) }}"
+                                                    <a href="{{ route('gestscol.parametrages.matiere.delete', [$etablissement, $item]) }}"
                                                         style="color:red;"><i class="fas fa-trash"></i></i></a>
                                                 </td>
                                             </tr>
@@ -207,4 +220,4 @@
                 </div>
 
             </div>
-</x-gest-scol>
+</x-gestscol>

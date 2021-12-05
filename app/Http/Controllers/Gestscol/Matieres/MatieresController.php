@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Gestscol\Matieres;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use App\Models\ClasseAnnee;
+use App\Models\ClasseMatiere;
 use App\Models\EnseignantAnnee;
 use App\Models\Matiere;
 use Illuminate\Http\Request;
@@ -124,13 +125,47 @@ class MatieresController extends Controller
         $enseignants = EnseignantAnnee::where([['etablissement_id',$etablissement->id],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
         $classes = collect();
         $matieres = collect();
+        $matieresClasses = collect();
         $niveauSeleted = "";
         if ($request->niveau) {
             $niveauSeleted = Niveau::find($request->niveau)->id;
             $classes = ClasseAnnee::where([['niveau_id',$request->niveau],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
             $matieres = MatiereNiveau::where('niveau_id',$request->niveau)->get();
+            $matieresClasses = ClasseMatiere::where('etablissement_id',$etablissement->id)->get();
         }
-        return view('gestscol.configurations.affectation-matiere',compact('etablissement','niveaux','enseignants','niveauSeleted','classes'));
+        return view('gestscol.configurations.affectation-matiere',compact('etablissement','niveaux','enseignants','niveauSeleted','classes','matieres','matieresClasses'));
+    }
+
+    public function storeAffectation(Etablissement $etablissement, Request $request){
+    
+        $request->validate([
+            "classe_annee_id" => 'required',
+            "matiere_niveau_id" => 'required',
+            "enseignant_annee_id" => 'required',
+        ]);
+
+        $arrayMatier = explode(',',$request->get('matiere_niveau_id'));
+
+        foreach ($arrayMatier as $id) {
+            $data = [
+                'classe_annee_id' => $request->get("classe_annee_id"),
+                'matiere_niveau_id' => $id,
+                'enseignant_annee_id' => $request->get("enseignant_annee_id"),
+                'etablissement_id'=>$etablissement->id
+            ];
+
+            $affectation = new ClasseMatiere();
+            $affectation->fill($data);
+            if (ClasseMatiere::hasClasseMatiere($request->get("classe_annee_id"), $id,$request->get("enseignant_annee_id")) <= 0) {
+                $affectation->save();
+            }else{
+                Session::flash('warning', "affectation deja prise en compte");
+            }
+        }
+        Session::flash('success', "Les affectations ont été créées avec succès");
+        return redirect()->back();
+          
+
     }
         //parametrage matiere
     public function indexParametrage(Etablissement $etablissement){

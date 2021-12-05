@@ -167,6 +167,7 @@ Route::middleware('auth')->group(function(){
             });
             Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
                 Route::get('/','MatieresController@indexAffectation')->name('affectations');
+                Route::post('/','MatieresController@storeAffectation');
                 // Route::post('/affectations','EleveClassesController@store')->name('addaffectations');
                 // Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
                 // Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
@@ -176,9 +177,9 @@ Route::middleware('auth')->group(function(){
             Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
                 Route::get('/parametrage','MatieresController@indexParametrage')->name('index');
                 Route::post('/parametrage','MatieresController@storeParametrage')->name('index');;
-                Route::prefix('{parametrageSanction}')->group(function(){
+                Route::prefix('{matiereNiveau}')->group(function(){
                     Route::get('/parametrage/edit','MatieresController@editParametrage')->name('edit');
-                    Route::post('/parametrage/edit','MatieresController@updateParametrage');
+                    Route::post('/parametrage/edit','MatieresController@updateParametrage')->name('edit');
                     Route::get('/parametrage/delete','MatieresController@deleteParametrage')->name('delete');
                 });
             });
