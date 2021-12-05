@@ -103,7 +103,7 @@
                                                     class="">Matière <span
                                                         style="color:red;">*</span></label>
                                                 <select name="matiere_id" class="form-control" required>
-
+                                                    
                                                     @foreach ($matieres as $matiere)
                                                         @if ($matiere->id == $matiereNiveau->matiere->id)
                                                             <option value="{{ $matiere->id }}" selected>
@@ -130,9 +130,21 @@
                                             <div class="position-relative form-group">
                                                 <label for="exampleEmail" class="">Groupe <span
                                                         style="color:red;">*</span></label>
-                                                <input name="groupe_matiere_id" placeholder=" " type="number"
+                                                        <select name="groupe_matiere_id" class="form-control" required>
+                                                    
+                                                            @foreach ($groupe_matieres as $groupe_matiere)
+                                                                @if ($groupe_matiere->id == $matiereNiveau->groupe_matiere->id)
+                                                                    <option value="{{ $groupe_matiere->id }}" selected>
+                                                                        {{ $groupe_matiere->name }}</option>
+                                                                @else
+                                                                    <option value="{{ $groupe_matiere->id }}">{{ $groupe_matiere->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                        <!--<input name="groupe_matiere_id" placeholder=" " type="number"
                                                     value="{{ $matiereNiveau->groupe_matiere_numero() }}"
-                                                    class="form-control" required>
+                                                    class="form-control" required>-->
                                             </div>
                                         </td>
                                     </tr>

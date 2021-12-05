@@ -102,7 +102,7 @@
                                                         <option value="{{ $matiere->id }}">
                                                             {{ $matiere->name }}</option>
                                                     @endforeach
-
+                                                
                                                 </select>
                                             </div>
                                         </td>
@@ -110,16 +110,26 @@
                                         <td>
                                             <div class="position-relative form-group">
                                                 <label for="exampleEmail" class="">Coefficient <span
-                                                        style="color:red;">*</span></label><input name="coefficient"
+                                                        style="color:red;">*</span></label>
+                                                
+                                                        <input name="coefficient"
                                                     placeholder=" " type="float" class="form-control" required>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="position-relative form-group">
                                                 <label for="exampleEmail" class="">Groupe <span
-                                                        style="color:red;">*</span></label><input
+                                                        style="color:red;">*</span></label>
+                                                        <select name="groupe_matiere_id" class="form-control" required>
+                                                            @foreach ($groupe_matieres as $groupe_matiere)
+                                                                <option value="{{ $groupe_matiere->id }}">
+                                                                    {{ $groupe_matiere->name }}</option>
+                                                            @endforeach
+                                                        
+                                                        </select>              
+                                                        <!--<input
                                                     name="groupe_matiere_id" placeholder=" " type="number"
-                                                    class="form-control" required>
+                                                    class="form-control" required>-->
                                             </div>
                                         </td>
                                     </tr>
