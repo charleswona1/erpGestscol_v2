@@ -119,12 +119,14 @@ class MatieresController extends Controller
 
     //parametrage matiere
     public function indexParametrage(Etablissement $etablissement){
-        $matieres = $etablissement->getMatieres();        
+        $matieres = $etablissement->getMatieres();  
+        $groupe_matieres=$etablissement->getGroupeMatieres();
+        
         $niveaux =$etablissement->getNiveaux;
         //dd($niveaux);
         $matiere_niveaux=$etablissement->getMatiereNiveau();
        // dd($matiere_niveaux[0]->groupe_matiere);
-        return view('gestscol.configurations.parametrage_matiere.index', compact('niveaux', 'matieres', 'matiere_niveaux','etablissement'));
+        return view('gestscol.configurations.parametrage_matiere.index', compact('niveaux', 'matieres','groupe_matieres', 'matiere_niveaux','etablissement'));
     }
     public function storeParametrage(Etablissement $etablissement,Request $request){
        // dd($request->all());
@@ -149,10 +151,10 @@ class MatieresController extends Controller
     public function editParametrage(Etablissement $etablissement, MatiereNiveau $matiereNiveau){
         $matieres = $etablissement->getMatieres();        
         $niveaux =$etablissement->getNiveaux;
-        //dd($niveaux);
+        $groupe_matieres=$etablissement->getGroupeMatieres();
         $matiere_niveaux=$etablissement->getMatiereNiveau();
        // dd($matiere_niveaux[0]->groupe_matiere);
-        return view('gestscol.configurations.parametrage_matiere.edit', compact('niveaux','matiereNiveau', 'matieres', 'matiere_niveaux','etablissement'));
+        return view('gestscol.configurations.parametrage_matiere.edit', compact('niveaux','matiereNiveau','groupe_matieres', 'matieres', 'matiere_niveaux','etablissement'));
     }
     public function updateParametrage(Etablissement $etablissement, MatiereNiveau $matiereNiveau, Request $request){
         
