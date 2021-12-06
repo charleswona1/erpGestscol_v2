@@ -1,4 +1,4 @@
-<x-gestscol title="Paramétrage des Matières par Niveau">
+<x-gest-scol title="Paramétrage des Matières par Niveau">
 
     <div class="app-main__outer">
         <div class="app-main__inner">
@@ -232,4 +232,4 @@
                 </div>
 
             </div>
-</x-gestscol>
+</x-gest-scol>

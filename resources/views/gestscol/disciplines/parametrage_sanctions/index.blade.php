@@ -1,4 +1,4 @@
-<x-gestscol title="Liste parametrage des sanctions">
+<x-gest-scol title="Liste parametrage des sanctions">
 
     <div class="app-main__outer">
         <div class="app-main__inner">
@@ -226,4 +226,4 @@
                     </div>
                 </div>
             </div>
-</x-gestscol>
+</x-gest-scol>

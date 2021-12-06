@@ -1,4 +1,4 @@
-<x-gestscol title="Création d'une sanction">
+<x-gest-scol title="Création d'une sanction">
 
     <div class="app-main__outer">
         <div class="app-main__inner">
@@ -99,4 +99,4 @@
                 </div>
                 {{ html()->form()->close() }}
 
-</x-gestscol>
+</x-gest-scol>

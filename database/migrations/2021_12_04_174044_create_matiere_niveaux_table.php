@@ -13,6 +13,7 @@ class CreateMatiereNiveauxTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('matiere_niveaux')) return
         Schema::create('matiere_niveaux', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('matiere_id');
