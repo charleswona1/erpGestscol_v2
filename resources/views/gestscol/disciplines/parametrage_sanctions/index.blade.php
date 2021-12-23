@@ -1,16 +1,4 @@
-<x-gestscol title="Liste parametrage des sanctions">
-    <div class="app-page-title" style="position:relative; top:0%;">
-        <div class="page-title-wrapper">
-            <div class="page-title-heading">
-                <div class="page-title-icon">
-                    <i class="pe-7s-news-paper icon-gradient bg-happy-itmeo">
-                    </i>
-                </div>
-                <div>Paramétrage des Sanctions
-                    <!-- <div class="page-title-subheading">Liste des Apprenants.
-                </div> -->
-                </div>
-            </div>
+<x-gest-scol title="Liste parametrage des sanctions">
 
             <div class="page-title-actions">
                 <a href="">
@@ -221,6 +209,10 @@
                     </table>
                 </div>
             </div>
+<<<<<<< HEAD
         </div>
     </div>
 </x-gestscol>
+=======
+</x-gest-scol>
+>>>>>>> 9e2b752ab9bd5b94279da3873774997e59b5e5ae

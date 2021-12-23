@@ -13,7 +13,7 @@ class CreateParametrageSanctionsTable extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('parametrage_sanctions')) return;       //add this line to your database file
+       // if(Schema::hasTable('parametrage_sanctions')) return;       //add this line to your database file
         
         Schema::create('parametrage_sanctions', function (Blueprint $table) {
             $table->id();

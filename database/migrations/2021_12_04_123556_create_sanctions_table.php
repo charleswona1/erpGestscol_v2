@@ -13,7 +13,7 @@ class CreateSanctionsTable extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('sanctions')) return;       //add this line to your database file
+       // if(Schema::hasTable('sanctions')) return;       //add this line to your database file
         
         Schema::create('sanctions', function (Blueprint $table) {
             $table->id();

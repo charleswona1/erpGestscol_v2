@@ -1,4 +1,4 @@
-<x-gestscol title="Paramétrage des Matières par Niveau">
+<x-gest-scol title="Paramétrage des Matières par Niveau">
 
     
             <div class="app-page-title" style="position:relative; top:0%;">
@@ -233,4 +233,4 @@
                 </div>
 
             </div>
-</x-gestscol>
+</x-gest-scol>

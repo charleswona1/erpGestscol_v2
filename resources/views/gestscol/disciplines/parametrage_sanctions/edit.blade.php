@@ -15,7 +15,7 @@
             <div class="page-title-actions">
                 <a href="#">
                     <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal"
-                        data-target=".bd-example-modal-lg"">
+                        data-target=".bd-example-modal-lg">
                     <i class=" fa fa-plus"></i> Nouvelle sanction
                     </button>
                 </a>
@@ -240,6 +240,10 @@
                     </table>
                 </div>
             </div>
+<<<<<<< HEAD
         </div>
     </div>
 </x-gestscol>
+=======
+</x-gest-scol>
+>>>>>>> 9e2b752ab9bd5b94279da3873774997e59b5e5ae

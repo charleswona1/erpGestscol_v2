@@ -90,7 +90,13 @@
                     </div>
 
                 </div>
+<<<<<<< HEAD
             {{ html()->form()->close() }}
         </div>
     </div>
 </x-gestscol>
+=======
+                {{ html()->form()->close() }}
+
+</x-gest-scol>
+>>>>>>> 9e2b752ab9bd5b94279da3873774997e59b5e5ae

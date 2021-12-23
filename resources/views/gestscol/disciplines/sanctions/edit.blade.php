@@ -6,8 +6,8 @@
                     <i class="pe-7s-news-paper icon-gradient bg-premium-dark">
                     </i>
                 </div>
-                <div>Modification d'une sanction
-
+                <div>
+                    Modification d'une sanction
                 </div>
             </div>
             <div class="page-title-actions">
@@ -80,4 +80,8 @@
         </div>
     </div>
             
+<<<<<<< HEAD
 </x-gestscol>
+=======
+            </x-gest-scol>
+>>>>>>> 9e2b752ab9bd5b94279da3873774997e59b5e5ae

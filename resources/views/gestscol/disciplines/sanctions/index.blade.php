@@ -1,14 +1,17 @@
-<x-gestscol title="Liste des Sanctions">
-    <div class="app-page-title" style="position:relative; top:0%;">
-        <div class="page-title-wrapper">
-            <div class="page-title-heading">
-                <div class="page-title-icon">
-                    <i class="pe-7s-news-paper icon-gradient bg-happy-itmeo">
-                    </i>
-                </div>
-                <div>Liste des Sanctions
-                    <!-- <div class="page-title-subheading">Liste des Apprenants.
-                    </div> -->
+<x-gest-scol title="Liste des Sanctions">
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title" style="position:relative; top:0%;">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-news-paper icon-gradient bg-happy-itmeo">
+                        </i>
+                    </div>
+                    <div>Liste des Sanctions
+                       <!-- <div class="page-title-subheading">Liste des Apprenants.
+                        </div> -->
+                    </div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -128,4 +131,4 @@
                 </div>
         </div>
     </div>
-</x-gestscol>
+</x-gest-scol>
