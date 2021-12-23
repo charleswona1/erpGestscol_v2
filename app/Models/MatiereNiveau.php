@@ -27,7 +27,6 @@ class MatiereNiveau extends Model
     public function matiere()
     {
         return $this->belongsTo(Matiere::class,"matiere_id");
-        
     }
 
     //

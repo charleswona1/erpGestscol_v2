@@ -18,7 +18,13 @@
             <x-conf-icon></x-conf-icon>
             <div class="app-main">
                 <x-side-bar></x-side-bar>
-                {{$slot}}
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        <x-nav-inside></x-nav-inside>
+                        {{$slot}}
+                    </div>
+                </div>
+                
             </div>
         </div>
     @endif

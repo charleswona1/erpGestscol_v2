@@ -1,6 +1,5 @@
 <x-gest-scol title="Modification d'un enseignant ">
-    <div class="app-main__outer">
-        <div class="app-main__inner">
+    
             <div class="app-page-title">
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">

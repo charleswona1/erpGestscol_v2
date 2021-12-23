@@ -18,4 +18,8 @@ class ClasseAnnee extends Model
     {
         return $this->belongsTo(Niveau::class, 'niveau_id');
     }
+
+    public function getEnseignant(){
+        return $this->belongsTo(EnseignantAnnee::class,'enseignant_annee_id');
+    }
 }

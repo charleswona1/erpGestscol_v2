@@ -1,7 +1,6 @@
 <x-gestscol title="Paramétrage des Matières par Niveau">
 
-    <div class="app-main__outer">
-        <div class="app-main__inner">
+    
             <div class="app-page-title" style="position:relative; top:0%;">
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">
@@ -74,7 +73,7 @@
 
                     <div class="col-md-10">
                         <div class="main-card mb-3 card">
-                            <x-flash-back></x-flash-back>
+                            <x-flashback></x-flashback>
 
                             <div class="card-body ">
                                 {{ html()->form('POST', URL::full())->open() }}
@@ -96,6 +95,7 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                                <x-errors name="niveau_id"/>
                                             </div>
                                         </td>
                                         <td>
@@ -114,6 +114,7 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                                <x-errors name="matiere_id"/>
                                             </div>
                                         </td>
 
@@ -124,6 +125,7 @@
                                                 <input name="coefficient" placeholder=" " type="float"
                                                     value="{{ $matiereNiveau->coefficient }}" class="form-control"
                                                     required>
+                                                    <x-errors name="coefficient"/>
                                             </div>
                                         </td>
                                         <td>
@@ -142,9 +144,8 @@
                                                                 @endif
                                                             @endforeach
                                                         </select>
-                                                        <!--<input name="groupe_matiere_id" placeholder=" " type="number"
-                                                    value="{{ $matiereNiveau->groupe_matiere_numero() }}"
-                                                    class="form-control" required>-->
+                                                        <x-errors name="groupe_matiere_id"/>
+                                                        
                                             </div>
                                         </td>
                                     </tr>

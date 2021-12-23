@@ -1,7 +1,6 @@
 <x-gest-scol title="Liste des sous périodes">
 
-    <div class="app-main__outer">
-        <div class="app-main__inner">
+    
             <div class="app-page-title" style="position:relative; top:0%;">
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">

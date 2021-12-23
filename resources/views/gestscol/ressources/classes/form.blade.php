@@ -1,6 +1,5 @@
 <x-gest-scol title="Creation des classes">
-    <div class="app-main__outer">
-        <div class="app-main__inner">
+    
             <div class="app-page-title">
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">

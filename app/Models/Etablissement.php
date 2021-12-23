@@ -45,9 +45,9 @@ class Etablissement extends Model
           
           return $data;
       }
-    public function getClasseAnne(){
-        return $this->hasMany(ClasseAnnee::class);
-    }
+    // public function getClasseAnne(){
+    //     return $this->hasMany(ClasseAnnee::class);
+    // }
 
       //recuperer les matières d'un l'établissement en cours et de l'annee en cours
        public function getMatieres()

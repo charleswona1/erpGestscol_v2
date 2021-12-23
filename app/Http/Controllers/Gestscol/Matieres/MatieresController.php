@@ -180,11 +180,12 @@ class MatieresController extends Controller
     }
 
     public function storeParametrage(Etablissement $etablissement,Request $request){
+
         $data = $request->validate([
-            "id_matiere" => 'required',
-            "id_niveau_scolaire" => 'required',
-            "id_groupe_matiere" => 'required',
+            "niveau_id" => 'required',
+            "matiere_id" => 'required',
             "coefficient" => 'required',
+            "groupe_matiere_id" => 'required',
         ]);
         $matiereNiveau = new MatiereNiveau();
         $matiereNiveau->fill($data);

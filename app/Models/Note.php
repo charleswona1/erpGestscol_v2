@@ -5,14 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Matiere extends Model
+class Note extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'abreviation',
-        'name'
-    ];
-
-    
 }

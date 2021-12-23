@@ -1,7 +1,6 @@
 <x-gest-scol title="Liste des Périodes">
 
-    <div class="app-main__outer">
-        <div class="app-main__inner">
+    
             <div class="app-page-title" style="position:relative; top:0%;">
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">
@@ -104,7 +103,7 @@
                                                 </div>
                                             </th>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $etablissement ->nom_periode }}</td>
+                                            <td>{{ $etablissement->nom_periode }}</td>
                                             <td>{{ $periode->startAt }}</td>
                                             <td>{{ $periode->endAt }}</td>
                                             <td>{{ $periode->pourcentage }}</td>

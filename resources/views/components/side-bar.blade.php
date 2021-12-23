@@ -38,8 +38,7 @@
     <div class="scrollbar-sidebar">
         <div class="app-sidebar__inner">
             <h6 class="widget-heading" style="fond-weight:bolder; margin-bottom:30px; color:black; text-align:center;">
-                {{ $etablissement->type_etablissement }} {{ $etablissement->name }} <br>
-                <span style="font-size:0.9em; color:grey;">Année Scolaire 2021-2022</span>
+               
             </h6>
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Tableau de Bord</li>

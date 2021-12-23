@@ -10,6 +10,7 @@ use App\View\Components\SideBar;
 use App\View\Components\ConfIcon;
 use App\View\Components\GestScol;
 use App\View\Components\Errors;
+use App\View\Components\navInside;
 
 
 use Illuminate\Support\Facades\Blade;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component(ConfIcon::class, 'conf-icon');
         Blade::component(GestScol::class, 'gest-scol');
         Blade::component(Errors::class, 'errors');
+        Blade::component(navInside::class, 'nav-inside');
 
         Schema::defaultStringLength(191);
     }

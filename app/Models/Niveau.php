@@ -13,4 +13,8 @@ class Niveau extends Model
     public function cycles(){
         return $this->belongsTo(Cycle::class,"cycle_id");
     }
+
+    public function MatierNiveau(){
+        return $this->hasMany(MatiereNiveau::class,"niveau_id");
+    }
 }
