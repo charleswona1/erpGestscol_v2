@@ -95,10 +95,14 @@
                                 <td>
                                     <div class="position-relative form-group"><label for="exampleSelect" class="">Classe <span
                                                 style="color:red;">*</span></label>
-                                        <select name="classe_annee_id" id="classeAnneeId" class="form-control" required>
+                                        <select name="classe_annee_id" id="classeAnneeId" class="form-control" disabled>
                                             <option value="">selectionnez une classe</option>
                                             @foreach ($classes as $classe)
-                                                <option value="{{$classe->id}}">{{$classe->getNiveau->name}}{{$classe->name}}</option>
+                                                <option value="{{$classe->id}}" 
+                                                    @if ($evaluationPeriode->classe_annee_id == $classe->id)
+                                                        selected
+                                                    @endif
+                                                    >{{$classe->getNiveau->name}}{{$classe->name}}</option>
                                             @endforeach
 
                                         </select>
@@ -107,18 +111,22 @@
                                 <td>
                                     <div class="position-relative form-group"><label for="matiere_niveau" class="">Matière <span
                                                 style="color:red;">*</span></label>
-                                        <select name="matiere_niveau_id" id="matiere_niveau" class="form-control" disabled required>
-                                            <option>Selectionnez une matiere</option>
+                                        <select name="matiere_niveau_id" id="matiere_niveau" class="form-control" disabled >
+                                            <option>{{$evaluationPeriode->MatiereNiveau->matiere->name}}</option>
                                         </select>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="position-relative form-group"><label for="periodeId" class="">Période <span
                                                 style="color:red;">*</span></label>
-                                        <select name="periode_id" id="periodeId" class="form-control" required>
+                                        <select name="periode_id" id="periodeId" class="form-control" disabled>
                                             <option value="">selectionnez une periode</option>
                                             @foreach ($periodes as $periode)
-                                                <option value="{{$periode->id}}">{{$periode->numero}}</option>
+                                                <option value="{{$periode->id}}" 
+                                                    @if ($evaluationPeriode->periode_id == $periode->id)
+                                                        selected
+                                                    @endif
+                                                    >{{$periode->numero}}</option>
                                             @endforeach
 
                                         </select>
@@ -127,8 +135,8 @@
                                 <td>
                                     <div class="position-relative form-group"><label for="sous_periode" class="">Sous-Période<span
                                                 style="color:red;">*</span></label>
-                                        <select name="sous_periode_id" id="sous_periode" class="form-control" disabled required>
-                                            <option>Sélectionner un sous periode</option>
+                                        <select name="sous_periode_id" id="sous_periode" class="form-control" disabled >
+                                            <option>{{$evaluationPeriode->SousPeriode->numero}}</option>
                                         </select>
                                     </div>
                                 </td>
@@ -137,10 +145,14 @@
                                 <td>
                                     <div class="position-relative form-group"><label for="evaluation_id" class="">Evaluation <span
                                                 style="color:red;">*</span></label>
-                                        <select name="evaluation_id" id="evaluation_id" class="form-control" required>
+                                        <select name="evaluation_id" id="evaluation_id" class="form-control" disabled>
                                             <option value="">selectionnez une evaluation</option>
                                             @foreach ($evaluations as $evaluation)
-                                                <option value="{{$evaluation->id}}">{{$evaluation->name}}</option>
+                                                <option value="{{$evaluation->id}}"
+                                                    @if ($evaluationPeriode->evaluation_id == $evaluation->id)
+                                                        selected
+                                                    @endif
+                                                    >{{$evaluation->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -149,15 +161,14 @@
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail" class="">Barème <span
                                                 style="color:red;">*</span></label>
-                                        <input name="bareme" id="bareme" placeholder=" " type="number" class="form-control" required>
+                                        <input name="bareme" id="bareme" placeholder="{{$evaluationPeriode->bareme}}" type="number" class="form-control" disabled>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="position-relative form-group">
                                         <label for="date_evaluation" class="">Date <span
                                                 style="color:red;">*</span></label>
-                                        <input name="date_evaluation" id="date_evaluation" placeholder=" " type="date" class="form-control"
-                                            required>
+                                        <input name="date_evaluation" id="date_evaluation" placeholder="" value="{{$evaluationPeriode->date_evaluation}}" type="date" class="form-control" disabled>
                                     </div>
                                 </td>
 
@@ -165,20 +176,51 @@
                                     <div class="position-relative form-group">
                                         <label for="commentataire" class="">Commentaires <span
                                                 style="color:red;"> </span></label>
-                                        <input name="commentataire" id="commentataire" placeholder=" " type="text" class="form-control">
+                                        <input name="commentataire" id="commentataire" placeholder="{{$evaluationPeriode->commentataire}}" type="text" class="form-control" disabled>
                                     </div>
                                 </td>
                             </tr>
                         </table>
-                        <button class="mt-1 btn btn-light" type="button" id="saveEvaluation">Saisir Notes</button>
                     </div>
                 </div>
 
                 
                 <div class="main-card mb-3 card" id="result-eleve">
-
+                   <div class="card-body" class="scroll-area-md">
+                       <table class="mb-0 table table-hover">
+                            <thead>
+                                <tr> 
+                                    <th>N°</th> 
+                                    <th>Nom de l'apprenant</th> 
+                                    <th>Note /{{$evaluationPeriode->bareme}}</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($elevesClasse as $key=>$eleve)
+                                    <tr>
+                                        <th>{{$key + 1}}</th>
+                                        <th>{{$eleve->nom}}</th>
+                                        <th>
+                                           
+                                            <input 
+                                            type="number" 
+                                            name="fieldStudent" 
+                                            step="0.01" min="0"  
+                                            data-key="{{($eleve->noteByEvaluation($evaluationPeriode->id) !== null)?$eleve->noteByEvaluation($evaluationPeriode->id)->id:null}}" 
+                                            max="{{$evaluationPeriode->bareme}}" 
+                                            id="{{$eleve->id}}" 
+                                            value="{{($eleve->noteByEvaluation($evaluationPeriode->id) !== null)?$eleve->noteByEvaluation($evaluationPeriode->id)->note:0.00}}" 
+                                            class="form-control fieldStudent"/>
+                                        </th>
+                                    </tr>
+                                @empty
+                                    
+                                @endforelse
+                            </tbody>
+                       </table>
+                    </div>
                 </div>
-                <button class="mt-1 btn btn-success d-none" type="button" id="saveNote">Enregistrer</button>
+                <button class="mt-1 btn btn-success" type="button" id="updateNote">Enregistrer</button>
                 
             </div>
         </div>
@@ -187,144 +229,18 @@
 
     @push('javascripts')
         <script>
-            $('#result-eleve').empty();
-            let evaluationPeriode = "";
             let notes = [];
-            $('#classeAnneeId').on('change',function(ev){
-                classeAnneId = ev.target.value;
-                $.ajax({
-                    url: "{{route('gestscol.notes.matiere-classe',$etablissement)}}",
-                    type: "GET",
-                    data:{
-                        "classeAnneId": classeAnneId,
-                    },
-
-                    success:function(response){
-                        console.log(response);
-                        let data = ""
-                        
-                        $('#matiere_niveau').empty();
-                        $('#matiere_niveau').prop("disabled", false);
-
-                        data += "<option>Selectionnez une matiere</option>";
-                        $.each(response, function(key,val){
-                            data+="<option value="+val.id+">"+val.name+"</option>";
-                        });
-                       
-                        $('#matiere_niveau').append(data);
-                       
-                    },
-                    error: function(errors){
-                       console.log(errors);
-                       $('#matiere_niveau').prop("disabled", true);
-                    }
+            $('#updateNote').on('click',function(){
+                $('.fieldStudent').each(function(index){
+                    note = {
+                        "id": $(this)[0].attributes['data-key'].value,
+                        "note": $(this)[0].value ,
+                        "eleve_classe_id": $(this)[0].id,
+                        "evaluation_periode_id": "{{$evaluationPeriode->id}}"
+                    };
+                    notes.push(note);
                 });
-            });
-
-            $('#periodeId').on('change',function(ev){
-                periodeId = ev.target.value;
-                $.ajax({
-                    url: "{{route('gestscol.notes.sous-periode',$etablissement)}}",
-                    type: "GET",
-                    data:{
-                        "periodeId": periodeId,
-                    },
-
-                    success:function(response){
-                        console.log(response);
-                        let data = ""
-                        
-                        $('#sous_periode').empty();
-                        $('#sous_periode').prop("disabled", false);
-
-                        data += "<option>Selectionnez une sous periode</option>";
-                        $.each(response, function(key,val){
-                            data+="<option value="+val.id+">"+val.numero+"</option>";
-                        });
-                       
-                        $('#sous_periode').append(data);
-                       
-                    },
-                    error: function(errors){
-                       console.log(errors);
-                       $('#sous_periode').prop("disabled", true);
-                    }
-                });
-            });
-
-            $('#saveEvaluation').on('click',function(){
-                let classeAnnee = $('#classeAnneeId').val();
-                let matiereNiveau = $('#matiere_niveau').val();
-                let periodeId = $('#periodeId').val();
-                let sousPeriode = $('#sous_periode').val();
-                let evaluation= $('#evaluation_id').val();
-                let bareme = $('#bareme').val();
-                let dateEvaluation = $('#date_evaluation').val();
-                let commentataire = $('#commentataire').val();
-
-                if(classeAnnee == ""|| matiereNiveau=="" || periodeId=="" || sousPeriode=="" || evaluation=="" || bareme == "" || dateEvaluation == "" ){
-                    alert('Parameter failure');
-                }else{
-
-                    $.ajax({
-                    url: "{{route('gestscol.notes.save_evaluation_periode',$etablissement)}}",
-                    type: "POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        "classe_annee_id":classeAnnee,
-                        "matiere_niveau_id": matiereNiveau,
-                        "periode_id": periodeId,
-                        "sous_periode_id": sousPeriode,
-                        "date_evaluation": dateEvaluation,
-                        "evaluation_id":evaluation,
-                        "bareme": bareme,
-                        "commentataire": commentataire
-                    },
-
-                    success:function(response){
-                        console.log(response);  
-                        evaluationPeriode = response.evaluationPeriode;
-                        let data = "";
-                        data += '<div class="card-body" class="scroll-area-md">';
-                        data += '<table class="mb-0 table table-hover">';
-                        data += '<thead>';
-                        data += '<tr> <th>N</th> <th>Nom de l\'Apprenant</th> <th>Note /'+evaluationPeriode.bareme+'</th> </tr>';
-                        data += '</thead>';
-                        data += '<tbody>';
-                            $.each(response.elevesClasse, function(key,val){
-                                let note = {
-                                    "note": 0.00,
-                                    "eleve_classe_id": val.id,
-                                    "evaluation_periode_id": evaluationPeriode.id
-                                };
-
-                                notes.push(note);
-
-                                data += generatTBody(key+1, val.nom, '<input type="number" data-key="'+key+'" name="fieldStudent" step="0.01" min="0" value="0.00" max="'+evaluationPeriode.bareme+'" id="'+val.id+'" class="form-control fieldStudent"/>' )
-                            });
-                        data += '</tbody>';
-                        data += '</table>';
-                        data += '</div>';
-                   
-                        $('#saveNote').removeClass("d-none");
-                        $('#result-eleve').append(data);
-                        $('#jsonData').val(notes.toString());
-
-                    },
-                    error: function(errors){
-                       console.log(errors);
-                       $('#result-eleve').empty();
-                    }
-                });
-                }
-            });
-
-            $('#saveNote').on('click',function(){
-                $.each(notes, function(key, elt){
-                    let inpute = $('input[data-key="'+key+'"]');
-                    notes[key].note = inpute.val();
-                });
-
+                console.log(notes);
                 $.ajax({
                     url: "{{route('gestscol.notes.saveNote',$etablissement)}}",
                     type: "POST",
@@ -350,21 +266,7 @@
                     }
                 });
 
-            });
-
-            var generatTBody = function (...val) {
-                var th = "";
-                var tr = "";
-               
-                for (let i = 0; i < val.length; i++) {
-                     th += '<th>'+val[i]+'</th>';
-                }
-                tr = '<tr>'+th+'</tr>';
-               
-                return tr;
-            }
-
-
+            })
         </script>
     @endpush
 </x-gest-scol>

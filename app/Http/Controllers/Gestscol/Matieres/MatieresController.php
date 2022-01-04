@@ -145,7 +145,8 @@ class MatieresController extends Controller
         ]);
 
         $arrayMatier = explode(',',$request->get('matiere_niveau_id'));
-
+        \Debugbar::info($etablissement);
+        
         foreach ($arrayMatier as $id) {
             $data = [
                 'classe_annee_id' => $request->get("classe_annee_id"),
@@ -153,7 +154,7 @@ class MatieresController extends Controller
                 'enseignant_annee_id' => $request->get("enseignant_annee_id"),
                 'etablissement_id'=>$etablissement->id
             ];
-
+            
             $affectation = new ClasseMatiere();
             $affectation->fill($data);
             if (ClasseMatiere::hasClasseMatiere($request->get("classe_annee_id"), $id,$request->get("enseignant_annee_id")) <= 0) {
@@ -164,8 +165,12 @@ class MatieresController extends Controller
         }
         Session::flash('success', "Les affectations ont été créées avec succès");
         return redirect()->back();
-          
+    }
 
+    public function deleteAffectionMatiere(Etablissement $etablissement,ClasseMatiere $classeMatiere ){
+        $classeMatiere->delete();
+        Session::flash('success','la matiere a bien été supprimée');
+        return redirect()->back();
     }
         //parametrage matiere
     public function indexParametrage(Etablissement $etablissement){

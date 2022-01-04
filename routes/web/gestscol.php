@@ -168,9 +168,9 @@ Route::middleware('auth')->group(function(){
             Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
                 Route::get('/','MatieresController@indexAffectation')->name('affectations');
                 Route::post('/','MatieresController@storeAffectation');
-                // Route::post('/affectations','EleveClassesController@store')->name('addaffectations');
-                // Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
-                // Route::post('/eleve-classe','EleveClassesController@getEleveClasse')->name('eleve-classe');
+                Route::prefix('{classeMatiere}')->name('affectations.')->group(function(){
+                    Route::get('/delete','MatieresController@deleteAffectionMatiere')->name('delete');
+                });
             });
         });
         Route::prefix('parametrages')->name('parametrages.')->group(function(){
@@ -188,7 +188,8 @@ Route::middleware('auth')->group(function(){
             // parametrage des matieres par niveaux 
         
         Route::prefix('affectations')->group(function(){
-            Route::prefix('student')->name('student.')->namespace('Eleves')->group(function(){
+            Route::prefix('student')->name('student.')->namespace('Eleves'
+            )->group(function(){
                 Route::get('/','EleveClassesController@index')->name('affectations');
                 Route::post('/affectations','EleveClassesController@store')->name('addaffectations');
                 Route::post('/removeaffectations','EleveClassesController@remove')->name('removeaffectations');
@@ -245,9 +246,15 @@ Route::middleware('auth')->group(function(){
             Route::get('/','NotesController@Saisie')->name('saisie-note');
             Route::get('/gestion-avance','NotesController@gestionAvance')->name('gestion-avance');
             Route::get('/matiere-classe','NotesController@getMatiereFromClasse')->name('matiere-classe');
+            Route::get('/ensaigant-matiere','NotesController@getEnseignant')->name('ensaigant-matiere');
             Route::get('/sous-periode','NotesController@getSousPeriode')->name('sous-periode');
+            Route::get('/get-evaluation-periode','NotesController@getEvaluationPeriode')->name('get-evaluation-periode');
             Route::post('/save_evaluation_periode','NotesController@saveEvaluationPeriode')->name('save_evaluation_periode');
             Route::post('/save_note','NotesController@saveNote')->name('saveNote');
+            Route::post('/update-evaluation','NotesController@updateEvalution')->name('update-evaluation');
+            Route::prefix('{evaluation}')->group(function(){
+                Route::get('/edit','NotesController@editSaisie')->name('edit');
+            });
         });
     });
 });

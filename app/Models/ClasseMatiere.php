@@ -14,6 +14,7 @@ class ClasseMatiere extends Model
         'classe_annee_id', 
         'matiere_niveau_id',
         'enseignant_annee_id',
+        'etablissement_id'
     ];
 
     public static function hasClasseMatiere($class_annee_id,$matiere_niveau_id,$enseignant_annee_id){

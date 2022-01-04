@@ -182,7 +182,7 @@
                             <td width="50%">{{$matiereClasse->Enseignant->name}}</td>
                             <td width="40%">{{$matiereClasse->matiereNiveau->matiere->name}}</td>
                             <td>
-                                <a href="" style="color:red;"><i class="fas fa-trash"></i></i></a>
+                                <a href="{{ route('gestscol.matiere.affectations.delete', [$etablissement,'classeMatiere'=>$matiereClasse]) }}" style="color:red;"><i class="fas fa-trash"></i></i></a>
                             </td>
                         </tr>
                     @endforeach

@@ -72,6 +72,24 @@
             </div>
         </div>
     </div>
+    <div class="alert alert-success alert-dismissible fade show d-none" id="alert-success" role="alert">
+        Les notes de l'élèves sur cette periode on ete créé correctement
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="alert alert-danger alert-dismissible fade show d-none" id="alert-danger" role="alert">
+        Une erreur c'est produite la procedure a été intérompue
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show d-none" id="alert-warning" role="alert">
+        Le pourcentage de cette periode ou sous periode doit etre égale à 100%
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="col-md-12">
@@ -90,11 +108,6 @@
                                                     <select name="classe_annee_id" id="classeAnneeId" class="form-control" required>
                                                         <option value="">selectionnez une classe</option>
                                                         @foreach ($classes as $classe)
-
-                                                            {{-- @php
-                                                                $enseignant = $classe->getEnseignant->name;
-                                                            @endphp --}}
-
                                                             <option value="{{$classe->id}}">{{$classe->getNiveau->name}}{{$classe->name}}</option>
                                                         @endforeach
             
@@ -102,60 +115,42 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="position-relative form-group"><label
-                                                for="exampleSelect" class="">Matière <span
-                                                    style="color:red;">*</span></label>
-                                            <select name="select" id="exampleSelect"
-                                                class="form-control" required>
-                                                <option>Anglais</option>
-                                                <option>Mathématiques</option>
-                                                <option>Littérature</option>
-                                                <option>Histoire</option>
-
-                                                <option>SVT</option>
-                                                <option>Espagnol</option>
-                                                <option>Expression Ecrite</option>
-
+                                        <div class="position-relative form-group">
+                                            <label for="exampleSelect" class="">Matière 
+                                                <span style="color:red;">*</span>
+                                            </label>
+                                            <select name="matiere_niveau_id" id="matiere_niveau" class="form-control" disabled required>
+                                                <option>Selectionnez une matiere</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="position-relative form-group">
-                                            <label for="exampleEmail" class="">Enseignant <span
-                                                    style="color:red;"> </span></label><input
-                                                name="enseignant" id="exampleEmail"
-                                                placeholder="{{$enseignant}}" type="text"
-                                                class="form-control" disabled>
+                                            <label for="exampleEmail" class="">Enseignant <span style="color:red;"> </span></label>
+                                            <input name="enseignant" id="enseignant" placeholder="" type="text" class="form-control" disabled>
                                         </div>
                                     </td>
 
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div class="position-relative form-group"><label
-                                                for="exampleSelect" class="">Limitation <span
-                                                    style="color:red;">*</span></label>
-                                                    <select name="periode_id" id="periodeId" class="form-control" required>
-                                                        <option value="">selectionnez une periode</option>
-                                                        @foreach ($periodes as $periode)
-                                                            <option value="{{$periode->id}}">{{$periode->numero}}</option>
-                                                        @endforeach
-                                                    </select>
+                                        <div class="position-relative form-group">
+                                            <label for="exampleSelect" class="">Limitation <span style="color:red;">*</span></label>
+                                                <select name="periode_id" id="periodeId" class="form-control" required disabled>
+                                                    <option value="">selectionnez une periode</option>
+                                                    @foreach ($periodes as $periode)
+                                                        <option value="{{$periode->id}}">{{$periode->numero}}</option>
+                                                    @endforeach
+                                                </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="position-relative form-group"><label
                                                 for="exampleSelect" class="">Choix <span
                                                     style="color:red;">*</span></label>
-                                            <select name="select" id="exampleSelect"
-                                                class="form-control" required>
-                                                <option>Séquence 1</option>
-                                                <option>Séquence 2</option>
-                                                <option>Séquence 3</option>
-                                                <option>Séquence 4</option>
-                                                <option>Séquence 5</option>
-                                                <option>Séquence 6</option>
-                                            </select>
+                                                <select name="sous_periode_id" id="sous_periode" class="form-control" disabled required>
+                                                    <option>Sélectionner un sous periode</option>
+                                                </select>
                                         </div>
                                     </td>
                                 </tr>
@@ -163,89 +158,376 @@
                         </form>
                     </div>
                 </div>
+                
 
+                <div id="evaluationPeriode">
 
-                <div class="main-card mb-3 card">
-
-                    <div class="card-body" class="scroll-area-md">
-                        <!-- <h5 class="card-title">Table with hover</h5> -->
-                        <table class="mb-0 table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Evaluation</th>
-                                    <th>Date</th>
-                                    <th>Barème</th>
-                                    <th>SP</th>
-                                    <th>P</th>
-                                    <th>%SP</th>
-                                    <th>%P</th>
-                                    <th>Moy</th>
-                                    <th>Max</th>
-                                    <th>Min</th>
-                                    <th>Effectif</th>
-                                    <th>qMoy</th>
-                                    <th>%Moy</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-
-                                    <td>1</td>
-                                    <td>Devoir Surveillé</td>
-                                    <td>10/12/2021</td>
-                                    <td>20</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td> <input style="width:100%;" type="text" /></td>
-                                    <td> <input style="width:100%;" type="text" /></td>
-                                    <td>9,01</td>
-                                    <td>19.0</td>
-                                    <td>1.5</td>
-                                    <td>89</td>
-                                    <td>40</td>
-                                    <td>44</td>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-
-                                    <td>2</td>
-                                    <td>Note du Cahier</td>
-                                    <td>10/12/2021</td>
-                                    <td>20</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td> <input style="width:100%;" type="text" /></td>
-                                    <td> <input style="width:100%;" type="text" /></td>
-                                    <td>9,01</td>
-                                    <td>19.0</td>
-                                    <td>1.5</td>
-                                    <td>89</td>
-                                    <td>40</td>
-                                    <td>44</td>
-                                    <td> </td>
-                                </tr>
-
-                                <tr>
-                                    <th scope="row" colspan="5">
-                                </tr>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="mt-1 btn btn-warning"><a href="periodes-liste.html"
-                                style="color:white; text-decoration:none;">Consulter</a></button>
-                        <a href="periodes-liste.html"><button
-                                class="mt-1 btn btn-secondary">Modifier</button></a>
-                        <button class="mt-1 btn btn-success"><a href="periodes-liste.html"
-                                style="color:white; text-decoration:none;">Enregistrer</a></button>
-                        <a href="periodes-liste.html"><button
-                                class="mt-1 btn btn-danger">Supprimer</button></a>
-                        <a href="periodes-liste.html"><button
-                                class="mt-1 btn btn-light">Annuler</button></a>
-                    </div>
+                  
                 </div>
             </div>
         </div>
     </div>
+    
+    <script>
+        function goTo(requestUrl,id) {
+            if (id === null) {
+
+            } else {
+                requestUrl += ("?niveau=" + id)
+                window.location = requestUrl;
+            }
+        }
+    </script>
+
+    @push('javascripts')
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $('#evaluationPeriode').empty();
+                let idMatierAnnee = "";
+                let idClasseAnnee = "";
+
+                $('#classeAnneeId').on('change',function(ev){
+                    classeAnneId = ev.target.value;
+                    $('#evaluationPeriode').empty();
+                    $('#periodeId').prop('selectedIndex',0)
+                    $('#periodeId').prop('disabled',true)
+                    $('#sous_periode').empty();
+                    idMatierAnnee = "";
+                    $.ajax({
+                        url: "{{route('gestscol.notes.matiere-classe',$etablissement)}}",
+                        type: "GET",
+                        data:{
+                            "classeAnneId": classeAnneId,
+                        },
+
+                        success:function(response){
+                            console.log(response);
+                            let data = ""
+                            idClasseAnnee = ev.target.value;
+                            $('#matiere_niveau').empty();
+                            $('#matiere_niveau').prop("disabled", false);
+
+                            data += "<option>Selectionnez une matiere</option>";
+                            $.each(response, function(key,val){
+                                data+="<option value="+val.id+">"+val.name+"</option>";
+                            });
+                        
+                            $('#matiere_niveau').append(data);
+                        
+                        },
+                        error: function(errors){
+                        console.log(errors);
+                        $('#matiere_niveau').prop("disabled", true);
+                        location.reload();
+                        }
+                    });
+                }); 
+
+                $('#matiere_niveau').on('change',function(ev){
+                    matiereAnne = ev.target.value;
+                    $('#evaluationPeriode').empty();
+                    $('#periodeId').prop('selectedIndex',0)
+                    $('#sous_periode').empty();
+                    idMatierAnnee = "";
+                    $.ajax({
+                        url: "{{route('gestscol.notes.ensaigant-matiere',$etablissement)}}",
+                        type: "GET",
+                        data:{
+                            "matiereAnne": matiereAnne,
+                        },
+
+                        success:function(response){
+                            console.log(response);
+                            let data = ""
+                            idMatierAnnee = matiereAnne;
+                            $('#enseignant').prop("placeholder", response.name);
+                            $('#periodeId').prop("disabled", false);
+                        },
+                        error: function(errors){
+                        console.log(errors);
+                        $('#enseignant').prop("placeholder", "");
+                        $('#periodeId').prop("disabled", true);
+                        location.reload();
+                        }
+                    });
+                }); 
+
+                $('#periodeId').on('change',function(ev){
+                    periodeId = ev.target.value;
+                    $('#evaluationPeriode').empty();
+                    $.ajax({
+                        url: "{{route('gestscol.notes.sous-periode',$etablissement)}}",
+                        type: "GET",
+                        data:{
+                            "periodeId": periodeId,
+                            "isAvance": true,
+                            "matiereAnne": idMatierAnnee,
+                            "classeAnneId": idClasseAnnee,
+                        },
+
+                        success:function(response){
+                            console.log(response);
+                            let data = "";
+                            let table = "";
+                            
+                            $('#sous_periode').empty();
+                            $('#sous_periode').prop("disabled", false);
+
+                            data += "<option>Selectionnez une sous periode</option>";
+                            $.each(response.sousPeriodes, function(key,val){
+                                data+="<option value="+val.id+">"+val.numero+"</option>";
+                            });
+                            $('#sous_periode').append(data);
+
+                            if (response.evaluations.length > 0) {
+                                    var tb = "";
+
+                                    var th = generateRowTh("","No","Evaluation","Date","Barème","SP","P","%SP","%P","Moy","Max","Min","Effectif","qMoy","%Moy");
+                                    $.each(response.evaluations, function (i, evaluation) {
+                                    
+                                        tb += generatTBody(
+                                            '<input type="radio" data-key="'+evaluation.id+'" name="evaluation" id="evaluation">',
+                                            i+1,
+                                            evaluation.evalutionName,
+                                            evaluation.date_evaluation,
+                                            evaluation.bareme,
+                                            evaluation.spName,
+                                            evaluation.pName,
+                                            '<input style="width:100%;" id="spPourcent" type="number" min="0" max="100" step="0.1" disabled/>',
+                                            '<input style="width:100%;" data-key="'+evaluation.id+'" value="'+evaluation.pourcentage_periode+'" class="pPourcent" id="pPourcent" type="number" min="0" max="100" step="0.1"/>',
+                                            evaluation.moy,
+                                            evaluation.max,
+                                            evaluation.min,
+                                            evaluation.effectif,
+                                            evaluation.qMoy,
+                                            evaluation.pMoy+" %");
+                                    });
+
+                                    table +=generateMultiColumnTable(th,tb,"Resultat sur les pros");
+                                    $('#evaluationPeriode').append(table);
+                                    let evalution_id = 0;
+
+                                    $('#updateNote').on('click',function(){
+                                        $('.evaluation').each(function(key,val){
+                                            if ($(this)[0].checked) {
+                                                evalution_id = $(this)[0].id
+                                            }
+                                        });
+                                        if(evalution_id != 0){
+                                            etablissement = "{{$etablissement->id}}";
+                                            base_url = window.location.origin;
+                                            url = "gestscol/"+etablissement+"/note/"+evalution_id+"/edit";
+                                            window.location = base_url+"/"+ url;
+                                        }
+                                        
+                                    });
+
+                                    $('#saveEvaPeriode').on('click',function(){
+                                        let evaluationPeriodes = [];
+                                        let pSomme = 0;
+                                        $('#alert-warning').addClass("d-none");
+
+                                       
+                                        $('.pPourcent').each(function(){
+                                            evaluation = {
+                                                "id": $(this)[0].attributes['data-key'].value,
+                                                "p": $(this)[0].value ,
+                                            };
+                                            evaluationPeriodes.push(evaluation);
+                                            pSomme = pSomme + parseInt($(this)[0].value);
+                                        });
+
+                                        if (spSomme !== 100) {
+                                            $('#alert-warning').removeClass("d-none");
+                                        } else {
+                                            $.ajax({
+                                                url: "{{route('gestscol.notes.update-evaluation',$etablissement)}}",
+                                                type: "POST",
+                                                data:{
+                                                    "_token": "{{ csrf_token() }}",
+                                                    "evaluationPeriode":evaluationPeriodes
+                                                },
+
+                                                success:function(response){
+                                                    console.log(response);  
+                                                    $('#alert-success').removeClass("d-none");
+                                                },
+                                                error: function(errors){
+                                                console.log(errors);
+                                                $('#alert-danger').removeClass("d-none");
+                                                    setTimeout(() => {
+                                                        location.reload(); 
+                                                    }, 1000);
+                                                }
+                                            });
+                                        }
+                                    });
+                            }
+                        },
+                        error: function(errors){
+                        console.log(errors);
+                        $('#sous_periode').prop("disabled", true);
+                        location.reload();
+                        }
+                    });
+                });
+
+                $('#sous_periode').on('change',function(ev){
+                    sousPeriodeId = ev.target.value;
+                    $('#evaluationPeriode').empty();
+                    $.ajax({
+                        url: "{{route('gestscol.notes.get-evaluation-periode',$etablissement)}}",
+                        type: "GET",
+                        data:{
+                            "sousPeriodeId": sousPeriodeId,
+                            "matiereAnne": idMatierAnnee,
+                            "classeAnneId": idClasseAnnee,
+                        },
+
+                        success:function(response){
+                            console.log(response);
+                            let table = "";
+
+                            if (response.length > 0) {
+                                    var tb = "";
+                                    var th = generateRowTh("","No","Evaluation","Date","Barème","SP","P","%SP","%P","Moy","Max","Min","Effectif","qMoy","%Moy");
+                                    $.each(response, function (i, evaluation) {
+                                        tb += generatTBody(
+                                            '<input type="radio" class="evaluation" data-key="'+evaluation.id+'" name="evaluation" id="'+evaluation.id+'">',
+                                            i+1,
+                                            evaluation.evalutionName,
+                                            evaluation.date_evaluation,
+                                            evaluation.bareme,
+                                            evaluation.spName,
+                                            evaluation.pName,
+                                            '<input style="width:100%;" data-key="'+evaluation.id+'" id="spPourcent" type="number" min="0" max="100" value="'+evaluation.pourcentage_sous_periode+'" class="spPourcent" step="0.1"/>',
+                                            '<input style="width:100%;" data-key="'+evaluation.id+'" id="pPourcent" type="number" min="0" max="100" step="0.1" disabled/>',
+                                            evaluation.moy,
+                                            evaluation.max,
+                                            evaluation.min,
+                                            evaluation.effectif,
+                                            evaluation.qMoy,
+                                            evaluation.pMoy+" %");
+                                    });
+
+                                    table +=generateMultiColumnTable(th,tb,"Resultat sur les pros");
+                                    $('#evaluationPeriode').append(table);
+                                    let evalution_id = 0;
+
+                                    $('#updateNote').on('click',function(){
+                                        $('.evaluation').each(function(key,val){
+                                            if ($(this)[0].checked) {
+                                                evalution_id = $(this)[0].id
+                                            }
+                                        });
+                                        if(evalution_id != 0){
+                                            etablissement = "{{$etablissement->id}}";
+                                            base_url = window.location.origin;
+                                            url = "gestscol/"+etablissement+"/note/"+evalution_id+"/edit";
+                                            window.location = base_url+"/"+ url;
+                                        }
+                                        
+                                    });
+
+                                    $('#saveEvaPeriode').on('click',function(){
+                                        let evaluationPeriodes = [];
+                                        let spSomme = 0;
+                                        $('#alert-warning').addClass("d-none");
+                                        $('.spPourcent').each(function(){
+                                            evaluation = {
+                                                "id": $(this)[0].attributes['data-key'].value,
+                                                "sp": $(this)[0].value ,
+                                            };
+
+                                            evaluationPeriodes.push(evaluation);
+                                            spSomme = spSomme + parseInt($(this)[0].value);
+                                        });
+                                        console.log(spSomme);
+                                        if (spSomme !== 100) {
+                                            $('#alert-warning').removeClass("d-none");
+                                        } else {
+                                            
+                                            $('#alert-warning').addClass("d-none");
+                                            $.ajax({
+                                                url: "{{route('gestscol.notes.update-evaluation',$etablissement)}}",
+                                                type: "POST",
+                                                data:{
+                                                    "_token": "{{ csrf_token() }}",
+                                                    "evaluationPeriode":evaluationPeriodes
+                                                },
+
+                                                success:function(response){
+                                                    console.log(response);  
+                                                    $('#alert-success').removeClass("d-none");
+                                                },
+                                                error: function(errors){
+                                                console.log(errors);
+                                                $('#alert-danger').removeClass("d-none");
+                                                    setTimeout(() => {
+                                                        location.reload(); 
+                                                    }, 1000);
+                                                }
+                                            });
+                                        }
+                                        
+                                    });
+                            }
+                        },
+                        error: function(errors){
+                        console.log(errors);
+                        $('#sous_periode').prop("disabled", true);
+                        location.reload();
+                        }
+                    });
+                });
+
+                var generateMultiColumnTable = function (thead, tbody,title) {
+                    var table = '<div class="main-card mb-3 card">'+
+                                    '<div class="card-body" class="scroll-area-md">'+ 
+                                        '<table class="mb-2 table table-hover">'+
+                                            '<thead>'+
+                                            '<tr>'+
+                                                thead+
+                                            '</tr>'+
+                                            '</thead>'+
+                                            '<tbody >'+
+                                                tbody+
+                                            '</tbody>'+
+                                        '</table>'+
+                                        '<button class="m-1 btn btn-warning text-white">Consulter</button>'+
+                                        '<button class="m-1 btn btn-secondary" id="updateNote">Modifier</button>'+
+                                        '<button class="m-1 btn btn-success" id="saveEvaPeriode">Enregistrer</button>'+
+                                        '<button class="m-1 btn btn-danger" id="deleteEvaPeriode">Supprimer</button>'+
+                                    '</div>'+
+                                '</div>';   
+                    return table;
+                }
+
+                //fonction qui permet de creer les entetes et le body d\'un table a une ligne 
+                var generateRowTh = function (... val) {
+                    var th = "";
+                    for (let i = 0; i < val.length; i++) {
+                        th += '<th>'+val[i]+'</th>';
+                    }
+                    return th;
+                }
+
+                var generatTBody = function (...val) {
+                    var th = "";
+                    var tr = "";
+                
+                    for (let i = 0; i < val.length; i++) {
+                        th += '<th>'+val[i]+'</th>';
+                    }
+                    tr = '<tr>'+th+'</tr>';
+                
+                    return tr;
+                }
+            
+                
+            })
+
+            
+        </script>    
+    @endpush
 </x-gest-scol>

@@ -66,6 +66,7 @@ class ElevesController extends Controller
             $eleveClasse->is_redouble  = (isset($request->is_redouble))?true:false;
             $eleveClasse->fill($data);
             $eleveClasse->save();
+            
             Session::flash('success','l\'eleve a bien été crée');
             return redirect()->route('gestscol.student.index',$etablissement);
         }

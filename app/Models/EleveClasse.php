@@ -47,4 +47,8 @@ class EleveClasse extends Model
     public function getClasseAnnee(){
         return $this->belongsTo(ClasseAnnee::class, "classe_annee_id");
     }
+
+    public function noteByEvaluation($evaluation_periode_id){
+        return Note::where([["eleve_classe_id",$this->id],["evaluation_periode_id",$evaluation_periode_id]])->first();
+    }
 }
