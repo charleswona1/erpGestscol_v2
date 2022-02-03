@@ -19,7 +19,7 @@ class CreatePeriodesTable extends Migration
                 $table->integer('numero');
                 $table->date('startAt');
                 $table->date('endAt');
-                $table->integer('pourcentage');
+                $table->double('pourcentage');
                 
                 $table->unsignedBigInteger('annee_academique_id');
                 $table->foreign('annee_academique_id')->references('id')->on('annee_academiques');

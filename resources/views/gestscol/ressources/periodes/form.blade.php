@@ -51,8 +51,8 @@
                                                     <div class="position-relative form-group">
                                                         <label for="exampleEmail" class="">Pourcentage
                                                             Annuel (%) <span style="color:red;">*</span></label>
-                                                        <input name="pourcentage" placeholder=" " type="float"
-                                                            class="form-control" required>
+                                                        <input name="pourcentage" placeholder=" " type="number" step=any
+                                                            class="form-control">
                                                     </div>
                                                 </td>
                                             </tr>

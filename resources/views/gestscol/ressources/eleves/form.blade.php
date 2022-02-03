@@ -69,7 +69,7 @@
                                             <x-errors name="sexe"/>
                                         </div>
                                         <div class="position-relative form-group">
-                                            <label for="exampleText" class="">Domicile <span style="color:red;">*</span></label>
+                                            <label for="exampleText" class="">Domicile </label>
                                             <textarea name="domicile" id="domicile" class="form-control"></textarea>
                                             <x-errors name="domicile"/>
                                         </div>
@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="main-card mb-3 card ">
                                     <div class="card-body">
-                                        <label for="exampleSelect" class="">Groupe Sanguin <span style="color:red;">*</span></label>
+                                        <label for="exampleSelect" class="">Groupe Sanguin </label>
                                         <fieldset class="position-relative form-group">
                                             <div class="position-relative form-check">
                                                 <label class="form-check-label"><input name="groupe_sanguin" type="radio" class="form-check-input" value="A+"> A+ &nbsp; &nbsp; &nbsp;</label>

@@ -179,8 +179,9 @@
                     @endphp
                     @foreach ($matieresClasses as $matiereClasse)
                         <tr>
-                            <td width="50%">{{$matiereClasse->Enseignant->name}}</td>
-                            <td width="40%">{{$matiereClasse->matiereNiveau->matiere->name}}</td>
+                            <td width="50%">{{$matiereClasse->matiereNiveau->matiere->name}}</td>
+                            <td width="40%">{{$matiereClasse->Enseignant->name}}</td>
+                            
                             <td>
                                 <a href="{{ route('gestscol.matiere.affectations.delete', [$etablissement,'classeMatiere'=>$matiereClasse]) }}" style="color:red;"><i class="fas fa-trash"></i></i></a>
                             </td>

@@ -97,6 +97,19 @@ class Etablissement extends Model
           return $data;
       }
 
+      //recuperer les sous periodes d'un établissement en cours et de l'annee en cours
+      public function getSousPeriodes()
+      {
+          $data = Periode::join('annee_academiques', 'periodes.annee_academique_id', '=', 'annee_academiques.id')
+          ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
+          ->join('sous_periodes', 'sous_periodes.periode_id', '=', 'periodes.id')
+          ->where('etablissements.id', $this->id)
+          ->where('annee_academiques.isdefault', 1)
+          ->get(['sous_periodes.*']);
+          
+          return $data;
+      }
+
        //recuperer les matieres d'un niveau d'un établissement en cours et de l'annee en cours
        public function getMatiereNiveau()
        {

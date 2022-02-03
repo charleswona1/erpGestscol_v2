@@ -21,14 +21,16 @@ class NotesController extends Controller
         $classes = $etablissement->getClasses();
         $periodes = $etablissement->getPeriodes();
         $evaluations = $etablissement->getEvaluations();
-        
-        return view('gestscol.note.donnees.saisie-note',compact('etablissement','classes','periodes','evaluations'));
+        $sous_periodes = $etablissement->getSousPeriodes();
+        \Debugbar::info($sous_periodes);
+        return view('gestscol.note.donnees.saisie-note',compact('etablissement','classes','periodes','sous_periodes','evaluations'));
     }
 
     public function editSaisie(Etablissement $etablissement, EvaluationPeriode $evaluation){
         $classes = $etablissement->getClasses();
         $periodes = $etablissement->getPeriodes();
         $evaluations = $etablissement->getEvaluations();
+        $sous_periodes = $etablissement->getSousPeriodes();
         $evaluationPeriode = $evaluation;
         $elevesClasse = EleveClasse::where([['classe_annee_id',$evaluation->classe_annee_id],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
         \Debugbar::info($evaluationPeriode);
@@ -39,7 +41,7 @@ class NotesController extends Controller
 
         $data = $request->validate([
             "classe_annee_id"=> "required",
-            "matiere_niveau_id"=> "required",
+            "classe_matiere_id"=> "required",
             "periode_id"=> "required",
             "sous_periode_id"=> "required",
             "date_evaluation"=> "required",
@@ -64,16 +66,18 @@ class NotesController extends Controller
     public function gestionAvance(Etablissement $etablissement){
         $classes = $etablissement->getClasses();
         $periodes = $etablissement->getPeriodes();
-        return view('gestscol.note.donnees.gestion-avance',compact('etablissement','classes','periodes'));
+        $sous_periodes = $etablissement->getSousPeriodes();
+        return view('gestscol.note.donnees.gestion-avance',compact('etablissement','classes','periodes','sous_periodes'));
     }
 
     public function saveNote(Etablissement $etablissement, Request $request){
         $status = false;
         try {
             $status = true;
+            
             foreach ($request->notes as $key => $note) {
-
-                if ($note['id'] == null) {
+                 
+                if (!isset($note['id'])) {
                     $note_eleve = new Note();
                     $note_eleve->evaluation_periode_id = $note["evaluation_periode_id"];
                     $note_eleve->eleve_classe_id = $note['eleve_classe_id'];
@@ -103,7 +107,7 @@ class NotesController extends Controller
             foreach ($request->evaluationPeriode as $key => $evaluation) {
                 
                 $evaluationPeriode = EvaluationPeriode::find($evaluation['id']);
-                if ($evaluation["sp"] !== null) {
+                if (isset($evaluation["sp"])) {
                     $evaluationPeriode->pourcentage_sous_periode = $evaluation["sp"];
                 }else{
                     $evaluationPeriode->pourcentage_periode = $evaluation["p"];
@@ -121,12 +125,13 @@ class NotesController extends Controller
     }
 
     public function getMatiereFromClasse(Request $request){
-        $classe = ClasseAnnee::find($request->classeAnneId);
-        $niveau = Niveau::find($classe->niveau_id);
-        $matieres = $niveau->MatierNiveau;
-        foreach($matieres as $matiere){
-            $matiere->name = $matiere->matiere->name;
-        }
+        $matieres = ClasseMatiere::join('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
+                                ->join('matieres','matieres.id','=','matiere_niveaux.matiere_id')
+                                ->where('classe_matieres.classe_annee_id',$request->classeAnneId)
+                                ->select('matieres.name','classe_matieres.id')
+                                ->get();
+        \Debugbar::info($matieres);
+        
         
         return response()->json($matieres);
     }
@@ -134,7 +139,7 @@ class NotesController extends Controller
     public function getSousPeriode(Etablissement $etablissement,Request $request){
         $sousPeriodes = SousPeriode::where('periode_id',$request->periodeId)->get();
         if ($request->isAvance) {
-            $evaluationPeriodes = EvaluationPeriode::where([['periode_id',$request->periodeId],['matiere_niveau_id',$request->matiereAnne],['classe_annee_id',$request->classeAnneId]])->get();
+            $evaluationPeriodes = EvaluationPeriode::where([['periode_id',$request->periodeId],['classe_matiere_id',$request->matiereAnne],['classe_annee_id',$request->classeAnneId]])->get();
             $evaluations = collect();
             foreach ($evaluationPeriodes as $key => $eval) {
                 $eval->evalutionName = $eval->Evaluation->name;
@@ -142,27 +147,31 @@ class NotesController extends Controller
                 $eval->spName = $etablissement->nom_sous_periode." ".$eval->SousPeriode->numero;
                 $eval->pPourcent = $eval->Periode->pourcentage;
                 $eval->spPourcent = $eval->SousPeriode->pourcentage;
-                $eval->effectif = $eval->Notes->count();
+                $eval->effectif = $eval->EffectifEvaluate()->count();
                 $eval->max = 0;
                 $eval->min = $eval->bareme;
-                $eval->sBareme = $eval->bareme * $eval->Notes->count();
+                $eval->sBareme = $eval->bareme * $eval->EffectifEvaluate()->count();
                 $somNote = 0;
                 $eval->qMoy = 0;
-                foreach ($eval->Notes as $note) {
+                foreach ($eval->EffectifEvaluate() as $note) {
                     $somNote = $somNote + $note->note;
-                    if($eval->max < $note->note){
-                        $eval->max = $note->note;
-                    }
-                    if($eval->min > $note->note){
-                        $eval->min = $note->note;
-                    }
-                    if($note->note >= ($eval->bareme/2)){
-                        $eval->qMoy = $eval->qMoy + 1;
+                    if ($note->note > 0 && $note->note != null) {
+                        if($eval->max < $note->note){
+                            $eval->max = $note->note;
+                        }
+                        if($eval->min > $note->note){
+                            $eval->min = $note->note;
+                        }
+                        if($note->note >= ($eval->bareme/2)){
+                            $eval->qMoy = $eval->qMoy + 1;
+                        }
+                    }else{
+                        $eval->min = 0;
                     }
                 }
                 $eval->smoy = round($somNote, 2) ;
-                $eval->moy = round(($eval->smoy/$eval->effectif), 2) ;
-                $eval->pMoy = round((($eval->smoy/$eval->sBareme) * 100), 2);
+                $eval->moy = ($eval->smoy == 0 || $eval->effectif == 0)? "": round(($eval->smoy/$eval->effectif), 2) ;
+                $eval->pMoy = ($eval->smoy == 0 || $eval->effectif == 0)? "": round((($eval->smoy/$eval->sBareme) * 100), 2);
                 $evaluations->push($eval);
             }
             return response()->json(compact("sousPeriodes","evaluations"));
@@ -171,13 +180,14 @@ class NotesController extends Controller
     }
 
     public function getEnseignant(Request $request){
-        $classeMatier = ClasseMatiere::where('matiere_niveau_id', $request->matiereAnne)->first();
-        $enseignant = $classeMatier->Enseignant;
+        $classeMatiere = ClasseMatiere::where('id', $request->matiereAnne)->first();
+        $enseignant = $classeMatiere->Enseignant;
+        \Debugbar::info($classeMatiere);
         return response()->json($enseignant);
     }
 
     public function getEvaluationPeriode(Etablissement $etablissement,Request $request){
-        $evaluationPeriodes = EvaluationPeriode::where([['sous_periode_id',$request->sousPeriodeId],['matiere_niveau_id',$request->matiereAnne],['classe_annee_id',$request->classeAnneId]])->get();
+        $evaluationPeriodes = EvaluationPeriode::where([['sous_periode_id',$request->sousPeriodeId],['classe_matiere_id',$request->matiereAnne],['classe_annee_id',$request->classeAnneId]])->get();
             $evaluations = collect();
             foreach ($evaluationPeriodes as $key => $eval) {
                 $eval->evalutionName = $eval->Evaluation->name;
@@ -185,27 +195,32 @@ class NotesController extends Controller
                 $eval->spName = $etablissement->nom_sous_periode." ".$eval->SousPeriode->numero;
                 $eval->pPourcent = $eval->Periode->pourcentage;
                 $eval->spPourcent = $eval->SousPeriode->pourcentage;
-                $eval->effectif = $eval->Notes->count();
+                $eval->effectif = $eval->EffectifEvaluate()->count();
                 $eval->max = 0;
                 $eval->min = $eval->bareme;
-                $eval->sBareme = $eval->bareme * $eval->Notes->count();
+                $eval->sBareme = $eval->bareme * $eval->EffectifEvaluate()->count();
                 $somNote = 0;
                 $eval->qMoy = 0;
-                foreach ($eval->Notes as $note) {
+                foreach ($eval->EffectifEvaluate() as $note) {
                     $somNote = $somNote + $note->note;
-                    if($eval->max < $note->note){
-                        $eval->max = $note->note;
-                    }
-                    if($eval->min > $note->note){
-                        $eval->min = $note->note;
-                    }
-                    if($note->note >= ($eval->bareme/2)){
-                        $eval->qMoy = $eval->qMoy + 1;
+                    if ($note->note > 0 && $note->note != null) {
+
+                        if($eval->max < $note->note){
+                            $eval->max = $note->note;
+                        }
+                        if($eval->min > $note->note){
+                            $eval->min = $note->note;
+                        }
+                        if($note->note >= ($eval->bareme/2)){
+                            $eval->qMoy = $eval->qMoy + 1;
+                        }
+                    }else{
+                        $eval->min = 0;
                     }
                 }
                 $eval->smoy = round($somNote, 2) ;
-                $eval->moy = round(($eval->smoy/$eval->effectif), 2) ;
-                $eval->pMoy = round((($eval->smoy/$eval->sBareme) * 100), 2);
+                $eval->moy = ($eval->smoy == 0 || $eval->effectif == 0)? "": round(($eval->smoy/$eval->effectif), 2) ;
+                $eval->pMoy = ($eval->smoy == 0 || $eval->effectif == 0)? "": round((($eval->smoy/$eval->sBareme) * 100), 2);
                 $evaluations->push($eval);
             }
             return response()->json($evaluations);

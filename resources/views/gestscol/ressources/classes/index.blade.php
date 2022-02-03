@@ -115,10 +115,10 @@
                                             <td class="mdc-data-table__cell">
                                                 <a href="utilisateur-profil.html"><i class="fas fa-eye"></i></a>
                                                 <a
-                                                    href="{{ route('gestscol.classes.edit', [$etablissement, $classe]) }}"><i
+                                                    href="{{ route('gestscol.classes.edit', [$etablissement, "classeAnnee"=>$classe]) }}"><i
                                                         class="fas fa-edit"></i></a>
                                                 <a href=""><i class="fas fa-print"></i></a>
-                                                <a href="{{ route('gestscol.classes.delete', [$etablissement, $classe]) }}"
+                                                <a href="{{ route('gestscol.classes.delete', [$etablissement, "classeAnnee"=>$classe]) }}"
                                                     style="color:red;"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>

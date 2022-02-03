@@ -102,7 +102,7 @@
                                                     @if ($evaluationPeriode->classe_annee_id == $classe->id)
                                                         selected
                                                     @endif
-                                                    >{{$classe->getNiveau->name}}{{$classe->name}}</option>
+                                                    >{{$classe->name}}</option>
                                             @endforeach
 
                                         </select>
@@ -112,7 +112,7 @@
                                     <div class="position-relative form-group"><label for="matiere_niveau" class="">Matière <span
                                                 style="color:red;">*</span></label>
                                         <select name="matiere_niveau_id" id="matiere_niveau" class="form-control" disabled >
-                                            <option>{{$evaluationPeriode->MatiereNiveau->matiere->name}}</option>
+                                            <option>{{$evaluationPeriode->classeMatiere->matiereNiveau->matiere->name}}</option>
                                         </select>
                                     </div>
                                 </td>
@@ -209,7 +209,7 @@
                                             data-key="{{($eleve->noteByEvaluation($evaluationPeriode->id) !== null)?$eleve->noteByEvaluation($evaluationPeriode->id)->id:null}}" 
                                             max="{{$evaluationPeriode->bareme}}" 
                                             id="{{$eleve->id}}" 
-                                            value="{{($eleve->noteByEvaluation($evaluationPeriode->id) !== null)?$eleve->noteByEvaluation($evaluationPeriode->id)->note:0.00}}" 
+                                            value="{{($eleve->noteByEvaluation($evaluationPeriode->id) !== null)?$eleve->noteByEvaluation($evaluationPeriode->id)->note:""}}" 
                                             class="form-control fieldStudent"/>
                                         </th>
                                     </tr>

@@ -11,7 +11,7 @@ class EvaluationPeriode extends Model
 
     protected $fillable =[
         "classe_annee_id",
-        "matiere_niveau_id",
+        "classe_matiere_id",
         "periode_id",
         "sous_periode_id",
         "date_evaluation",
@@ -38,6 +38,15 @@ class EvaluationPeriode extends Model
 
     public function MatiereNiveau(){
         return $this->belongsTo(MatiereNiveau::class);
+    }
+
+    public function classeMatiere(){
+        return $this->belongsTo(ClasseMatiere::class);
+    }
+
+    public function EffectifEvaluate(){
+        $effectif = Note::where([['note','<>',null],['evaluation_periode_id',$this->id]])->get();
+        return $effectif;
     }
 
 }

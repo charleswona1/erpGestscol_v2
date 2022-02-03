@@ -9,6 +9,7 @@ use App\Models\EnseignantAnnee;
 use App\Models\Matiere;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
+use App\Models\GroupeMatiere;
 use App\Models\MatiereNiveau;
 use App\Models\Niveau;
 
@@ -131,7 +132,11 @@ class MatieresController extends Controller
             $niveauSeleted = Niveau::find($request->niveau)->id;
             $classes = ClasseAnnee::where([['niveau_id',$request->niveau],['annee_academique_id',$etablissement->getAnneeAcademique->id]])->get();
             $matieres = MatiereNiveau::where('niveau_id',$request->niveau)->get();
-            $matieresClasses = ClasseMatiere::where('etablissement_id',$etablissement->id)->get();
+            $matieresClasses = ClasseMatiere::join('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
+                                            ->join('niveaux','niveaux.id','=','matiere_niveaux.niveau_id')
+                                            ->where([['classe_matieres.etablissement_id',$etablissement->id],['niveaux.id',$request->niveau]])
+                                            ->select('classe_matieres.*')
+                                            ->get();
         }
         return view('gestscol.configurations.affectation-matiere',compact('etablissement','niveaux','enseignants','niveauSeleted','classes','matieres','matieresClasses'));
     }
@@ -192,14 +197,22 @@ class MatieresController extends Controller
             "coefficient" => 'required',
             "groupe_matiere_id" => 'required',
         ]);
-        $matiereNiveau = new MatiereNiveau();
-        $matiereNiveau->fill($data);
-       // $matiereNiveau->annee_academique_id=$etablissement->getAnneeAcademique->id;
         
-        if ($matiereNiveau->save()) {
-            Session::flash('success','le parametrage matiere a bien été ajouté');
-            return redirect()->route('gestscol.parametrages.matiere.index',$etablissement);
+       // $matiereNiveau->annee_academique_id=$etablissement->getAnneeAcademique->id;
+        $checkParatrage = MatiereNiveau::where([['niveau_id',$request->niveau_id],['matiere_id',$request->matiere_id]])->get();
+        if ($checkParatrage->count() > 0) {
+            
+            Session::flash('error','une erreur cette affectation existe déjà');
+            return redirect()->back();
+        }else{
+            $matiereNiveau = new MatiereNiveau();
+            $matiereNiveau->fill($data);
+            if ($matiereNiveau->save()) {
+                Session::flash('success','le parametrage matiere a bien été ajouté');
+                return redirect()->route('gestscol.parametrages.matiere.index',$etablissement);
+            }
         }
+        
         Session::flash('error','une erreur c\'est produite lors de l\'enregistrement');
         return route('gestscol.parametrages.matiere.index',$etablissement);
     }
@@ -231,5 +244,11 @@ class MatieresController extends Controller
         $matiereNiveau->delete();
         Session::flash('success','le parametrage de matiere a bien été supprimée');
         return redirect()->back();
+    }
+
+    public function groupMatiereNiveau(Request $request){
+        $groupe_matieres = GroupeMatiere::where('niveau_id',$request->niveau_id)->get();
+
+        return response()->json($groupe_matieres);
     }
 }

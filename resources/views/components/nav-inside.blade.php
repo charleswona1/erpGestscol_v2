@@ -17,7 +17,7 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li><a class="dropdown-item" href="{{route('gestscol.notes.saisie-note', $etablissement)}}">Saisie de Notes</a></li>
                 <li><a class="dropdown-item" href="{{route('gestscol.notes.gestion-avance', $etablissement)}}">Gestion avancée des Evaluations</a></li>
-                <li><a class="dropdown-item" href="#">Clôture</a></li>
+                <li><a class="dropdown-item" href="{{route('gestscol.cloture.classe', $etablissement)}}">Clôture</a></li>
                 <li><a class="dropdown-item" href="#">Décisions du Conseil</a></li>
             </ul>
             </li>
@@ -28,7 +28,7 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li><a class="dropdown-item" href="#">Listes de Classes</a></li>
                 <li><a class="dropdown-item" href="#">Notes et Analyses</a></li>
-                <li><a class="dropdown-item" href="#">Bulletins de Notes</a></li>
+                <li><a class="dropdown-item" href="{{route('gestscol.bulletins.bulletin-eleve', $etablissement)}}">Bulletins de Notes</a></li>
                 <li><a class="dropdown-item" href="#">Relevé de Notes</a></li>
                 <li><a class="dropdown-item" href="#">Livret Scolaire</a></li>
                 <li><a class="dropdown-item" href="#">Situation Disciplinaire</a></li>

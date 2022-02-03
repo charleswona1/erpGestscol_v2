@@ -51,8 +51,8 @@
                                                     <div class="position-relative form-group">
                                                         <label for="exampleEmail" class="">Pourcentage
                                                             Annuel (%) <span style="color:red;">*</span></label>
-                                                        <input name="pourcentage" value="{{$periode->pourcentage}}" placeholder="Pourcentage " type="float"
-                                                            class="form-control" required>
+                                                        <input name="pourcentage" value="{{$periode->pourcentage}}" placeholder="Pourcentage " step=any type="number"
+                                                            class="form-control">
                                                     </div>
                                                 </td>
                                             </tr>

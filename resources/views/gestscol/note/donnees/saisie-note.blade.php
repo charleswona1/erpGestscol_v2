@@ -98,7 +98,7 @@
                                         <select name="classe_annee_id" id="classeAnneeId" class="form-control" required>
                                             <option value="">selectionnez une classe</option>
                                             @foreach ($classes as $classe)
-                                                <option value="{{$classe->id}}">{{$classe->getNiveau->name}}{{$classe->name}}</option>
+                                                <option value="{{$classe->id}}">{{$classe->name}}</option>
                                             @endforeach
 
                                         </select>
@@ -156,7 +156,7 @@
                                     <div class="position-relative form-group">
                                         <label for="date_evaluation" class="">Date <span
                                                 style="color:red;">*</span></label>
-                                        <input name="date_evaluation" id="date_evaluation" placeholder=" " type="date" class="form-control"
+                                        <input name="date_evaluation" id="datePickerId" placeholder=" " type="date" class="form-control date_evaluation"
                                             required>
                                     </div>
                                 </td>
@@ -187,6 +187,7 @@
 
     @push('javascripts')
         <script>
+            datePickerId.max = new Date().toISOString().split("T")[0];
             $('#result-eleve').empty();
             let evaluationPeriode = "";
             let notes = [];
@@ -259,7 +260,7 @@
                 let sousPeriode = $('#sous_periode').val();
                 let evaluation= $('#evaluation_id').val();
                 let bareme = $('#bareme').val();
-                let dateEvaluation = $('#date_evaluation').val();
+                let dateEvaluation = $('.date_evaluation').val();
                 let commentataire = $('#commentataire').val();
 
                 if(classeAnnee == ""|| matiereNiveau=="" || periodeId=="" || sousPeriode=="" || evaluation=="" || bareme == "" || dateEvaluation == "" ){
@@ -272,7 +273,7 @@
                     data:{
                         "_token": "{{ csrf_token() }}",
                         "classe_annee_id":classeAnnee,
-                        "matiere_niveau_id": matiereNiveau,
+                        "classe_matiere_id": matiereNiveau,
                         "periode_id": periodeId,
                         "sous_periode_id": sousPeriode,
                         "date_evaluation": dateEvaluation,
@@ -293,14 +294,14 @@
                         data += '<tbody>';
                             $.each(response.elevesClasse, function(key,val){
                                 let note = {
-                                    "note": 0.00,
+                                    "note": null,
                                     "eleve_classe_id": val.id,
                                     "evaluation_periode_id": evaluationPeriode.id
                                 };
 
                                 notes.push(note);
 
-                                data += generatTBody(key+1, val.nom, '<input type="number" data-key="'+key+'" name="fieldStudent" step="0.01" min="0" value="0.00" max="'+evaluationPeriode.bareme+'" id="'+val.id+'" class="form-control fieldStudent"/>' )
+                                data += generatTBody(key+1, val.nom, '<input type="number" data-key="'+key+'" name="fieldStudent" step="0.01" min="0" value="" max="'+evaluationPeriode.bareme+'" id="'+val.id+'" class="form-control fieldStudent"/>' )
                             });
                         data += '</tbody>';
                         data += '</table>';

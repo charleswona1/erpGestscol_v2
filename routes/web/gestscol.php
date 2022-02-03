@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function(){
             Route::get('/','ClassesController@index')->name('index');
             Route::get('/add','ClassesController@create')->name('add');
             Route::post('/add','ClassesController@store');
-            Route::prefix('{classe}')->group(function(){
+            Route::prefix('{classeAnnee}')->group(function(){
                 Route::get('/show','ClassesController@show')->name('show');
                 Route::get('/edit','ClassesController@edit')->name('edit');
                 Route::post('/edit','ClassesController@update');
@@ -174,15 +174,17 @@ Route::middleware('auth')->group(function(){
             });
         });
         Route::prefix('parametrages')->name('parametrages.')->group(function(){
-                Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
-                    Route::get('/parametrage','MatieresController@indexParametrage')->name('index');
-                    Route::post('/parametrage','MatieresController@storeParametrage')->name('index');;
-                    Route::prefix('{matiereNiveau}')->group(function(){
-                        Route::get('/parametrage/edit','MatieresController@editParametrage')->name('edit');
-                        Route::post('/parametrage/edit','MatieresController@updateParametrage')->name('edit');
-                        Route::get('/parametrage/delete','MatieresController@deleteParametrage')->name('delete');
-                    });
+            Route::prefix('matiere')->name('matiere.')->namespace('Matieres')->group(function(){
+                Route::get('/parametrage','MatieresController@indexParametrage')->name('index');
+                Route::post('/parametrage','MatieresController@storeParametrage')->name('index');
+                Route::post('/groupe-matiere','MatieresController@groupMatiereNiveau')->name('groupeMatiere');
+                Route::prefix('{matiereNiveau}')->group(function(){
+                    Route::get('/parametrage/edit','MatieresController@editParametrage')->name('edit');
+                    Route::post('/parametrage/edit','MatieresController@updateParametrage')->name('edit');
+                    Route::get('/parametrage/delete','MatieresController@deleteParametrage')->name('delete');
                 });
+            });
+            
         });
 
             // parametrage des matieres par niveaux 
@@ -255,6 +257,16 @@ Route::middleware('auth')->group(function(){
             Route::prefix('{evaluation}')->group(function(){
                 Route::get('/edit','NotesController@editSaisie')->name('edit');
             });
+        });
+
+        Route::prefix('cloture')->name('cloture.')->namespace('Synthese')->group(function(){
+            Route::get('/classe','SyntheseController@Index')->name('classe');
+            Route::get('/periode','SyntheseController@EvaluationEleveMatierePeriode')->name('periode');
+        });
+
+        Route::prefix('bulletins')->name('bulletins.')->namespace('Synthese')->group(function(){
+            Route::get('/','SyntheseController@Bulletins')->name('bulletin-eleve');
+            Route::get('/eleve','SyntheseController@eleveByClasse')->name('eleves');
         });
     });
 });

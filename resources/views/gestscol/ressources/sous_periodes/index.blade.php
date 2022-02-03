@@ -101,7 +101,7 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <td>{{ $etablissement ->nom_periode }}</td>
+                                            <td>{{ $etablissement ->nom_periode }} {{$sousPeriode->getPeriode->numero}}</td>
                                             <td>{{ $sousPeriode->numero }}</td>
                                             
                                             <td>{{ $sousPeriode->startAt }}</td>

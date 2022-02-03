@@ -49,6 +49,7 @@ class PeriodesController extends Controller
         $periode = new Periode();
         $periode->fill($data);
         $periode->annee_academique_id=$etablissement->getAnneeAcademique->id;
+        $periode->etablissement_id = $etablissement->id;
         
         if ($periode->save()) {
             Session::flash('success','la periode a bien été ajoutée');

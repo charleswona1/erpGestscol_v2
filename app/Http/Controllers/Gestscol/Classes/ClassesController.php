@@ -54,6 +54,7 @@ class ClassesController extends Controller
             $classeAnnee = new ClasseAnnee();
             $classeAnnee->fill($data);
             $classeAnnee->effectif = 0;
+            $classeAnnee->classe_id = $classe->id;
             $classeAnnee->annee_academique_id = $etablissement->getAnneeAcademique->id;
             $classeAnnee->save();
             Session::flash('success','la classe a bien été ajoutée');
@@ -80,10 +81,10 @@ class ClassesController extends Controller
      * @param  \App\Models\Classe  $classe
      * @return \Illuminate\Http\Response
      */
-    public function edit(Etablissement $etablissement, Classe $classe){
+    public function edit(Etablissement $etablissement, ClasseAnnee $classeAnnee){
         $niveaux = $etablissement->getNiveaux;
         
-        return view('gestscol.ressources.classes.edit',compact('etablissement','classe','niveaux'));
+        return view('gestscol.ressources.classes.edit',compact('etablissement','classeAnnee','niveaux'));
     }
 
     /**
@@ -93,25 +94,23 @@ class ClassesController extends Controller
      * @param  \App\Models\Classe  $classe
      * @return \Illuminate\Http\Response
      */
-    public function update(Etablissement $etablissement, Classe $classe, Request $request){
+    public function update(Etablissement $etablissement, ClasseAnnee $classeAnnee, Request $request){
         
         $data = $request->validate([
             "name" => 'required',
             "niveau_id" => 'required',
         ]);
         
-        $classe->fill($data);
-        if ($classe->save()) {
-            $classeAnnee = ClasseAnnee::find($classe->id);
-            $classeAnnee->fill($data);
-            $classeAnnee->effectif = 0;
-            $classeAnnee->annee_academique_id = $etablissement->getAnneeAcademique->id;
-            $classeAnnee->save();
+        $classeAnnee->fill($data);
+        if ($classeAnnee->save()) {
+            $classe = Classe::find($classeAnnee->classe_id);
+            $classe->fill($data);
+            $classe->save();
             Session::flash('success','la classe a bien été modifiée');
             return redirect()->route('gestscol.classes.index',$etablissement);
         }
         Session::flash('error','une erreur c\'est produite lors de l\'enregistrement');
-        return route('gestscol.classes.edit',[$etablissement,$classe]);
+        return route('gestscol.classes.edit',[$etablissement,$classeAnnee]);
     }
 
     /**

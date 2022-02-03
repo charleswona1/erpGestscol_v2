@@ -81,7 +81,8 @@
                                     <div class="position-relative form-group"><label for="exampleSelect"
                                             class="">Niveau <span
                                                 style="color:red;">*</span></label>
-                                        <select name="niveau_id" class="form-control" required>
+                                        <select name="niveau_id" id="niveau_id" class="form-control" required>
+                                            <option value="">Selectionnez un niveau</option>
                                             @foreach ($niveaux as $niveau)
                                                 <option value="{{ $niveau->id }}">{{ $niveau->name }}
                                                 </option>
@@ -95,6 +96,7 @@
                                             class="">Matière <span
                                                 style="color:red;">*</span></label>
                                         <select name="matiere_id" class="form-control" required>
+                                            <option value="">Selectionnez une matiere</option>
                                             @foreach ($matieres as $matiere)
                                                 <option value="{{ $matiere->id }}">
                                                     {{ $matiere->name }}</option>
@@ -117,12 +119,8 @@
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail" class="">Groupe <span
                                                 style="color:red;">*</span></label>
-                                                <select name="groupe_matiere_id" class="form-control" required>
-                                                    @foreach ($groupe_matieres as $groupe_matiere)
-                                                        <option value="{{ $groupe_matiere->id }}">
-                                                            {{ $groupe_matiere->name }}</option>
-                                                    @endforeach
-                                                
+                                                <select name="groupe_matiere_id" id="group_matiere" class="form-control" required disabled>
+                                                    <option value="">Selectionnez le groupe</option>
                                                 </select>              
                                                 <!--<input
                                             name="groupe_matiere_id" placeholder=" " type="number"
@@ -214,4 +212,38 @@
         </div>
 
     </div>
+
+    @push('javascripts')
+        <script>
+            $('#group_matiere').prop("disabled", true);
+            $('#niveau_id').on('change',function (ev) {
+                niveau_id = ev.target.value;
+                
+                $.ajax({
+                    url: "{{route('gestscol.parametrages.matiere.groupeMatiere',$etablissement)}}",
+                    type: "POST",
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        niveau_id: niveau_id
+                    },
+
+                    success:function(response){
+                        $('#group_matiere').empty();
+                        console.log(response);
+                        let data = ""
+                        $('#group_matiere').prop("disabled", false);
+                        data += "<option>Selectionnez le groupe</option>";
+                            $.each(response, function(key,val){
+                                data+="<option value="+val.id+">"+val.name+"</option>";
+                            });
+                        
+                        $('#group_matiere').append(data);
+                    },
+                    error: function(errors){
+                       console.log(errors)
+                    }
+                });
+            });
+        </script>
+    @endpush
 </x-gest-scol>

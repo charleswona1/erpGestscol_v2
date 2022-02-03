@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Pragma" content="no-cache">
         <title>Gestion Scolaire | @yield('title')</title>
 
         <link rel="shortcut icon" href="{{ asset('assets1/images/favicon.png') }}" />

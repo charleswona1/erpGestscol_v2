@@ -15,7 +15,6 @@ class CreateEvaluationPeriodesTable extends Migration
     {
         Schema::create('evaluation_periodes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('matiere_niveau_id');
             $table->unsignedInteger('annee_academique_id');
             $table->unsignedInteger('periode_id');
             $table->unsignedInteger('sous_periode_id');
@@ -25,7 +24,7 @@ class CreateEvaluationPeriodesTable extends Migration
             $table->bigInteger('numero');
             $table->text('commentataire');
             
-            $table->foreign('matiere_niveau_id')->references('id')->on('matiere_niveaux');
+          
             $table->foreign('annee_academique_id')->references('id')->on('annee_academiques');
             $table->foreign('periode_id')->references('id')->on('periodes');
             $table->foreign('sous_periode_id')->references('id')->on('sous_periodes');

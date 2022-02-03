@@ -41,7 +41,7 @@
                                         <select name="niveau_id" class="form-control" required>
                                             <option>choisir un niveau</option>
                                             @foreach ($niveaux as $niveau)
-                                                @if ($niveau->id == $classe->getNiveau->id)
+                                                @if ($niveau->id == $classeAnnee->getNiveau->id)
                                                     <option value="{{ $niveau->id }}" selected>{{ $niveau->name }}
                                                     </option>
                                                 
@@ -54,7 +54,7 @@
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail" class="">Nom de la Classe <span
                                                 style="color:red;">*</span></label>
-                                        <input name="name" id="exampleEmail" value="{{ $classe->name }}"
+                                        <input name="name" id="exampleEmail" value="{{ $classeAnnee->name }}"
                                             placeholder="Classe" type="texte" class="form-control" required>
                                     </div>
 
