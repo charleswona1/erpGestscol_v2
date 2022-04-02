@@ -11,7 +11,7 @@ class Niveau extends Model
     protected $fillable=['name','cycle_id'];
 
     public function cycles(){
-        return $this->belongsTo(Cycle::class,"cycle_id");
+        return $this->belongsTo(Cycle::class,"cycle_id"); 
     }
 
     public function MatierNiveau(){
