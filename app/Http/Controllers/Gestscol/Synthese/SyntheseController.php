@@ -71,11 +71,11 @@ class SyntheseController extends Controller
         return view("gestscol.note.documents.bulletin",compact('etablissement','classes','periodes','sous_periodes'));
     }
 
-    public function BulletinsEleves(Request $request){
-        if (isset($request->periode_id)) {
-            $
-        }
-    }
+    // public function BulletinsEleves(Request $request){
+    //     if (isset($request->periode_id)) {
+    //         $
+    //     }
+    // }
 
 
 }

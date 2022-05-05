@@ -61,12 +61,13 @@ class Etablissement extends Model
           return $data;
       }
         //recuperer les goupes de matières d'un l'établissement en cours et de l'annee en cours
-        public function getGroupeMatieres()
+        public function getGroupeMatieres($niveau)
         {
             $data = GroupeMatiere::join('annee_academiques', 'groupe_matieres.annee_academique_id', '=', 'annee_academiques.id')
             ->join('etablissements', 'annee_academiques.etablissement_id', '=', 'etablissements.id')
             ->where('etablissements.id', $this->id)
             ->where('annee_academiques.isdefault', 1)
+            ->where('groupe_matieres.niveau_id', $niveau)
             ->get(['groupe_matieres.*']);
             
             return $data;

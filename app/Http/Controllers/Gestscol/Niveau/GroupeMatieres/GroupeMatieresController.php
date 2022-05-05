@@ -16,7 +16,7 @@ class GroupeMatieresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Etablissement $etablissement, Niveau $niveau){
-        $groupematieres = $etablissement->getGroupeMatieres();  
+        $groupematieres = $etablissement->getGroupeMatieres($niveau->id);  
        // dd()      
         return view('gestscol.ressources.groupe_matieres.index', compact('groupematieres', 'etablissement', 'niveau'));
     }
