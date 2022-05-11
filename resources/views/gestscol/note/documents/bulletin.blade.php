@@ -496,11 +496,14 @@
         <script>
             let periode_type = '';
             let periode_id = null;
+            $('#limitation').prop('selectedIndex',0);
+            $('#classe_annee_id').prop('selectedIndex',0);
+            
             $("#limitation").on('change',function(ev){
                 $('.limitation').empty();
                 $('#cloture').empty();
                 $('#clotureBtn').prop("disabled", true);
-
+                
                 limit = ev.target.value;
                 periode_type = limit;
 
@@ -564,7 +567,7 @@
                                 tb += generatTBody(
                                     i+1,
                                     eleve.nom,
-                                    '<input type="radio" data-key="' + eleve.id + '" name="' + eleve.id + '" class="form-check" id="' + eleve.id + '">'
+                                    '<input type="radio" value="'+ eleve.id +'" name="eleve" class="form-check" id="'+ eleve.id +'">'
                                 );
                             });
 

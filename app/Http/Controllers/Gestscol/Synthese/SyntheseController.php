@@ -116,8 +116,10 @@ class SyntheseController extends Controller
             ->get();
         }
 
+        $note_periode = $notes;
+        //return $note_periode;
         $notes = $this::calculNoteMatierPeriode($notes);
-        
+        return $notes;
         $result = [];
         foreach ($notes as $note) {
             $groups = [];
@@ -169,9 +171,9 @@ class SyntheseController extends Controller
 
             $sommeNote = 0;
             $sumCoef = 0;
-            return $notesClass;
+            
             $notesClass = $this::calculNoteMatierPeriode($notesClass);
-            return $notesClass;
+            
             foreach ($notesClass as $key => $value) {
                 $sumCoef += $value->coefficient;
                 $sommeNote += $value->note * $value->coefficient;
@@ -191,6 +193,7 @@ class SyntheseController extends Controller
         $result = [];
         $base_bareme = 20;
         
+        //regrouper les matiers identiques en une matiere
         foreach ($notes as $note) {
             $trouve = false;
             if(sizeof($result) == 0) {
@@ -208,6 +211,7 @@ class SyntheseController extends Controller
             }
         }
 
+        // regrouper les matieres identique en liste
         $matieres = [];
         foreach ($result as $key => $item) {
             $arrayNote = [];
@@ -225,6 +229,7 @@ class SyntheseController extends Controller
             $note_data = $matiere[0];
             
             $valeur_note = 0;
+            $matier_note = [];
             foreach ($matiere as $key => $note) {
                 // ramener les notes au mm bareme ($base_bareme == 20)
                 $indice_bareme = $base_bareme / $note->bareme;
@@ -233,9 +238,12 @@ class SyntheseController extends Controller
                 //calcul de la valeur réel de la note en tennant compte du pourcentage
                 $value = $value * $note->pourcentage / 100;  
                 $valeur_note += $value;
+                array_push($matier_note, $note);
             }
             $note_data->note = $valeur_note;
-
+            
+            //$note_data->notes = $matier_note;
+            //$data = (object) array_merge( $note_data,array("notes"=> $matier_note));
             array_push($notes, $note_data);
         }
 
