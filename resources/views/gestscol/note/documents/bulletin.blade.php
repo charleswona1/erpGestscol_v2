@@ -496,11 +496,14 @@
         <script>
             let periode_type = '';
             let periode_id = null;
+            $('#limitation').prop('selectedIndex',0);
+            $('#classe_annee_id').prop('selectedIndex',0);
+            
             $("#limitation").on('change',function(ev){
                 $('.limitation').empty();
                 $('#cloture').empty();
                 $('#clotureBtn').prop("disabled", true);
-
+                
                 limit = ev.target.value;
                 periode_type = limit;
 
@@ -564,7 +567,7 @@
                                 tb += generatTBody(
                                     i+1,
                                     eleve.nom,
-                                    '<input type="radio" data-key="' + eleve.id + '" name="' + eleve.id + '" class="form-check" id="' + eleve.id + '">'
+                                    '<input type="radio" value="'+ eleve.id +'" name="eleve" class="form-check" id="'+ eleve.id +'">'
                                 );
                             });
 
@@ -601,14 +604,13 @@
                                                     nameGroupe = note.nameGroupe;
                                                     tbb += generatTBody(
                                                         '<strong>' + note.name + '</strong> <br><span style="font-size:0.8em;">' + note.enseignantName + '</span>',
-                                                        note.note,
+                                                        parseFloat(note.note).toFixed(2),
                                                         note.coefficient,
-                                                        note.note * note.coefficient,
+                                                        parseFloat(note.note * note.coefficient).toFixed(2),
                                                         '3e',
                                                         '<span style="font-size:0.8em;">Devoir surveillé {16/20}<br />Contrôle {16/20}</span>'
                                                     );
                                                 });
-
                                                 let moyenne = 0
                                                 if(sumCoef != 0) {
                                                     moyenne = point / sumCoef;
@@ -621,7 +623,7 @@
                                                         '<tr>' +
                                                             '<th>' + nameGroupe + '</th>' +
                                                             '<td>Points</td>' +
-                                                            '<th>' + point + '</th>' +
+                                                            '<th>' + parseFloat(point).toFixed(2) + '</th>' +
                                                             '<td>Coefs</td>' +
                                                             '<th>' + sumCoef + '</th>' +
                                                             '<td>Moyenne</td>' +
@@ -645,7 +647,7 @@
                                             let moyenneGenerale = response['notesAllStudents'].reduce((a, b) => a + b, 0);
                                             moyenneGenerale = moyenneGenerale / response['notesAllStudents'].length;
                                             moyenneGenerale = parseFloat(moyenneGenerale).toFixed(2);
-
+                                            totalPoint = parseFloat(totalPoint).toFixed(2)
                                             let rang = response['notesAllStudents'].findIndex((element) => element == totalPoint / totalsumCoef)
                                             rang++;
                                         
