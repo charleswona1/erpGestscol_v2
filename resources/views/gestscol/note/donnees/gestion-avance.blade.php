@@ -313,7 +313,7 @@
                                     $.each(response.evaluations, function (i, evaluation) {
                                 
                                         tb += generatTBody(
-                                            '<input type="radio" data-key="'+evaluation.id+'" name="evaluation" id="evaluation">',
+                                            '<input type="radio" data-key="'+evaluation.id+'" name="evaluation" class="evaluation" id="'+evaluation.id+'">',
                                             i+1,
                                             evaluation.evalutionName,
                                             evaluation.date_evaluation,

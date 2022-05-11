@@ -123,9 +123,9 @@
             <div class="main-card mb-1 card">
 
                 <div class="card-body" class="scroll-area-md">
-                    <center>
+                   <!-- <center>
                         <img width="150" class="border shadow" src="assets/images/avatars/1.jpg" alt="">
-                    </center>
+                    </center> -->
                 </div>
             </div>
         </div>
@@ -133,6 +133,8 @@
 
 
     <div class="row">
+
+        <!-- section Bulletin -->
         <div class="col-lg-8">
             <div class="main-card mb-1 card">
                 {{-- <div class="card-body" style="float: left;">
@@ -153,7 +155,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr>
                                 <th class="border">Né(e) Le</th>
                                 <td class="border">10/02/2002</td>
@@ -169,7 +170,6 @@
                                 <td class="border">ATANGANA Jean</td>
 
                             </tr>
-
                         </tbody>
 
                     </table>
@@ -178,74 +178,10 @@
 
             </div>
 
-            <div class="main-card mb-3 card">
-                <div class="card-body" style="float: left;">
-                    <table id="myTable" class="table border " cellspacing="0" width="100%"
-                        style="white-space:nowrap;">
-                        <thead>
-                            <tr class="bg-light">
-                                <th class="border">Matières/Enseignants</th>
-                                <th class="border" style="margin:auto; width:auto;">Moy</th>
-                                <th class="border">Coef</th>
-                                <th class="border">Total</th>
-                                <th class="border">Rang</th>
-                                <th class="border">Détails de Notes</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr>
-                                <td class="border">
-                                    <strong>Mathématiques</strong>
-                                    <br><span style="font-size:0.8em;">TCHUINKAM Christophe</span>
-                                </td>
-                                <td class="border">16,00</td>
-                                <td class="border">4,0</td>
-                                <td class="border">64,00</td>
-                                <td class="border">3e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {16/20}
-                                        <br />Contrôle {16/20}</span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="border">
-                                    <strong>SVT</strong>
-                                    <br><span style="font-size:0.8em;">BATCHOM Charlotte</span>
-                                </td>
-                                <td class="border">8,00</td>
-                                <td class="border">2,0</td>
-                                <td class="border">16,00</td>
-                                <td class="border">16e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {08/20}
-                                </td>
-
-                            </tr>
-                        </tbody>
-
-                    </table>
-
-                </div>
-                <div class="card mb-1" style="text-align:center;">
-                    <table>
-                        <tr>
-                            <th>Matières Scientifiques</th>
-                            <td>Points</td>
-                            <th>68,00</th>
-                            <td>Coefs</td>
-                            <th>6.0</th>
-                            <td>Moyenne</td>
-                            <th>11,33</th>
-                        </tr>
-                    </table>
-                </div>
-
-
-
-                <div class="card-body"
+            <div class="main-card mb-3 card" id="bulletin-card">
+                
+              
+                <!-- <div class="card-body"
                     style="float: left; ">
 
                     <table id="myTable" class="table border " cellspacing="0" width="100%"
@@ -404,8 +340,9 @@
                             <th>9,83</th>
                         </tr>
                     </table>
-                </div>
-                <div class="card-body" style="float: left;">
+                </div> 
+                
+                <div class="card-body bulletin-summary" style="float: left;">
                     <div class="row" style="margin:auto;">
                         <div class="col-sm-4">
                             <table id="myTable" class="table-cell w-100" cellspacing="0"
@@ -495,16 +432,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-3" style="text-align:center;">
+                <div class="card mb-3 bulletin-summary" style="text-align:center;">
                     <table>
                         <tr>
                             <th>Visa des Parents</th>
                             <th>Le Surveillant Général</th>
                             <th>Le Principal</th>
                     </table>
-                </div>
+                </div>-->
             </div>
         </div>
+
+
+        <!-- section apprenant -->
         <div class="col-lg-4">
             <div class="main-card mb-3 card">
                 <div class="card-body card-shadow-primary"
@@ -554,33 +494,45 @@
 
     @push('javascripts')
         <script>
+            let periode_type = '';
+            let periode_id = null;
             $("#limitation").on('change',function(ev){
                 $('.limitation').empty();
                 $('#cloture').empty();
                 $('#clotureBtn').prop("disabled", true);
 
                 limit = ev.target.value;
+                periode_type = limit;
+
                 if(limit == "sp"){
                     $('.limitation').append(
-                        '<label for="sous_periode" class="">Choix <span style="color:red;">*</span></label>'+
+                        '<label for="sous_periode" class="">Sous période <span style="color:red;">*</span></label>'+
                         '<select name="sous_periode_id" id="sous_periode" class="form-control" required>'+
-                            '<option value="">selectionnez une limite</option>'+
+                            '<option value="">selectionnez une sous période</option>'+
                             @foreach ($sous_periodes as $sous_periode)
-                                '<option value="{{$sous_periode->id}}">{{$sous_periode->numero}}</option>'+
+                                '<option value="{{$sous_periode->id}}">{{$etablissement->nom_sous_periode }} {{$sous_periode->numero}}</option>'+
                             @endforeach
                         '</select>'
                     );
 
-                }else{
+                    $('#sous_periode').on('change', function(ev){
+                        periode_id = ev.target.value;
+                    });
+
+                } else {
                     $('.limitation').append(
-                        '<label for="periodeId" class="">Choix <span style="color:red;">*</span></label>'+
+                        '<label for="periodeId" class="">Période <span style="color:red;">*</span></label>'+
                         '<select name="periode_id" id="periodeId" class="form-control" required>'+
-                            '<option value="">selectionnez une limite</option>'+
+                            '<option value="">selectionnez une période</option>'+
                             '@foreach ($periodes as $periode)'+
-                                '<option value="{{$periode->id}}">{{$periode->numero}}</option>'+
+                                '<option value="{{$periode->id}}">{{$etablissement->nom_periode }} {{$periode->numero}}</option>'+
                             '@endforeach'+
                         '</select>'
-                    );                        
+                    );
+
+                    $('#periodeId').on('change', function(ev){
+                        periode_id = ev.target.value;
+                    });                        
                 }
                 getEleve();
             });
@@ -589,7 +541,7 @@
                 getEleve(e.target.value);
             })
 
-            function getEleve(val){
+            function getEleve(val) {
                 $('#liste_eleves').empty();
                 $.ajax({
                     url: "{{route('gestscol.bulletins.eleves',$etablissement)}}",
@@ -597,25 +549,210 @@
                     data : {
                         classe_id: val,
                     },
-                    success:function(response){
-                        console.log(response);
+                    success:function(response) {
                         
                         let table ="";
 
-                        if(response.length>0){
+                        if(response.length>0) {
+
                             var tb = "";
                     
-                            var th = generateRowTh("N°","Nons Apprenant","Action");
+                            var th = generateRowTh("N°","Nons Apprenant");
                             
                             $.each(response, function (i, eleve) {
+                              
                                 tb += generatTBody(
                                     i+1,
                                     eleve.nom,
-                                    "<input type='checkbox' class='form-check' id='eleve-checked' name="+eleve.id+" disabled/>"
+                                    '<input type="radio" data-key="' + eleve.id + '" name="' + eleve.id + '" class="form-check" id="' + eleve.id + '">'
                                 );
                             });
+
                             table +=generateMultiColumnTable(th,tb,"");
                             $('#liste_eleves').append(table);
+                            $('.form-check').on('change',function(e) {
+                                $('#bulletin-card').empty();
+                            
+                                console.log(periode_id);
+                               
+                                $.ajax({
+                                    url: "{{route('gestscol.bulletins.bulletin-data',$etablissement)}}",
+                                    type: "GET",
+                                    data : {
+                                        student_id: $(this)[0].attributes.id.value,
+                                        limitation: periode_type,
+                                        periode: periode_id
+                                    },
+                                    success:function(response) {
+                                        console.log(response);
+                                        let point = 0;
+                                        let sumCoef = 0;
+                                        let totalPoint = 0;
+                                        let totalsumCoef = 0;
+                                        
+                                            let tableBul ="";
+                                            for(let i = 0; i < response['notesStudent'].length; i++) {
+                                                let nameGroupe = "";
+                                                var tbb = "";
+                                                var thb = generateRowTh("Matières/Enseignants", "Moy", "Coef", "Total", "Rang", "Détails de Notes");
+                                                $.each(response['notesStudent'][i], function (i, note) {
+                                                    point += note.note * note.coefficient;
+                                                    sumCoef += note.coefficient;
+                                                    nameGroupe = note.nameGroupe;
+                                                    tbb += generatTBody(
+                                                        '<strong>' + note.name + '</strong> <br><span style="font-size:0.8em;">' + note.enseignantName + '</span>',
+                                                        note.note,
+                                                        note.coefficient,
+                                                        note.note * note.coefficient,
+                                                        '3e',
+                                                        '<span style="font-size:0.8em;">Devoir surveillé {16/20}<br />Contrôle {16/20}</span>'
+                                                    );
+                                                });
+
+                                                let moyenne = 0
+                                                if(sumCoef != 0) {
+                                                    moyenne = point / sumCoef;
+                                                    moyenne = parseFloat(moyenne).toFixed(2);
+                                                }
+
+                                                tableBul +=generateBulletinTable(thb,tbb,"");
+                                                tableBul += '<div class="card mb-1" style="text-align:center;">' +
+                                                    '<table>' +
+                                                        '<tr>' +
+                                                            '<th>' + nameGroupe + '</th>' +
+                                                            '<td>Points</td>' +
+                                                            '<th>' + point + '</th>' +
+                                                            '<td>Coefs</td>' +
+                                                            '<th>' + sumCoef + '</th>' +
+                                                            '<td>Moyenne</td>' +
+                                                            '<th>' + moyenne + '</th>' +
+                                                        '</tr>' +
+                                                    '</table>' +
+                                                '</div>'
+                                                
+                                                totalPoint += point;
+                                                totalsumCoef += sumCoef;
+                                                point = 0;
+                                                sumCoef = 0;    
+                                            }
+
+                                            let totalMoyen = 0;
+                                            if(totalsumCoef != 0) {
+                                                totalMoyen = totalPoint / totalsumCoef;
+                                                totalMoyen = parseFloat(totalMoyen).toFixed(2);
+                                            }
+
+                                            let moyenneGenerale = response['notesAllStudents'].reduce((a, b) => a + b, 0);
+                                            moyenneGenerale = moyenneGenerale / response['notesAllStudents'].length;
+                                            moyenneGenerale = parseFloat(moyenneGenerale).toFixed(2);
+
+                                            let rang = response['notesAllStudents'].findIndex((element) => element == totalPoint / totalsumCoef)
+                                            rang++;
+                                        
+
+                                            tableBul += '<div class="card-body bulletin-summary" style="float: left;">'+
+                                                            '<div class="row" style="margin:auto;">'+
+                                                                '<div class="col-sm-4">'+
+                                                                    '<table id="myTable" class="table-cell w-100" cellspacing="0"'+
+                                                                        'style="white-space:nowrap;">'+
+                                                                        '<thead>'+
+                                                                            '<tr>'+
+                                                                                '<th class="border bg-light"  colspan=" 2">Discipline'+
+                                                                                '<th>'+
+                                                                            '</tr>'+
+                                                                        '</thead>'+
+                                                                        '<tbody>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Abs.Inj (h)</td>'+
+                                                                                '<th class="border"> 02</th>'+
+                                                                            '</tr>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Abs.Jus (h)</td>'+
+                                                                                '<td class="border"> </td>'+
+                                                                            '</tr>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Punition</td>'+
+                                                                                '<td class="border"> </td>'+
+                                                                            '</tr>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Retards</td>'+
+                                                                                '<td class="border"> </td>'+
+                                                                            '</tr>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Retenues</td>'+
+                                                                                '<td class="border"> </td>'+
+                                                                            '</tr>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Avert. (h)</td>'+
+                                                                                '<td class="border"> </td>'+
+                                                                            '</tr>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Blâmes</td>'+
+                                                                                '<td class="border"> </td>'+
+                                                                            '</tr>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Exclusion</td>'+
+                                                                                '<td class="border"> </td>'+
+                                                                            '</tr>'+
+                                                                        '</tbody>'+
+                                                                    '</table>'+
+                                                                '</div>'+
+                                                                '<div class="col-sm-8">'+
+                                                                    '<table id="myTable" class="table" cellspacing="0"'+
+                                                                        'style="white-space:nowrap;">'+
+                                                                        '<thead>'+
+                                                                            '<tr>'+
+                                                                                '<th class="border bg-light">Points</th>'+
+                                                                                '<th class="border bg-light">Coefs</th>'+
+                                                                                '<th class="border bg-light">Moyenne</th>'+
+                                                                                '<th class="border bg-light">Rang</th>'+
+                                                                                '<th class="border bg-light">M.Cla</th>'+
+                                                                                '<th class="border bg-light">Min</th>'+
+                                                                                '<th class="border bg-light">Max</th>'+
+                                                                            '</tr>'+
+                                                                        '</thead>'+
+                                                                        '<tbody>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">' + totalPoint + '</td>'+
+                                                                                '<td class="border">' + totalsumCoef + '</td>'+
+                                                                                '<th class="border bg-success">' + totalMoyen + '</th>'+
+                                                                                '<th class="border">' + rang + 'e</th>'+
+                                                                                '<td class="border">' + moyenneGenerale + '</td>'+
+                                                                                '<td class="border">' + parseFloat(Math.min.apply(null, response['notesAllStudents'])).toFixed(2) + '</td>'+
+                                                                                '<td class="border">' + parseFloat(Math.max.apply(null, response['notesAllStudents'])).toFixed(2) + '</td>'+
+                                                                            '</tr>'+
+                                                                        '</tbody>'+
+                                                                    '</table>'+
+                                                                    '<table id="myTable" class="table" cellspacing="0"'+
+                                                                        'style="white-space:nowrap;">'+
+                                                                        '<thead>'+
+                                                                            '<tr>'+
+                                                                                '<td class="border">Appréciation</td>'+
+                                                                                '<th class="border">Passable</th>'+
+                                                                            '</tr>'+
+                                                                        '</thead>'+
+                                                                    '</table>'+
+                                                                '</div>'+
+                                                            '</div>'+
+                                                        '</div>'+
+                                                        '<div class="card mb-3 bulletin-summary" style="text-align:center;">'+
+                                                           '<table>'+
+                                                                '<tr>'+
+                                                                    '<th>Visa des Parents</th>'+
+                                                                    '<th>Le Surveillant Général</th>'+
+                                                                    '<th>Le Principal</th>'+
+                                                            '</table>'+
+                                                        '</div>'
+                                            
+                                        $('#bulletin-card').append(tableBul); 
+                                        
+                                       
+                                    },
+                                    error: function(errors) {
+                                        console.log(errors);
+                                    }
+                                })
+                            })
                         }
                     
                     },
@@ -628,23 +765,41 @@
             var generateMultiColumnTable = function (thead, tbody, title) {
                 
                 var table = '<div class="card-body w-100" style="float: left;">'+
-                                '<h5 class="card-title" style="color:black;">'+title+'</h5>'+
-                                 
-                                '<table id="myTable" class="table border " cellspacing="0" width="100%" style="white-space:nowrap;">'+
-                                    '<thead>'+
-                                    '<tr>'+
-                                        thead+
-                                    '</tr>'+
-                                    '</thead>'+
-                                    '<tbody >'+
-                                        tbody+
-                                    '</tbody>'+
-                                '</table>'+
-                                '<button class="m-1 btn btn-info text-white">Imprimerr</button>'+
-                                '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
-                                
-                            '</div>';   
+                    '<h5 class="card-title" style="color:black;">'+title+'</h5>'+
+                        
+                    '<table id="myTable" class="table border table-hover" cellspacing="0" width="100%" style="white-space:nowrap;">'+
+                        '<thead>'+
+                        '<tr>'+
+                            thead+
+                        '</tr>'+
+                        '</thead>'+
+                        '<tbody >'+
+                            tbody+
+                        '</tbody>'+
+                    '</table>'+
+                    '<button class="m-1 btn btn-info text-white">Imprimerr</button>'+
+                    '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
+                    
+                '</div>';   
                 return table;
+            }
+
+            var generateBulletinTable = function (thead, tbody, title) {
+                
+                let tableb = '<div class="card-body" style="float: left;">'+
+                        
+                    '<table id="myTable" class="table border" cellspacing="0" width="100%" style="white-space:nowrap;">'+
+                        '<thead>'+
+                        '<tr class="bg-light">'+
+                            thead+
+                        '</tr>'+
+                        '</thead>'+
+                        '<tbody >'+
+                            tbody+
+                        '</tbody>'+
+                    '</table>'+
+                '</div>';   
+                return tableb;
             }
 
             //fonction qui permet de creer les entetes et le body d\'un table a une ligne 
@@ -667,6 +822,7 @@
             
                 return tr;
             }
+
         </script>
     @endpush
 

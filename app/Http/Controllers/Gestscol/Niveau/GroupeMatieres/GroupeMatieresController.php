@@ -76,7 +76,7 @@ class GroupeMatieresController extends Controller
      */
     public function edit(Etablissement $etablissement, Niveau $niveau,GroupeMatiere $groupeMatiere)
     {
-        $groupematieres = $etablissement->getGroupeMatieres();  
+        $groupematieres = $etablissement->getGroupeMatieres;  
         
         return view('gestscol.ressources.groupe_matieres.edit',compact('etablissement','niveau','groupeMatiere', 'groupematieres'));
     
