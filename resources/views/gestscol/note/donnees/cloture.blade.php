@@ -159,6 +159,11 @@
     @push('javascripts')
         <script>
             $('#clotureBtn').prop("disabled", true);
+
+            $("#classeAnneeId").on('change',function(ev){
+                ressetAll(true);
+            })
+
             $("#limitation").on('change',function(ev){
                 $('.limitation').empty();
                 $('#cloture').empty();
@@ -227,7 +232,6 @@
             }
 
             function cloture(data,msg){
-
                 $('#clotureBtn').off().on('click',function(ev){
                     ev.preventDefault();
                     $('#cloture').empty();
@@ -317,6 +321,13 @@
                 tr = '<tr>'+th+'</tr>';
             
                 return tr;
+            }
+
+            function ressetAll(limit=false){
+                $('#cloture').empty();
+                if(limit == true){
+                    $('.limitation').empty();
+                }
             }
         </script>
     @endpush

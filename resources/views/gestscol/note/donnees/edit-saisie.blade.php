@@ -230,8 +230,15 @@
     @push('javascripts')
         <script>
             let notes = [];
+            let error = false;
+            let bareme = "{{$evaluationPeriode->bareme}}";
             $('#updateNote').on('click',function(){
                 $('.fieldStudent').each(function(index){
+                    if( parseInt($(this)[0].value)  > parseInt( bareme)){
+                        console.log($(this)[0].value+   "{{$evaluationPeriode->bareme}}")
+                        $(this).addClass("border border-danger");
+                        error = true
+                    }
                     note = {
                         "id": $(this)[0].attributes['data-key'].value,
                         "note": $(this)[0].value ,
@@ -240,31 +247,40 @@
                     };
                     notes.push(note);
                 });
-                console.log(notes);
-                $.ajax({
-                    url: "{{route('gestscol.notes.saveNote',$etablissement)}}",
-                    type: "POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        "notes":notes
-                    },
+                if(!error){
+                    console.log(notes);
+                    $.ajax({
+                        url: "{{route('gestscol.notes.saveNote',$etablissement)}}",
+                        type: "POST",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                            "notes":notes
+                        },
 
-                    success:function(response){
-                        console.log(response);  
-                        $('#alert-success').removeClass("d-none");
-                        setTimeout(() => {
-                            location.reload(); 
-                        }, 1000);
-                        
-                    },
-                    error: function(errors){
-                       console.log(errors);
-                       $('#alert-danger').removeClass("d-none");
-                        setTimeout(() => {
-                            location.reload(); 
-                        }, 1000);
-                    }
-                });
+                        success:function(response){
+                            console.log(response);  
+                            $('#alert-success').removeClass("d-none");
+                            setTimeout(() => {
+                                location.reload(); 
+                            }, 1000);
+                            
+                        },
+                        error: function(errors){
+                        console.log(errors);
+                        $('#alert-danger').removeClass("d-none");
+                            setTimeout(() => {
+                                location.reload(); 
+                            }, 1000);
+                        }
+                    });
+                }else{
+                    notes = [];
+                    error = false;
+                    setTimeout(() => {
+                        $('.fieldStudent').removeClass('border border-danger')
+                    }, 5000);
+                }
+                
 
             })
         </script>

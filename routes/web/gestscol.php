@@ -249,7 +249,7 @@ Route::middleware('auth')->group(function(){
             Route::get('/gestion-avance','NotesController@gestionAvance')->name('gestion-avance');
             Route::get('/matiere-classe','NotesController@getMatiereFromClasse')->name('matiere-classe');
             Route::get('/ensaigant-matiere','NotesController@getEnseignant')->name('ensaigant-matiere');
-            Route::get('/sous-periode','NotesController@getSousPeriode')->name('sous-periode');
+            Route::get('/get-evaluation-sous-periode','NotesController@getEvaluationSousPeriode')->name('get-evaluation-sous-periode');
             Route::get('/get-evaluation-periode','NotesController@getEvaluationPeriode')->name('get-evaluation-periode');
             Route::post('/save_evaluation_periode','NotesController@saveEvaluationPeriode')->name('save_evaluation_periode');
             Route::post('/save_note','NotesController@saveNote')->name('saveNote');
@@ -269,5 +269,6 @@ Route::middleware('auth')->group(function(){
             Route::get('/eleve','SyntheseController@eleveByClasse')->name('eleves');
             Route::get('/bulletin-data','SyntheseController@getBulletinEleve')->name('bulletin-data');
         });
+
     });
 });

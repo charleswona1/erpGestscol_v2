@@ -79,7 +79,7 @@ class SyntheseController extends Controller
     }
 
     public function getBulletinEleve(Request $request) {
-        $notes;
+        $notes = null;
         $base_bareme = 20;
 
         if($request->limitation == 'p') {
@@ -119,7 +119,7 @@ class SyntheseController extends Controller
         $note_periode = $notes;
         //return $note_periode;
         $notes = $this::calculNoteMatierPeriode($notes);
-        return $notes;
+        
         $result = [];
         foreach ($notes as $note) {
             $groups = [];

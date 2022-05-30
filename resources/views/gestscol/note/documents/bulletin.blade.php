@@ -592,7 +592,7 @@
                                         let sumCoef = 0;
                                         let totalPoint = 0;
                                         let totalsumCoef = 0;
-                                        
+                                            
                                             let tableBul ="";
                                             for(let i = 0; i < response['notesStudent'].length; i++) {
                                                 let nameGroupe = "";
