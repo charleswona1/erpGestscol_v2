@@ -1,6 +1,5 @@
-<x-gestscol title="Creation des cycles">
-    <div class="app-main__outer">
-        <div class="app-main__inner">
+<x-gest-scol title="Crée un cycle">
+    
             <div class="app-page-title">
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">
@@ -8,7 +7,7 @@
                             <i class="pe-7s-help2 icon-gradient bg-premium-dark">
                             </i>
                         </div>
-                        <div>Création d'un Cycle
+                        <div>Creation d'un Cycle
     
                         </div>
                     </div>
@@ -38,7 +37,7 @@
                                     {{ html()->form('POST', URL::full())->open() }}
                                         <div class="position-relative form-group">
                                             <label for="exampleEmail" class="">Nom du Cycle <span style="color:red;">*</span></label>
-                                            <input name="name" placeholder="Nom du cycle" type="texte" class="form-control" required>
+                                            <input name="name"  type="texte" class="form-control" required>
                                         </div>
                                         <button class="mt-1 btn btn-success" type="submit">Enrégistrer</button>
                                     {{ html()->form()->close() }}

@@ -1,6 +1,5 @@
-<x-gestscol title="Liste des cycles">
-    <div class="app-main__outer">
-        <div class="app-main__inner">
+<x-gest-scol title="Liste des cycles">
+    
             <div class="app-page-title" style="position:relative; top:0%;">
                 <div class="page-title-wrapper">
                     <div class="page-title-heading">
@@ -25,7 +24,7 @@
     
                 <div class="col-lg-12">
                     <div class="main-card mb-3 card">
-    
+                        <x-flashback></x-flashback>
                         <div class="card-body" class="scroll-area-md">
                             <!-- <h5 class="card-title">Table with hover</h5> -->
                             <table class="mb-0 table table-hover">

@@ -1,25 +1,27 @@
 <?php
 
-namespace App\Http\Middleware;
 
-use App\Models\User;
-use Closure;
+namespace App\Http\Middleware;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-class Authenticate 
+class Authenticate extends Middleware
 {
-    
-    public function handle($request, Closure $next, $guard = null)
+    /**
+     * Get the path the user should be redirected to when they are not authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string|null
+     */
+    protected function redirectTo($request, $guard = null)
     {
         if (!Auth::guard($guard)->check()) {
             if ($guard == 'infogeni') {
-                return redirect()->route('admin.auth.login');
+                return route('admin.auth.login');
             } else {
-                return redirect()->route('gestscol.auth.login');
+                return route('gestscol.auth.login');
             } 
-        }
-
-        return $next($request);
+        }   
     }
 }

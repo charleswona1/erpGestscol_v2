@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/','/gestscol');
+Route::redirect('/','/gestscol/auth/login');
 
 /* Accès à l'espace gestscol */
 Route::prefix('gestscol')

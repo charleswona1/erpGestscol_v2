@@ -25,8 +25,14 @@ class RedirectIfAuthenticated
             if ($guard == 'infogeni') {
                 return redirect()->route('admin.index');
             } else {
+                $liste_etablissements = Auth::user()->etablissementUser;
+                if (count($liste_etablissements) > 1) {
+                    return redirect()->route('gestscol.auth.switch');
+                } else {
+                    return redirect()->route('gestscol.index',$liste_etablissements[0]->etablissement);
+                }
                 
-                return redirect()->route('gestscol.index');
+               
             } 
         }
 

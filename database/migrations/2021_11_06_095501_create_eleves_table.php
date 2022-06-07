@@ -26,8 +26,7 @@ class CreateElevesTable extends Migration
             $table->string('groupe_sanguin')->nullable();
             $table->string('religion')->nullable();
             $table->string('domicile');
-            $table->integer('type_contact');
-            $table->integer('index_contact');
+            $table->string('type_contact');
             $table->text('autres')->nullable();
             $table->string('nom_pere')->nullable();
             $table->string('nom_mere');
@@ -38,9 +37,7 @@ class CreateElevesTable extends Migration
             $table->string('tel_pere')->nullable();
             $table->string('tel_mere');
             $table->string('tel_tuteur')->nullable();
-            $table->string('email_pere')->nullable();
-            $table->string('email_mere')->nullable();
-            $table->string('email_tuteur')->nullable();
+            $table->string('aptitude');
             $table->foreign('etablissement_id')->references('id')->on('etablissements');
             $table->timestamps();
         });

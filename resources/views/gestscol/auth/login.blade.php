@@ -1,4 +1,4 @@
-<x-gestscol title="Login">
+<x-gest-scol title="Login">
     <div class="auth-page">
         <div class="mdc-layout-grid">
             <div class="mdc-layout-grid__inner">

@@ -1,4 +1,4 @@
-<x-gestscol title="tableau de boad">
+<x-gest-scol title="tableau de boad">
     @php
         \Debugbar::info(Auth::user()->etablissementUser)
     @endphp
