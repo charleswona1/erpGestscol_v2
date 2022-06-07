@@ -651,7 +651,6 @@
                                             let rang = response['notesAllStudents'].findIndex((element) => element == totalPoint / totalsumCoef)
                                             rang++;
                                         
-
                                             tableBul += '<div class="card-body bulletin-summary" style="float: left;">'+
                                                             '<div class="row" style="margin:auto;">'+
                                                                 '<div class="col-sm-4">'+
@@ -747,7 +746,6 @@
                                                         '</div>'
                                             
                                         $('#bulletin-card').append(tableBul); 
-                                        
                                        
                                     },
                                     error: function(errors) {

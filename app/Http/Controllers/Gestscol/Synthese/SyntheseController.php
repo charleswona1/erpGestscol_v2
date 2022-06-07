@@ -98,7 +98,6 @@ class SyntheseController extends Controller
             ->orderBy('groupe_matieres.numero', 'asc')
             ->get();
 
-
         } else {
             $notes = Note::leftjoin('evaluation_periodes','evaluation_periodes.id','=','notes.evaluation_periode_id')
             ->leftjoin('eleve_classes','eleve_classes.id','=','notes.eleve_classe_id')
@@ -119,7 +118,7 @@ class SyntheseController extends Controller
         $note_periode = $notes;
         //return $note_periode;
         $notes = $this::calculNoteMatierPeriode($notes);
-        return $notes;
+        //return $notes;
         $result = [];
         foreach ($notes as $note) {
             $groups = [];
@@ -249,6 +248,47 @@ class SyntheseController extends Controller
 
         return $notes;
 
+    }
+
+
+    public function getBulletinData(Request $request) {
+        $syntheseClasse;
+        $ligneGroupes = [];
+
+        if($request->limitation == 'p') {
+            $syntheseClasse = SyntheseClasse::where([
+                ['classe_annee_id', $request->classe_annee_id],
+                ['periode_id', $request->periode]
+            ])
+            ->first();
+        } else {
+            $syntheseClasse = SyntheseClasse::where([
+                ['classe_annee_id', $request->classe_annee_id],
+                ['sous_periode_id', $request->periode]
+            ])
+            ->first();
+        }
+
+        
+        $ligneGroupes = LigneGroupe::where([
+            ['ligne_goupes.eleve_classe_id', $request->student_id],
+            ['ligne_goupes.synthese_classe_id', $syntheseClasse->id]
+        ])
+        ->get();         
+
+        $newLigneGroupes = [];
+        foreach ($ligneGroupes as $key => $ligneGroupe) {
+            $ligneSyntheses = LigneSynthese::where([
+                ['eleve_classe_id', $request->student_id],
+                ['synthese_classe_id', $syntheseClasse->id],
+                ['groupe_matiere_id', $ligneGroupe->groupe_matiere_id]
+            ])
+            ->get();
+            $obj_merged = (object) array_merge((array) $ligneGroupe, (array) Array("ligneSyntheses" => $ligneSyntheses));
+            array_push($newLigneGroupes, $obj_merged);
+        }
+
+        return Array("syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes);
     }
 
 

@@ -267,7 +267,7 @@ Route::middleware('auth')->group(function(){
         Route::prefix('bulletins')->name('bulletins.')->namespace('Synthese')->group(function(){
             Route::get('/','SyntheseController@Bulletins')->name('bulletin-eleve');
             Route::get('/eleve','SyntheseController@eleveByClasse')->name('eleves');
-            Route::get('/bulletin-data','SyntheseController@getBulletinEleve')->name('bulletin-data');
+            Route::get('/bulletin-data','SyntheseController@getBulletinData')->name('bulletin-data');
         });
     });
 });
