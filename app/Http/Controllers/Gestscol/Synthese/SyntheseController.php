@@ -118,11 +118,7 @@ class SyntheseController extends Controller
         $note_periode = $notes;
         //return $note_periode;
         $notes = $this::calculNoteMatierPeriode($notes);
-<<<<<<< HEAD
-        //return $notes;
-=======
         
->>>>>>> 5aa93893db26f014fde85878e1e6879dc525ed7c
         $result = [];
         foreach ($notes as $note) {
             $groups = [];
