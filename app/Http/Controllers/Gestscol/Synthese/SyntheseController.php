@@ -79,7 +79,7 @@ class SyntheseController extends Controller
     }
 
     public function getBulletinEleve(Request $request) {
-        $notes;
+        $notes = null;
         $base_bareme = 20;
 
         if($request->limitation == 'p') {
@@ -118,7 +118,11 @@ class SyntheseController extends Controller
         $note_periode = $notes;
         //return $note_periode;
         $notes = $this::calculNoteMatierPeriode($notes);
+<<<<<<< HEAD
         //return $notes;
+=======
+        
+>>>>>>> 5aa93893db26f014fde85878e1e6879dc525ed7c
         $result = [];
         foreach ($notes as $note) {
             $groups = [];
@@ -139,7 +143,7 @@ class SyntheseController extends Controller
         
         $moyennesClass = [];
         foreach ($elevesInClassAnne as $key => $item) {
-            $notesClass;
+            $notesClass = null;
             if($request->limitation == 'p') {
                 $notesClass = Note::leftjoin('evaluation_periodes','evaluation_periodes.id','=','notes.evaluation_periode_id')
                 ->leftjoin('eleve_classes','eleve_classes.id','=','notes.eleve_classe_id')
@@ -184,7 +188,6 @@ class SyntheseController extends Controller
         }
         
         return ["notesStudent" => $result, "notesAllStudents" => $moyennesClass];
-    
     }
 
 

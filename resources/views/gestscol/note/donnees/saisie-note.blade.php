@@ -191,6 +191,7 @@
             $('#result-eleve').empty();
             let evaluationPeriode = "";
             let notes = [];
+            let bareme = 0;
             $('#classeAnneeId').on('change',function(ev){
                 classeAnneId = ev.target.value;
                 $.ajax({
@@ -285,6 +286,7 @@
                     success:function(response){
                         console.log(response);  
                         evaluationPeriode = response.evaluationPeriode;
+                        bareme = evaluationPeriode.bareme;
                         let data = "";
                         data += '<div class="card-body" class="scroll-area-md">';
                         data += '<table class="mb-0 table table-hover">';
@@ -321,12 +323,20 @@
             });
 
             $('#saveNote').on('click',function(){
+                let error = false;
                 $.each(notes, function(key, elt){
                     let inpute = $('input[data-key="'+key+'"]');
-                    notes[key].note = inpute.val();
+                    if( parseInt(inpute.val()) > parseInt( bareme)){
+                        inpute.addClass("border border-danger");
+                        error = true;
+                    }else{
+                        inpute.removeClass("border border-danger");
+                        notes[key].note = inpute.val();
+                    }
+                    
                 });
-
-                $.ajax({
+                if(!error){
+                    $.ajax({
                     url: "{{route('gestscol.notes.saveNote',$etablissement)}}",
                     type: "POST",
                     data:{
@@ -350,6 +360,9 @@
                         }, 1000);
                     }
                 });
+                }
+
+                
 
             });
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSynthesesTable extends Migration
+class CreateLigneGoupesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,15 @@ class CreateSynthesesTable extends Migration
      */
     public function up()
     {
-        Schema::create('syntheses', function (Blueprint $table) {
+        Schema::create('ligne_goupes', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('synthese_classe_id');
             $table->unsignedInteger('eleve_classe_id');
             $table->unsignedInteger('etablissement_id');
-            $table->double("som_point")->nullable();
-            $table->double("som_coef")->nullable();
-            $table->double("moyenne_generale")->nullable();
-            $table->integer("rang")->nullable();
-            $table->text("appreciation")->nullable();
-            $table->text("mention")->nullable();
-            $table->foreign('synthese_classe_id')->references('id')->on('syntheses_classes')->onUpdate('cascade')->onDelete('cascade');
+            $table->double("somme_point")->nullable();
+            $table->double("somme_coef")->nullable();
+            $table->double("moyenne_groupe")->nullable();
+            $table->foreign('synthese_classe_id')->references('id')->on('synthese_classes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('eleve_classe_id')->references('id')->on('eleve_classes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('etablissement_id')->references('id')->on('etablissements')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
@@ -38,6 +35,6 @@ class CreateSynthesesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('syntheses');
+        Schema::dropIfExists('ligne_goupes');
     }
 }

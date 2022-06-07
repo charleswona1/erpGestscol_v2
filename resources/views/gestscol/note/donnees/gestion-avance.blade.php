@@ -286,7 +286,7 @@
                         periodeId = ev.target.value;
                         $('#evaluationPeriode').empty();
                         $.ajax({
-                            url: "{{route('gestscol.notes.sous-periode',$etablissement)}}",
+                            url: "{{route('gestscol.notes.get-evaluation-periode',$etablissement)}}",
                             type: "GET",
                             data:{
                                 "periodeId": periodeId,
@@ -418,7 +418,7 @@
                         sousPeriodeId = ev.target.value;
                         $('#evaluationPeriode').empty();
                         $.ajax({
-                            url: "{{route('gestscol.notes.get-evaluation-periode',$etablissement)}}",
+                            url: "{{route('gestscol.notes.get-evaluation-sous-periode',$etablissement)}}",
                             type: "GET",
                             data:{
                                 "sousPeriodeId": sousPeriodeId,

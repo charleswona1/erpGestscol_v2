@@ -136,7 +136,8 @@ class NotesController extends Controller
         return response()->json($matieres);
     }
 
-    public function getSousPeriode(Etablissement $etablissement,Request $request){
+
+    public function getEvaluationPeriode(Etablissement $etablissement,Request $request){
         $sousPeriodes = SousPeriode::where('periode_id',$request->periodeId)->get();
         if ($request->isAvance) {
             $evaluationPeriodes = EvaluationPeriode::where([['periode_id',$request->periodeId],['classe_matiere_id',$request->matiereAnne],['classe_annee_id',$request->classeAnneId]])->get();
@@ -186,7 +187,7 @@ class NotesController extends Controller
         return response()->json($enseignant);
     }
 
-    public function getEvaluationPeriode(Etablissement $etablissement,Request $request){
+    public function getEvaluationSousPeriode(Etablissement $etablissement,Request $request){
         $evaluationPeriodes = EvaluationPeriode::where([['sous_periode_id',$request->sousPeriodeId],['classe_matiere_id',$request->matiereAnne],['classe_annee_id',$request->classeAnneId]])->get();
             $evaluations = collect();
             foreach ($evaluationPeriodes as $key => $eval) {

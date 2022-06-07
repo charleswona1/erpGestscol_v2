@@ -132,7 +132,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            {{-- <div class="main-card mb-3 card">
+            <div class="main-card mb-3 card">
                 <div class="card-body card-shadow-primary" style="float: left; overflow-y: scroll;">
                     <table class="mb-0 table table-bordered">
                         <thead>
@@ -153,12 +153,17 @@
                         </tbody>
                     </table>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </div>
     @push('javascripts')
         <script>
             $('#clotureBtn').prop("disabled", true);
+
+            $("#classeAnneeId").on('change',function(ev){
+                ressetAll(true);
+            })
+
             $("#limitation").on('change',function(ev){
                 $('.limitation').empty();
                 $('#cloture').empty();
@@ -227,7 +232,6 @@
             }
 
             function cloture(data,msg){
-
                 $('#clotureBtn').off().on('click',function(ev){
                     ev.preventDefault();
                     $('#cloture').empty();
@@ -317,6 +321,13 @@
                 tr = '<tr>'+th+'</tr>';
             
                 return tr;
+            }
+
+            function ressetAll(limit=false){
+                $('#cloture').empty();
+                if(limit == true){
+                    $('.limitation').empty();
+                }
             }
         </script>
     @endpush
