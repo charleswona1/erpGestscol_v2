@@ -11,8 +11,12 @@ use App\Models\ClasseMatiere;
 use App\Models\EnseignantAnnee;
 use App\Models\MatiereNiveau;
 use App\Models\GroupeMatiere;
+use App\Models\ligneGoupe;
+use App\Models\LigneSynthese;
 use App\Models\Matiere;
 use App\Models\Note;
+use App\Models\Synthese;
+use App\Models\SyntheseClasse;
 use Illuminate\Http\Request;
 use App\SyntheseEntites;
 
@@ -42,7 +46,10 @@ class SyntheseController extends Controller
     public function EvaluationEleveMatierePeriode(Request $request){
         $eleveClasses = SyntheseEntites::matiereEleveSousPeriode($request->classe_annee_id);
         $noteEleve = collect();
+        $periode_id = null;
+        $sous_periode_id = null;
         if (isset($request->periode_id)) {
+            $periode_id = $request->periode_id;
             $req = SyntheseEntites::evaluationPeride($request->periode_id,$request->classe_annee_id);
             foreach ($eleveClasses["eleves"] as $eleve) {
                 $note =SyntheseEntites::calculNoteMatierePeriode($eleve->id,$request->periode_id,$eleveClasses["matieres"],$req);
@@ -50,6 +57,7 @@ class SyntheseController extends Controller
                 $eleve->notesEleve = $note;
             }
         }else if (isset($request->sous_periode_id)){
+            $sous_periode_id = $request->sous_periode_id;
             $req = SyntheseEntites::evaluationSousPeridePeride($request->sous_periode_id,$request->classe_annee_id);
            
             foreach ($eleveClasses["eleves"] as $eleve) {
@@ -66,7 +74,7 @@ class SyntheseController extends Controller
         $eleves = $eleveClasses["eleves"];
         $matieres = $eleveClasses["matieres"];
         $eleves = SyntheseEntites::OrderByNoteGenerale($eleves);
-        $noteEleveOrder = compact("eleves","matieres");
+        $noteEleveOrder = compact("eleves","matieres","periode_id","sous_periode_id");
         return response()->json($noteEleveOrder);
     }
 
@@ -248,6 +256,99 @@ class SyntheseController extends Controller
 
         return $notes;
 
+    }
+
+    public function saveCloture(Etablissement $etablissement,Request $request){
+        // enregistrement du lot de synthese de la classe
+        $syntheseClasse = $this::saveSyntheseClasse($etablissement,$request);
+        if($syntheseClasse != false){
+            // enregistrement du lot de synthese
+            foreach ($request->listeSynthese as $synthese) {
+                $syntheses = new Synthese();
+                $syntheses->synthese_classe_id = $syntheseClasse->id;
+                $syntheses->eleve_classe_id = $synthese['eleve_classe_id'];
+                $syntheses->etablissement_id = $etablissement->id;
+                $syntheses->som_point = $synthese['som_point'];
+                $syntheses->som_coef = $synthese['som_coef'];
+                $syntheses->rang = $synthese['rang'];
+                $syntheses->appreciation = $synthese['appreciation'];
+                $syntheses->mention = $synthese['mention'];
+    
+                $syntheses->save();
+            }
+            // enregistrement du lot de linge de synthese
+            foreach ($request->listeLigneSynthese as $itemLigneSynthese) {
+               $ligneSynthese = new LigneSynthese();
+               $ligneSynthese->synthese_classe_id = $syntheseClasse->id;
+               $ligneSynthese->etablissement_id = $etablissement->id;
+               $ligneSynthese->eleve_classe_id  = $itemLigneSynthese['eleve_classe_id'];
+               $ligneSynthese->coef  = $itemLigneSynthese['coef'];
+               $ligneSynthese->groupe_matiere_id  = $itemLigneSynthese['groupe_matiere_id'];
+               $ligneSynthese->moyenne  = $itemLigneSynthese['moyenne'];
+               $ligneSynthese->total_point  = $itemLigneSynthese['total_point'];
+               $ligneSynthese->rang  = $itemLigneSynthese['rang'];
+               $ligneSynthese->classe_matiere_id  = $itemLigneSynthese['classe_matiere_id'];
+
+               $ligneSynthese->save();
+            }
+            // enregistrement du lot de ligne de groupe 
+            foreach ($request->listLigneGroupe as $itemLigneGroupe) {
+                $ligneGroupe = new ligneGoupe();
+                $ligneGroupe->synthese_classe_id = $syntheseClasse->id;
+                $ligneGroupe->etablissement_id = $etablissement->id;
+                $ligneGroupe->eleve_classe_id  = $itemLigneGroupe['eleve_classe_id'];
+                $ligneGroupe->somme_coef  = $itemLigneGroupe['somme_coef'];
+                $ligneGroupe->groupe_matiere_id  = $itemLigneGroupe['groupe_matiere_id'];
+                $ligneGroupe->moyenne_groupe  = $itemLigneGroupe['moyenne_groupe'];
+                $ligneGroupe->somme_point  = $itemLigneGroupe['somme_point'];
+ 
+                $ligneGroupe->save();
+            }
+        }   
+
+    }
+
+    public static function saveSyntheseClasse(Etablissement $etablissement,Request $request){
+        try {
+            $syntheseClasse = new SyntheseClasse();
+            $syntheseClasse->classe_annee_id = $request->classe_annee_id;
+            $syntheseClasse->annee_academique_id = $request->annee_academique_id;
+            $syntheseClasse->periode_id = $request->periode_id;
+            $syntheseClasse->sous_periode_id = $request->sous_periode_id;
+            $syntheseClasse->etablissement_id = $etablissement->id;
+            $syntheseClasse->moy_classe = $request->moy_classe;
+            $syntheseClasse->moy_max = $request->moy_max;
+            $syntheseClasse->moy_min = $request->moy_min;
+            $syntheseClasse->effectif = $request->effectif;
+    
+            $syntheseClasse->save();
+    
+            return $syntheseClasse;
+        } catch (\Throwable $th) {
+            return false;
+        }
+       
+    }
+
+    public static function saveSynthese(Etablissement $etablissement,$synthese_classe_id,$synthese){
+        return $synthese;
+        try {
+            $syntheses = new Synthese();
+            $syntheses->synthese_classe_id = $synthese_classe_id;
+            $syntheses->eleve_classe_id = $synthese->eleve_classe_id;
+            $syntheses->etablissement_id = $etablissement->id;
+            $syntheses->som_point = $synthese->som_point;
+            $syntheses->som_coef = $synthese->som_coef;
+            $syntheses->rang = $synthese->rang;
+            $syntheses->appreciation = $synthese->appreciation;
+            $syntheses->mention = $synthese->mention;
+    
+            $synthese->save();
+
+        } catch (\Throwable $th) {
+            logger("erreur d'enregistrement : ".$th->getMessage());
+        }
+       
     }
 
 

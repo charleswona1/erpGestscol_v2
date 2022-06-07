@@ -112,13 +112,10 @@
         </div>
         <div class="col-lg-4">
             <div class="main-card mb-3 card">
-
                 <div class="card-body" class="scroll-area-md">
-
                     <button class="mt-1 btn btn-success" id="clotureBtn" disabled>Lancer la
-                            Clôture</button>
-                    <button class="mt-1 btn btn-secondary"><a href="index.html"
-                            style="color:white; text-decoration:none;">Annuler</a></button>
+                        Clôture
+                    </button>
                 </div>
             </div>
         </div>
@@ -208,7 +205,7 @@
                     if($('#classe_annee_id').val() != "" && $('#limitation').val() == limit){
                         $('#clotureBtn').prop("disabled", false);
                         msg ="Cloture de la période "+ev.target.value;
-                        cloture(data,msg);
+                        PrevisionnelCloture(data,msg);
                     }
                 
                 });
@@ -224,14 +221,14 @@
                     if($('#classe_annee_id').val() != "" && $('#limitation').val() == limit){
                         $('#clotureBtn').prop("disabled", false);
                         msg ="Cloture de la sous période "+ev.target.value;
-                        cloture(data,msg); 
+                        PrevisionnelCloture(data,msg); 
                     }
                 });
 
 
             }
 
-            function cloture(data,msg){
+            function PrevisionnelCloture(data,msg){
                 $('#clotureBtn').off().on('click',function(ev){
                     ev.preventDefault();
                     $('#cloture').empty();
@@ -256,6 +253,11 @@
                                 $.each(elevesNotes, function (i, eleve) {
                                     let ancien = eleve.ancien == 0? "Non":"Oui";
                                     let redoublant = eleve.is_redouble == 0? "Non":"Oui";
+                                    // let noteMatieres = ...eleve.notesEleve.noteParMatiere;
+                                    let ListNotes = [];
+                                    $.each([...eleve.notesEleve.noteParMatiere],function(index,elt){
+                                        ListNotes.push(elt.note);
+                                    });
                                     tb += generatTBody(
                                         i+1,
                                         eleve.nom,
@@ -266,18 +268,136 @@
                                         eleve.notesEleve.moyenGrp1,
                                         eleve.notesEleve.moyenGrp2,
                                         eleve.notesEleve.moyenGrp3,
-                                        ...eleve.notesEleve.noteParMatiere
-                                        );
+                                        ...ListNotes
+                                    );
                                 });
                             }
                             table +=generateMultiColumnTable(th,tb,msg);
                             $('#cloture').append(table);
+
+                            $('#saveCloture').on('click',function(){
+                                let synthese = [];
+                                let itemSynthese = null;
+                                let effectifs = 0;
+
+                                // gestion des synthese 
+                                $.each(elevesNotes, function(i,eleveNote){
+                                    let som_point = 0;
+                                    let som_coef = 0;
+                                    let moyenne_generale = 0;
+                                    let rang = 0;
+                                    let mention = "";
+                                    $.each(eleveNote.notesEleve.noteParMatiere, function(y,matiere){
+                                        som_point = som_point + (matiere.note * matiere.coef);
+                                        som_coef = som_coef + matiere.coef;
+                                    });
+
+                                    if (eleveNote.notesEleve.moyenGenerale < 8) {
+                                        mention = "Insuffisant";
+                                    }else if(eleveNote.notesEleve.moyenGenerale < 10 && eleveNote.notesEleve.moyenGenerale >= 8){
+                                        mention = "Mediocre";
+                                    }else if(eleveNote.notesEleve.moyenGenerale < 12 && eleveNote.notesEleve.moyenGenerale >= 10){
+                                        mention = "Passable";
+                                    }else if(eleveNote.notesEleve.moyenGenerale < 14 && eleveNote.notesEleve.moyenGenerale >= 12){
+                                        mention = "Assez-Bien";
+                                    }else if(eleveNote.notesEleve.moyenGenerale < 16 && eleveNote.notesEleve.moyenGenerale >= 14){
+                                        mention = "Bien";
+                                    }else if(eleveNote.notesEleve.moyenGenerale < 18 && eleveNote.notesEleve.moyenGenerale >= 16){
+                                        mention = "Très-Bien";
+                                    }else if(eleveNote.notesEleve.moyenGenerale >= 18){
+                                        mention = "Excéllent";
+                                    }
+                                    
+                                    itemSynthese = {
+                                        eleve_classe_id:eleveNote.eleve_id,
+                                        som_point: som_point.toFixed(2),
+                                        som_coef: som_coef,
+                                        moyenne_generale: eleveNote.notesEleve.moyenGenerale,
+                                        rang: i + 1,
+                                        mention:mention,
+                                        appreciation:""
+                                    }
+
+                                    synthese.push(itemSynthese);
+                                    effectifs = effectifs + 1;
+                                });
+                                // gestion des lignes de synthese
+                                let ligneSyntheseArray = [];
+                                $.each(elevesNotes, function(i,eleve){
+                                    let arrayNoteEleves = eleve.notesEleve.noteParMatiere;
+                                    $.each(arrayNoteEleves, function(y, noteEleve){
+                                        let ligneSynthese = {
+                                            eleve_classe_id : eleve.eleve_id,
+                                            classe_matiere_id : noteEleve.classe_matiere_id,
+                                            groupe_matiere_id : noteEleve.groupe_matiere_id,
+                                            total_point : noteEleve.note * noteEleve.coef,
+                                            coef : noteEleve.coef,
+                                            moyenne : noteEleve.note,
+                                            rang : calculeRang(elevesNotes, noteEleve.note, noteEleve.classe_matiere_id)
+                                        };
+
+                                        ligneSyntheseArray.push(ligneSynthese);
+                                    });
+                                });
+
+                                // gestion de ligne de groupe
+                                let ligneGroupeArray = [];
+                                $.each(elevesNotes, function(i,eleve){
+                                    let ligneGroupes = eleve.notesEleve.ligneGroupes;
+                                    $.each([...ligneGroupes],function(index, ligne){
+                                        let itemLigne = {
+                                            eleve_classe_id : eleve.eleve_id,
+                                            somme_point : (ligne.coef * ligne.moyenne_groupe).toFixed(2),
+                                            somme_coef : ligne.coef,
+                                            moyenne_groupe : ligne.moyenne_groupe,
+                                            groupe_matiere_id : ligne.groupe_matiere_id
+                                        };
+                                        ligneGroupeArray.push(itemLigne);
+                                    })
+                                    
+                                });
+                                
+                                // object de la cloture
+                                let datas = {
+                                    _token: "{{ csrf_token() }}",
+                                    ...data,
+                                    annee_academique_id: elevesNotes[0].annee_academique_id,
+                                    ...moyennGroupe(elevesNotes),
+                                    listeSynthese: synthese,
+                                    effectif: effectifs,
+                                    listeLigneSynthese : ligneSyntheseArray,
+                                    listLigneGroupe : ligneGroupeArray
+                                };
+
+                                console.log(datas);
+                                saveCloture(datas);
+                            });
+                        },
+                        error: function(errors){
+                            console.log(errors);
+                            setTimeout(() => {
+                                location.reload(); 
+                            }, 1000);
+                        }
+                    });
+                });
+            }
+
+
+            function saveCloture(data){
+                console.log(data);
+                $.ajax({
+                        url: "{{route('gestscol.cloture.saveCloture',$etablissement)}}",
+                        type: "POST",
+                        data : data,
+                        success:function(response){
+                            console.log(response);
+                            
                         },
                         error: function(errors){
                             console.log(errors);
                         }
                     });
-                });
             }
 
             var generateMultiColumnTable = function (thead, tbody, title) {
@@ -295,7 +415,7 @@
                                         tbody+
                                     '</tbody>'+
                                 '</table>'+
-                                '<button class="m-1 btn btn-info text-white">Imprimerr</button>'+
+                                '<button class="m-1 btn btn-info text-white" id="saveCloture">Cloturer</button>'+
                                 '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
                                 
                             '</div>';   
@@ -329,6 +449,41 @@
                     $('.limitation').empty();
                 }
             }
+
+            function moyennGroupe(lists){
+                let moy_generale = 0;
+                let moyenne_max = 0;
+                let moyenne_min = lists[0].notesEleve.moyenGenerale;
+
+                if(lists.length > 0){
+                    $.each(lists, function(i,elt){
+                        moy_generale = moy_generale + elt.notesEleve.moyenGenerale;
+                        if(moyenne_max < elt.notesEleve.moyenGenerale){
+                            moyenne_max = elt.notesEleve.moyenGenerale;
+                        }
+                        if(moyenne_min > elt.notesEleve.moyenGenerale){
+                            moyenne_min = elt.notesEleve.moyenGenerale;
+                        }
+                    });
+                }
+
+                return {
+                    moy_classe:(moy_generale/lists.length).toFixed(2),
+                    moy_max:moyenne_max.toFixed(2),
+                    moy_min:moyenne_min.toFixed(2),
+                };
+            }
+
+            function calculeRang(eleves, note, classe_matiere_id){
+                let notes = [];
+                $.each(eleves, function(i,eleve){
+                    let arrayNoteEleves = eleve.notesEleve.noteParMatiere;
+                    notes.push(arrayNoteEleves.find(elt => elt.classe_matiere_id == classe_matiere_id).note); 
+                });
+                notes = notes.sort(function(a,b){return b - a});
+                return notes.findIndex(elt => elt == note) + 1;
+            }
+            
         </script>
     @endpush
 </x-gest-scol>
