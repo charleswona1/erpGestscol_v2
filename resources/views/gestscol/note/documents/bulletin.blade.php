@@ -478,11 +478,11 @@
                         </label>
                     </div>
                     <br/>
-                    <center>
+                    {{-- <center>
                         <button class="mt-1 btn btn-info"><a href="index.html"
                                 style="color:white; text-decoration:none;">Imprimer</a></button>
                         <a href="index.html"><button class="mt-1 btn btn-primary">Exporter</button></a>
-                    </center>
+                    </center> --}}
                       
                     <div id="liste_eleves">
 
@@ -553,7 +553,7 @@
                         classe_id: val,
                     },
                     success:function(response) {
-                        
+                       
                         let table ="";
 
                         if(response.length>0) {
@@ -577,7 +577,7 @@
                                 $('#bulletin-card').empty();
                             
                                 console.log(periode_id);
-                               
+
                                 $.ajax({
                                     url: "{{route('gestscol.bulletins.bulletin-data',$etablissement)}}",
                                     type: "GET",
@@ -588,69 +588,98 @@
                                     },
                                     success:function(response) {
                                         console.log(response);
-                                        let point = 0;
-                                        let sumCoef = 0;
-                                        let totalPoint = 0;
-                                        let totalsumCoef = 0;
-                                            
-                                            let tableBul ="";
-                                            for(let i = 0; i < response['notesStudent'].length; i++) {
-                                                let nameGroupe = "";
+
+                                        let total_point = 0;
+                                        let rang = response["rang"];
+                                        let coef = 0;
+                                        let moyenne = 0;
+                                        
+                                        let ligneGroupes = response["ligneGroupes"];
+
+                                        console.log(ligneGroupes);
+                                        let syntheseClasse = response["syntheseClasse"];
+                                        let tableBul ="";
+
+                                        if(!response["success"]) {
+                                            tableBul  += '<div class="page-title-heading p-4">' +
+                                                '<div style="font-size: x-large;">Impossible de fournir le bulletin de note de cet apprenant</div>' +
+                                            '</div>'
+                                        } else {
+                                            for(let i = 0; i < ligneGroupes.length; i++) {
+                                                let ligneSyntheses = ligneGroupes[i]["ligneSyntheses"];
+
+                                                total_point += ligneGroupes[i]['somme_point'];
+                                                coef += ligneGroupes[i]['somme_coef'];
+
                                                 var tbb = "";
                                                 var thb = generateRowTh("Matières/Enseignants", "Moy", "Coef", "Total", "Rang", "Détails de Notes");
-                                                $.each(response['notesStudent'][i], function (i, note) {
-                                                    point += note.note * note.coefficient;
-                                                    sumCoef += note.coefficient;
-                                                    nameGroupe = note.nameGroupe;
+                                                $.each(ligneSyntheses, function (i, ligneSynthese) {
+                                                    
                                                     tbb += generatTBody(
-                                                        '<strong>' + note.name + '</strong> <br><span style="font-size:0.8em;">' + note.enseignantName + '</span>',
-                                                        parseFloat(note.note).toFixed(2),
-                                                        note.coefficient,
-                                                        parseFloat(note.note * note.coefficient).toFixed(2),
-                                                        '3e',
+                                                        '<strong>' + ligneSynthese.name + '</strong> <br><span style="font-size:0.8em;">' + ligneSynthese.nameEnseignant + '</span>',
+                                                        parseFloat(ligneSynthese.moyenne).toFixed(2),
+                                                        ligneSynthese.coef,
+                                                        parseFloat(ligneSynthese.total_point).toFixed(2),
+                                                        ligneSynthese.rang + 'e',
                                                         '<span style="font-size:0.8em;">Devoir surveillé {16/20}<br />Contrôle {16/20}</span>'
                                                     );
                                                 });
-                                                let moyenne = 0
-                                                if(sumCoef != 0) {
-                                                    moyenne = point / sumCoef;
-                                                    moyenne = parseFloat(moyenne).toFixed(2);
-                                                }
 
                                                 tableBul +=generateBulletinTable(thb,tbb,"");
                                                 tableBul += '<div class="card mb-1" style="text-align:center;">' +
                                                     '<table>' +
                                                         '<tr>' +
-                                                            '<th>' + nameGroupe + '</th>' +
+                                                            '<th>' + ligneGroupes[i]['name'] + '</th>' +
                                                             '<td>Points</td>' +
-                                                            '<th>' + parseFloat(point).toFixed(2) + '</th>' +
+                                                            '<th>' + ligneGroupes[i]['somme_point'] + '</th>' +
                                                             '<td>Coefs</td>' +
-                                                            '<th>' + sumCoef + '</th>' +
+                                                            '<th>' + ligneGroupes[i]['somme_coef'] + '</th>' +
                                                             '<td>Moyenne</td>' +
-                                                            '<th>' + moyenne + '</th>' +
+                                                            '<th>' + ligneGroupes[i]['moyenne_groupe'] + '</th>' +
                                                         '</tr>' +
                                                     '</table>' +
                                                 '</div>'
-                                                
-                                                totalPoint += point;
-                                                totalsumCoef += sumCoef;
-                                                point = 0;
-                                                sumCoef = 0;    
+                                                  
                                             }
-
-                                            let totalMoyen = 0;
-                                            if(totalsumCoef != 0) {
-                                                totalMoyen = totalPoint / totalsumCoef;
-                                                totalMoyen = parseFloat(totalMoyen).toFixed(2);
-                                            }
-
-                                            let moyenneGenerale = response['notesAllStudents'].reduce((a, b) => a + b, 0);
-                                            moyenneGenerale = moyenneGenerale / response['notesAllStudents'].length;
-                                            moyenneGenerale = parseFloat(moyenneGenerale).toFixed(2);
-                                            totalPoint = parseFloat(totalPoint).toFixed(2)
-                                            let rang = response['notesAllStudents'].findIndex((element) => element == totalPoint / totalsumCoef)
-                                            rang++;
                                         
+                                            moyenne = total_point / coef;
+                                            moyenne = parseFloat(moyenne).toFixed(2);
+
+                                            let appreciation;
+                                            let color;
+                                            if (moyenne == 0) {
+                                                appreciation = "Null";
+                                                color = "bg-danger";
+                                            } else if (moyenne > 0 && moyenne <= 5) {
+                                                appreciation = "Mauvais";
+                                                color = "bg-danger";
+                                            } else if (moyenne > 5 && moyenne <= 8) {
+                                                appreciation = "Faible";
+                                                color = "bg-danger";
+                                            } else if (moyenne > 8 && moyenne < 10) {
+                                                appreciation = "Mediocre";
+                                                color = "bg-warning";
+                                            } else if (moyenne >= 10 && moyenne < 12) {
+                                                color = "bg-success";
+                                                appreciation = "Passable";
+                                            } else if (moyenne >= 12 && moyenne < 14) {
+                                                color = "bg-success";
+                                                appreciation = "Assez bien";
+                                            } else if (moyenne >= 14 && moyenne < 16) {
+                                                color = "bg-success";
+                                                appreciation = "Bien";
+                                            } else if (moyenne >= 16 && moyenne < 18) {
+                                                color = "bg-success";
+                                                appreciation = "Très bien";
+                                            } else if (moyenne >= 18 && moyenne < 20) {
+                                                color = "bg-success";
+                                                appreciation = "Excellent";
+                                            } else if(moyenne == 20) {
+                                                color = "bg-success";
+                                                appreciation = "Parfait";
+                                            }
+                                            
+
                                             tableBul += '<div class="card-body bulletin-summary" style="float: left;">'+
                                                             '<div class="row" style="margin:auto;">'+
                                                                 '<div class="col-sm-4">'+
@@ -714,13 +743,13 @@
                                                                         '</thead>'+
                                                                         '<tbody>'+
                                                                             '<tr>'+
-                                                                                '<td class="border">' + totalPoint + '</td>'+
-                                                                                '<td class="border">' + totalsumCoef + '</td>'+
-                                                                                '<th class="border bg-success">' + totalMoyen + '</th>'+
+                                                                                '<td class="border">' + total_point + '</td>'+
+                                                                                '<td class="border">' + coef + '</td>'+
+                                                                                '<th class="border '+ color +'">' + moyenne + '</th>'+
                                                                                 '<th class="border">' + rang + 'e</th>'+
-                                                                                '<td class="border">' + moyenneGenerale + '</td>'+
-                                                                                '<td class="border">' + parseFloat(Math.min.apply(null, response['notesAllStudents'])).toFixed(2) + '</td>'+
-                                                                                '<td class="border">' + parseFloat(Math.max.apply(null, response['notesAllStudents'])).toFixed(2) + '</td>'+
+                                                                                '<td class="border">' + syntheseClasse['moy_classe'] + '</td>'+
+                                                                                '<td class="border">' + syntheseClasse['moy_min'] + '</td>'+
+                                                                                '<td class="border">' + syntheseClasse['moy_max'] + '</td>'+
                                                                             '</tr>'+
                                                                         '</tbody>'+
                                                                     '</table>'+
@@ -729,7 +758,7 @@
                                                                         '<thead>'+
                                                                             '<tr>'+
                                                                                 '<td class="border">Appréciation</td>'+
-                                                                                '<th class="border">Passable</th>'+
+                                                                                '<th class="border">'+ appreciation +'</th>'+
                                                                             '</tr>'+
                                                                         '</thead>'+
                                                                     '</table>'+
@@ -744,7 +773,14 @@
                                                                     '<th>Le Principal</th>'+
                                                             '</table>'+
                                                         '</div>'
+                                        }
+
+
+
+
                                             
+                                        
+                                        
                                         $('#bulletin-card').append(tableBul); 
                                        
                                     },
@@ -777,7 +813,8 @@
                             tbody+
                         '</tbody>'+
                     '</table>'+
-                    '<button class="m-1 btn btn-info text-white">Imprimerr</button>'+
+                    '<button class="m-1 btn btn-info text-white">Imprimer</button>'+
+                    '<button class="m-1 btn btn-success text-white">Imprimer Tous</button>'+
                     '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
                     
                 '</div>';   

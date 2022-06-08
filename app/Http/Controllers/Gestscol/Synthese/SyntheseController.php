@@ -15,6 +15,9 @@ use App\Models\Matiere;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use App\SyntheseEntites;
+use App\Models\SyntheseClasse;
+use App\Models\ligneGoupe;
+use App\Models\LigneSynthese;
 
 class SyntheseController extends Controller
 {
@@ -254,40 +257,98 @@ class SyntheseController extends Controller
         $syntheseClasse;
         $ligneGroupes = [];
 
+        $eleve = EleveClasse::find($request->student_id);
+
         if($request->limitation == 'p') {
             $syntheseClasse = SyntheseClasse::where([
-                ['classe_annee_id', $request->classe_annee_id],
+                ['classe_annee_id', $eleve->classe_annee_id],
                 ['periode_id', $request->periode]
             ])
             ->first();
         } else {
             $syntheseClasse = SyntheseClasse::where([
-                ['classe_annee_id', $request->classe_annee_id],
+                ['classe_annee_id', $eleve->classe_annee_id],
                 ['sous_periode_id', $request->periode]
             ])
             ->first();
         }
 
-        
-        $ligneGroupes = LigneGroupe::where([
-            ['ligne_goupes.eleve_classe_id', $request->student_id],
-            ['ligne_goupes.synthese_classe_id', $syntheseClasse->id]
-        ])
-        ->get();         
+        if(isset($syntheseClasse)) {
 
-        $newLigneGroupes = [];
-        foreach ($ligneGroupes as $key => $ligneGroupe) {
-            $ligneSyntheses = LigneSynthese::where([
-                ['eleve_classe_id', $request->student_id],
-                ['synthese_classe_id', $syntheseClasse->id],
-                ['groupe_matiere_id', $ligneGroupe->groupe_matiere_id]
+            $ligneGroupes = ligneGoupe::join('groupe_matieres','groupe_matieres.id','=','ligne_goupes.groupe_matiere_id')
+            ->where([
+                ['ligne_goupes.eleve_classe_id', $request->student_id],
+                ['ligne_goupes.synthese_classe_id', $syntheseClasse->id]
             ])
-            ->get();
-            $obj_merged = (object) array_merge((array) $ligneGroupe, (array) Array("ligneSyntheses" => $ligneSyntheses));
-            array_push($newLigneGroupes, $obj_merged);
-        }
+            ->select('ligne_goupes.*', 'groupe_matieres.id as groupId', 'groupe_matieres.*')
+            ->get();         
+            
+            if(sizeof($ligneGroupes) == 0) return Array("success" => false);
 
-        return Array("syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes);
+
+            $points = 0;
+            $coefs = 0;
+            $newLigneGroupes = [];
+            foreach ($ligneGroupes as $key => $ligneGroupe) {
+                $ligneSyntheses = LigneSynthese::join('classe_matieres','classe_matieres.id','=','ligne_syntheses.classe_matiere_id')
+                ->join('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
+                ->join('matieres','matieres.id','=','matiere_niveaux.matiere_id')
+                ->join('enseignant_annees','enseignant_annees.id','=','classe_matieres.enseignant_annee_id')
+                ->where([
+                    ['eleve_classe_id', $request->student_id],
+                    ['synthese_classe_id', $syntheseClasse->id],
+                    ['ligne_syntheses.groupe_matiere_id', $ligneGroupe->groupe_matiere_id]
+                ])
+                ->select('ligne_syntheses.*', 'matieres.id as matiere_id', 'matieres.*', 'enseignant_annees.name as nameEnseignant')
+                ->get();
+
+                $points += $ligneGroupe->somme_point;
+                $coefs += $ligneGroupe->somme_coef;
+                $ligneGroupe->ligneSyntheses = $ligneSyntheses;
+                array_push($newLigneGroupes, $ligneGroupe);
+            }
+
+            if($coefs != 0) {
+                $note = $points / $coefs;
+            }
+
+            $ligneGroupesStudents = EleveClasse::join('ligne_goupes','ligne_goupes.eleve_classe_id','=','eleve_classes.id')
+            ->where([
+                ['eleve_classes.classe_annee_id', $eleve->classe_annee_id],
+                ['ligne_goupes.synthese_classe_id', $syntheseClasse->id]
+            ])
+            ->select('ligne_goupes.*', 'eleve_classes.id as student_id')
+            ->get();
+
+            $eleveClasses = EleveClasse::where('classe_annee_id',$eleve->classe_annee_id)->get();
+            
+            $rang = 1;
+            
+            foreach ($eleveClasses as $key => $eleveClasse) {
+                # code...
+                $points = 0;
+                $coefs = 0;
+                $trouve = false;
+                foreach ($ligneGroupesStudents as $key => $item) {
+                    # code...
+                    if($item->eleve_classe_id == $eleveClasse->id) {
+                        $points += $item->somme_point;
+                        $coefs += $item->somme_coef;
+                        $trouve = true;
+                    }
+                }
+                if($trouve) {
+                    $moyenne = $points / $coefs;
+                    if($moyenne > $note) {
+                        $rang++;
+                    }
+                }
+            }
+    
+            return Array("success" => true, "rang" => $rang, "syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes);
+        } else {
+            return Array("success" => false);
+        }
     }
 
 
