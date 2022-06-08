@@ -262,6 +262,7 @@ Route::middleware('auth')->group(function(){
         Route::prefix('cloture')->name('cloture.')->namespace('Synthese')->group(function(){
             Route::get('/classe','SyntheseController@Index')->name('classe');
             Route::get('/periode','SyntheseController@EvaluationEleveMatierePeriode')->name('periode');
+            Route::post('/saveCloture','SyntheseController@saveCloture')->name('saveCloture');
         });
 
         Route::prefix('bulletins')->name('bulletins.')->namespace('Synthese')->group(function(){

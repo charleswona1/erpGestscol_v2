@@ -232,7 +232,7 @@
                         console.log(response);
                         let data = ""
                         $('#group_matiere').prop("disabled", false);
-                        data += "<option>Selectionnez le groupe</option>";
+                        data += "<option value=''>Selectionnez le groupe</option>";
                             $.each(response, function(key,val){
                                 data+="<option value="+val.id+">"+val.name+"</option>";
                             });

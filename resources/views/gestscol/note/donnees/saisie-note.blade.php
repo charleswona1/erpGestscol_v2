@@ -226,7 +226,7 @@
             $('#periodeId').on('change',function(ev){
                 periodeId = ev.target.value;
                 $.ajax({
-                    url: "{{route('gestscol.notes.sous-periode',$etablissement)}}",
+                    url: "{{route('gestscol.notes.get-evaluation-sous-periode',$etablissement)}}",
                     type: "GET",
                     data:{
                         "periodeId": periodeId,

@@ -18,6 +18,7 @@ class CreateLigneSynthesesTable extends Migration
             $table->unsignedInteger('synthese_classe_id');
             $table->unsignedInteger('eleve_classe_id');
             $table->unsignedInteger('etablissement_id');
+            $table->unsignedInteger('classe_matiere_id');
             $table->unsignedInteger('groupe_matiere_id');
             $table->double("total_point")->nullable();
             $table->double("coef")->nullable();
@@ -25,8 +26,9 @@ class CreateLigneSynthesesTable extends Migration
             $table->double("rang")->nullable();
             $table->foreign('synthese_classe_id')->references('id')->on('synthese_classes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('eleve_classe_id')->references('id')->on('eleve_classes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('groupe_matiere_id')->references('id')->on('groupe_matieres')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('classe_matiere_id')->references('id')->on('classe_matieres')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('etablissement_id')->references('id')->on('etablissements')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('groupe_matiere_id')->references('id')->on('groupe_matieres')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

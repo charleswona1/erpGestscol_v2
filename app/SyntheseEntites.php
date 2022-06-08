@@ -96,27 +96,41 @@ class SyntheseEntites
             if ($goupre->numero == 1 && in_array($classeMatiere->classe_matiere_id,$EvaluationIdArray)) {
                 $coefTotaleGrp1 = $coefTotaleGrp1 + $classeMatiere->coefficient;
                 $moyenGpr1Coefficie = $moyenGpr1Coefficie + ($note * $classeMatiere->coefficient);
+                $groupe_id1 = $goupre->id;
             }elseif ($goupre->numero == 2 && in_array($classeMatiere->classe_matiere_id,$EvaluationIdArray)) {
                 $coefTotaleGrp2 = $coefTotaleGrp2 + $classeMatiere->coefficient;
                 $moyenGpr2Coefficie = $moyenGpr2Coefficie + ($note * $classeMatiere->coefficient);
+                $groupe_id2 = $goupre->id;
             }elseif($goupre->numero == 3 && in_array($classeMatiere->classe_matiere_id,$EvaluationIdArray)) {
                 $coefTotaleGrp3= $coefTotaleGrp3 + $classeMatiere->coefficient;
                 $moyenGpr3Coefficie = $moyenGpr3Coefficie + ($note * $classeMatiere->coefficient);
+                $groupe_id3 = $goupre->id;
             }
             $coefTotale = $coefTotale + $classeMatiere->coefficient ;
             $moyenGeneraleCoefficie = $moyenGeneraleCoefficie + ($note * $classeMatiere->coefficient);
-            $noteParMatiere->push(round(($note), 2));
+            $noteParMatiere->push(collect(['note'=>round(($note), 2), 'coef'=>$classeMatiere->coefficient, 'classe_matiere_id'=>$classeMatiere->classe_matiere_id, 'groupe_matiere_id'=>$goupre->id]));
         }
+        $ligneGroupes = collect();
+        
         $moyenGenerale = $moyenGeneraleCoefficie == 0? 0 :  round(($moyenGeneraleCoefficie/$coefTotale), 2);
         $moyenGrp1 = $moyenGpr1Coefficie == 0? 0 : round(($moyenGpr1Coefficie/$coefTotaleGrp1), 2)  ;
         $moyenGrp2 = $moyenGpr2Coefficie == 0? 0 : round(($moyenGpr2Coefficie/$coefTotaleGrp2), 2);
         $moyenGrp3 = $moyenGpr3Coefficie == 0? 0 : round(($moyenGpr3Coefficie/$coefTotaleGrp3), 2);
+        if($coefTotaleGrp1 > 0){
+            $ligneGroupes->push(['groupe_matiere_id'=>$groupe_id1, 'coef'=>$coefTotaleGrp1, 'moyenne_groupe'=> $moyenGrp1 ]);
+        }
+        if($coefTotaleGrp2 > 0){
+            $ligneGroupes->push(['groupe_matiere_id'=>$groupe_id2, 'coef'=>$coefTotaleGrp2, 'moyenne_groupe'=> $moyenGrp2 ]);
+        }
+        if($coefTotaleGrp3 > 0){
+            $ligneGroupes->push(['groupe_matiere_id'=>$groupe_id3, 'coef'=>$coefTotaleGrp3, 'moyenne_groupe'=> $moyenGrp3 ]);
+        }
 
-
-        return compact('moyenGrp1','moyenGrp2','moyenGrp3','moyenGenerale','noteParMatiere');
+        return compact('moyenGrp1','moyenGrp2','moyenGrp3','moyenGenerale','noteParMatiere','ligneGroupes');
     }
 
     public static function calculNoteMatiereSousPeriode($eleve,$SousPeriode,$classMatiereArray,$evaluationArray){
+        
         $note = 0;
         $noteParMatiere = collect();
         $moyenGeneraleCoefficie = 0;
@@ -130,6 +144,7 @@ class SyntheseEntites
 
         $moyenGpr3Coefficie = 0;
         $coefTotaleGrp3 = 0;
+        
         
         foreach ($classMatiereArray as $classeMatiere) {
             $note = 0;
@@ -146,25 +161,36 @@ class SyntheseEntites
             if ($goupre->numero == 1 && in_array($classeMatiere->classe_matiere_id,$EvaluationIdArray)) {
                 $coefTotaleGrp1 = $coefTotaleGrp1 + $classeMatiere->coefficient;
                 $moyenGpr1Coefficie = $moyenGpr1Coefficie + ($note * $classeMatiere->coefficient);
+                $groupe_id1 = $goupre->id;
             }elseif ($goupre->numero == 2 && in_array($classeMatiere->classe_matiere_id,$EvaluationIdArray)) {
                 $coefTotaleGrp2 = $coefTotaleGrp2 + $classeMatiere->coefficient;
-                
                 $moyenGpr2Coefficie = $moyenGpr2Coefficie + ($note * $classeMatiere->coefficient);
+                $groupe_id2 = $goupre->id;
             }elseif ($goupre->numero == 3 && in_array($classeMatiere->classe_matiere_id,$EvaluationIdArray)) {
                 $coefTotaleGrp3= $coefTotaleGrp3 + $classeMatiere->coefficient;
                 $moyenGpr3Coefficie = $moyenGpr3Coefficie + ($note * $classeMatiere->coefficient);
+                $groupe_id3 = $goupre->id;
             }
             $coefTotale = $coefTotale + $classeMatiere->coefficient ;
             $moyenGeneraleCoefficie = $moyenGeneraleCoefficie + ($note * $classeMatiere->coefficient);
-            $noteParMatiere->push(round(($note), 2));
+            $noteParMatiere->push(collect(['note'=>round(($note), 2), 'coef'=>$classeMatiere->coefficient, 'classe_matiere_id'=>$classeMatiere->classe_matiere_id, 'groupe_matiere_id'=>$goupre->id]));
         }
-        
+        $ligneGroupes = collect();
         $moyenGenerale = $moyenGeneraleCoefficie == 0? 0 :  round(($moyenGeneraleCoefficie/$coefTotale), 2);
         $moyenGrp1 = $moyenGpr1Coefficie == 0? 0 : round(($moyenGpr1Coefficie/$coefTotaleGrp1), 2)  ;
         $moyenGrp2 = $moyenGpr2Coefficie == 0? 0 : round(($moyenGpr2Coefficie/$coefTotaleGrp2), 2);
         $moyenGrp3 = $moyenGpr3Coefficie == 0? 0 : round(($moyenGpr3Coefficie/$coefTotaleGrp3), 2);
+        if($coefTotaleGrp1 > 0){
+            $ligneGroupes->push(['groupe_matiere_id'=>$groupe_id1, 'coef'=>$coefTotaleGrp1, 'moyenne_groupe'=> $moyenGrp1 ]);
+        }
+        if($coefTotaleGrp2 > 0){
+            $ligneGroupes->push(['groupe_matiere_id'=>$groupe_id2, 'coef'=>$coefTotaleGrp2, 'moyenne_groupe'=> $moyenGrp2 ]);
+        }
+        if($coefTotaleGrp3 > 0){
+            $ligneGroupes->push(['groupe_matiere_id'=>$groupe_id3, 'coef'=>$coefTotaleGrp3, 'moyenne_groupe'=> $moyenGrp3 ]);
+        }
 
-        return compact('moyenGrp1','moyenGrp2','moyenGrp3','moyenGenerale','noteParMatiere');
+        return compact('moyenGrp1','moyenGrp2','moyenGrp3','moyenGenerale','noteParMatiere','ligneGroupes');
     }
 
     public static function generateNoteFromBareme($bareme,$note){
