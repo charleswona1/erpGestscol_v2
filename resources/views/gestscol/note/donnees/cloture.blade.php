@@ -57,14 +57,20 @@
                     </div>
                 </div>
             </div>
+            
+            
         </div>
     </div>
+    
 
     <div class="alert alert-danger alert-dismissible fade show d-none" id="alert-danger" role="alert">
         Vous devez choisir la classe, une limitation et une periode.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
         </button>
+    </div>
+    <div class="classAllert w-100">
+
     </div>
     <div class="row">
         <div class="col-lg-8">
@@ -156,7 +162,7 @@
     @push('javascripts')
         <script>
             $('#clotureBtn').prop("disabled", true);
-
+            $('.classAllert').empty();
             $("#classeAnneeId").on('change',function(ev){
                 ressetAll(true);
             })
@@ -238,7 +244,7 @@
                         data : data,
                         success:function(response){
                             console.log(response);
-                            
+                            let checkRecalcule = response.checkExistSynthese;
                             let elevesNotes = response.eleves;
                             let matiereAnnees = response.matieres;
                             let table ="";
@@ -272,7 +278,8 @@
                                     );
                                 });
                             }
-                            table +=generateMultiColumnTable(th,tb,msg);
+                            console.log(checkRecalcule);
+                            table +=generateMultiColumnTable(th,tb,msg,checkRecalcule);
                             $('#cloture').append(table);
 
                             $('#saveCloture').on('click',function(){
@@ -369,8 +376,11 @@
                                     listLigneGroupe : ligneGroupeArray
                                 };
 
-                                console.log(datas);
-                                saveCloture(datas);
+                               
+                                let result = saveCloture(datas);
+                            
+                                
+
                             });
                         },
                         error: function(errors){
@@ -385,6 +395,7 @@
 
 
             function saveCloture(data){
+                $('.classAllert').empty();
                 console.log(data);
                 $.ajax({
                         url: "{{route('gestscol.cloture.saveCloture',$etablissement)}}",
@@ -392,16 +403,46 @@
                         data : data,
                         success:function(response){
                             console.log(response);
-                            
+                            let status;
+                            if(response){
+                                
+                                status = `<div class="alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
+                                        Cloture terminer
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
+                            }else{
+                                status = `<div class="alert alert-danger alert-dismissible fade show " id="alert-danger" role="alert">
+                                        Erreur c'est produite lors de la cloture 
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
+                            }
+                           
+                            $('.classAllert').append(status);
                         },
                         error: function(errors){
                             console.log(errors);
+                            status = `<div class="alert alert-danger alert-dismissible fade show " id="alert-danger" role="alert">
+                                        Erreur serveur, actualisez et recommencez 
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
+                            $('.classAllert').append(status);
                         }
                     });
             }
 
-            var generateMultiColumnTable = function (thead, tbody, title) {
-                
+            var generateMultiColumnTable = function (thead, tbody, title, isRecalcule = false) {
+                let value = 'Cloture';
+                if(isRecalcule == true){
+                    value = 'Recloturer'
+                }else{
+                    value = 'Cloture';
+                }
                 var table = '<div class="card-body" style="float: left; overflow-x: scroll;">'+
                                 '<h5 class="card-title" style="color:black;">'+title+'</h5>'+
                                  
@@ -415,7 +456,7 @@
                                         tbody+
                                     '</tbody>'+
                                 '</table>'+
-                                '<button class="m-1 btn btn-info text-white" id="saveCloture">Cloturer</button>'+
+                                '<button class="m-1 btn btn-info text-white" id="saveCloture">'+value+'</button>'+
                                 '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
                                 
                             '</div>';   
