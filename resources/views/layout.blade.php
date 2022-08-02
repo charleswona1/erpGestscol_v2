@@ -22,6 +22,8 @@
             
         @else
             <link href="{{ asset('css/css2/main.css') }}" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+            
         @endif
         
         @stack('stylesheets')
@@ -49,6 +51,7 @@
             <script type="text/javascript" src="{{ asset('js/scrool.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/dropdown-menu.js') }}"></script>
             <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>  
+            <script type="text/javascript" src="{{ asset('lib/startup.js') }}"></script>  
         @endif
 
         @stack('javascripts')

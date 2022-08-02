@@ -89,7 +89,7 @@
                                 <td style="width: 33%;">
                                     <div class="position-relative form-group"><label for="limitation"
                                             class="">Limitation</label>
-                                            <select name="periode_id" id="limitation" class="form-control" required>
+                                            <select name="periode_id" id="limitation" class="form-control" onchange="UI.Module.Cloture.GetLimitation(this.value)" required>
                                                 <option value="">selectionnez une limite</option>
                                                 <option value="sp">Sous-Période</option>
                                                 <option value="p">Période</option>
@@ -98,7 +98,10 @@
                                 </td>
                                 <td >
                                     <div class="position-relative form-group limitation">
-                                        
+                                        <label for="Choix_limite" class="">Choix <span style="color:red;">*</span></label>
+                                        <select name="sous_periode_id" id="Choix_limite" class="form-control Choix_limite" required>
+                                            <option value="">selectionnez une limite</option>
+                                        </select>
                                     </div>
                                 </td>
                                 
@@ -154,7 +157,17 @@
         </div>
     </div>
     @push('javascripts')
+        
+        
+        
+        <script type="text/javascript" src="{{ asset('lib/modules/cloture.js') }}"></script>
         <script>
+            UI.Module.Cloture.listPeriode = @json($periodes);
+            UI.Module.Cloture.listSousPeriode = @json($sous_periodes)
+        </script>
+        {{-- <script>
+            
+            
             $('#clotureBtn').prop("disabled", true);
 
             $("#classeAnneeId").on('change',function(ev){
@@ -484,6 +497,8 @@
                 return notes.findIndex(elt => elt == note) + 1;
             }
             
-        </script>
+        </script> --}}
+        
+         
     @endpush
 </x-gest-scol>
