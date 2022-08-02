@@ -30,7 +30,7 @@
                                         @csrf 
                                         <div class="position-relative form-group">
                                             <label for="exampleEmail" class="">Nom du type l'Evaluation <span style="color:red;">*</span></label>
-                                            <input name="name" value="{{$evaluation->name}}" placeholder="Classe" type="texte" class="form-control" required>
+                                            <input name="name" value="{{$evaluation->name}}" placeholder="Nom du type d'evaluation" type="texte" class="form-control" required>
                                         </div>
                                         <button class="mt-1 btn btn-success">Modifier</button>
                                         {{ html()->form()->close() }}

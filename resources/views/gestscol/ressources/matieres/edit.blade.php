@@ -39,7 +39,7 @@
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail" class="">Nom de la Matière <span
                                                 style="color:red;">*</span></label>
-                                        <input name="name" placeholder="Nom" value="{{$matiere->name}}" type="texte" class="form-control"
+                                        <input name="name" placeholder="Matière" value="{{$matiere->name}}" type="texte" class="form-control"
                                             required>
                                     </div>
                                     <div class="position-relative form-group">

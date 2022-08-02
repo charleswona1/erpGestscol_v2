@@ -45,12 +45,14 @@ class SyntheseController extends Controller
         return $eleveClasses;
     }
 
-    public function EvaluationEleveMatierePeriode(Request $request){
+    public function EvaluationEleveMatierePeriode(Etablissement $etablissement,Request $request){
         $eleveClasses = SyntheseEntites::matiereEleveSousPeriode($request->classe_annee_id);
         $noteEleve = collect();
         $periode_id = null;
         $sous_periode_id = null;
+        $checkExistSynthese = false;
         if (isset($request->periode_id)) {
+            $SyntheseP = SyntheseClasse::where([['classe_annee_id',$request->classe_annee_id],['etablissement_id',$etablissement->id],['periode_id',$request->periode_id]])->get();
             $periode_id = $request->periode_id;
             $req = SyntheseEntites::evaluationPeride($request->periode_id,$request->classe_annee_id);
             foreach ($eleveClasses["eleves"] as $eleve) {
@@ -58,7 +60,11 @@ class SyntheseController extends Controller
                 $noteEleve->push($note);
                 $eleve->notesEleve = $note;
             }
+            if(count($SyntheseP) > 0){
+                $checkExistSynthese = true;
+            }
         }else if (isset($request->sous_periode_id)){
+            $SyntheseSP = SyntheseClasse::where([['classe_annee_id',$request->classe_annee_id],['etablissement_id',$etablissement->id],['sous_periode_id',$request->sous_periode_id]])->get();
             $sous_periode_id = $request->sous_periode_id;
             $req = SyntheseEntites::evaluationSousPeridePeride($request->sous_periode_id,$request->classe_annee_id);
            
@@ -70,13 +76,19 @@ class SyntheseController extends Controller
                 
                 $eleve->notesEleve = $note;
             }
+            if(count($SyntheseSP) > 0){
+                $checkExistSynthese = true;
+            }
             
         }
 
         $eleves = $eleveClasses["eleves"];
         $matieres = $eleveClasses["matieres"];
         $eleves = SyntheseEntites::OrderByNoteGenerale($eleves);
-        $noteEleveOrder = compact("eleves","matieres","periode_id","sous_periode_id");
+
+        
+
+        $noteEleveOrder = compact("eleves","matieres","periode_id","sous_periode_id","checkExistSynthese");
         return response()->json($noteEleveOrder);
     }
 
@@ -151,58 +163,91 @@ class SyntheseController extends Controller
     }
 
     public function saveCloture(Etablissement $etablissement,Request $request){
-        // enregistrement du lot de synthese de la classe
-        $syntheseClasse = $this::saveSyntheseClasse($etablissement,$request);
-        if($syntheseClasse != false){
-            // enregistrement du lot de synthese
-            foreach ($request->listeSynthese as $synthese) {
-                $syntheses = new Synthese();
-                $syntheses->synthese_classe_id = $syntheseClasse->id;
-                $syntheses->eleve_classe_id = $synthese['eleve_classe_id'];
-                $syntheses->etablissement_id = $etablissement->id;
-                $syntheses->som_point = $synthese['som_point'];
-                $syntheses->som_coef = $synthese['som_coef'];
-                $syntheses->rang = $synthese['rang'];
-                $syntheses->appreciation = $synthese['appreciation'];
-                $syntheses->mention = $synthese['mention'];
-    
-                $syntheses->save();
-            }
-            // enregistrement du lot de linge de synthese
-            foreach ($request->listeLigneSynthese as $itemLigneSynthese) {
-               $ligneSynthese = new LigneSynthese();
-               $ligneSynthese->synthese_classe_id = $syntheseClasse->id;
-               $ligneSynthese->etablissement_id = $etablissement->id;
-               $ligneSynthese->eleve_classe_id  = $itemLigneSynthese['eleve_classe_id'];
-               $ligneSynthese->coef  = $itemLigneSynthese['coef'];
-               $ligneSynthese->groupe_matiere_id  = $itemLigneSynthese['groupe_matiere_id'];
-               $ligneSynthese->moyenne  = $itemLigneSynthese['moyenne'];
-               $ligneSynthese->total_point  = $itemLigneSynthese['total_point'];
-               $ligneSynthese->rang  = $itemLigneSynthese['rang'];
-               $ligneSynthese->classe_matiere_id  = $itemLigneSynthese['classe_matiere_id'];
+        try {
+            // enregistrement du lot de synthese de la classe
+            $syntheseClasse = $this::saveSyntheseClasse($etablissement,$request);
+            if($syntheseClasse != false){
+                // enregistrement du lot de synthese
+                foreach ($request->listeSynthese as $synthese) {
+                    $syntheses = Synthese::where([['synthese_classe_id',$syntheseClasse->id],['eleve_classe_id',$synthese['eleve_classe_id']],['etablissement_id',$etablissement->id]])->first();
+                    if(isset($syntheses) == false){
+                        $syntheses = new Synthese();
+                    }
+                    $syntheses->synthese_classe_id = $syntheseClasse->id;
+                    $syntheses->eleve_classe_id = $synthese['eleve_classe_id'];
+                    $syntheses->etablissement_id = $etablissement->id;
+                    $syntheses->som_point = $synthese['som_point'];
+                    $syntheses->som_coef = $synthese['som_coef'];
+                    $syntheses->rang = $synthese['rang'];
+                    $syntheses->moyenne_generale = $synthese['moyenne_generale'];
+                    $syntheses->appreciation = $synthese['appreciation'];
+                    $syntheses->mention = $synthese['mention'];
+        
+                    $syntheses->save();
+                }
+                // enregistrement du lot de linge de synthese
+                foreach ($request->listeLigneSynthese as $itemLigneSynthese) {
+                $ligneSynthese = LigneSynthese::where([
+                        ['synthese_classe_id',$syntheseClasse->id],
+                        ['eleve_classe_id',$itemLigneSynthese['eleve_classe_id']],
+                        ['etablissement_id',$etablissement->id],
+                        ['classe_matiere_id',$itemLigneSynthese['classe_matiere_id']],
+                        ['groupe_matiere_id', $itemLigneSynthese['groupe_matiere_id']]
+                    ])->first();
+                    if(isset($ligneSynthese) == false){
+                        $ligneSynthese = new LigneSynthese();
+                    }
+                $ligneSynthese->synthese_classe_id = $syntheseClasse->id;
+                $ligneSynthese->etablissement_id = $etablissement->id;
+                $ligneSynthese->eleve_classe_id  = $itemLigneSynthese['eleve_classe_id'];
+                $ligneSynthese->coef  = $itemLigneSynthese['coef'];
+                $ligneSynthese->groupe_matiere_id  = $itemLigneSynthese['groupe_matiere_id'];
+                $ligneSynthese->moyenne  = $itemLigneSynthese['moyenne'];
+                $ligneSynthese->total_point  = $itemLigneSynthese['total_point'];
+                $ligneSynthese->rang  = $itemLigneSynthese['rang'];
+                $ligneSynthese->classe_matiere_id  = $itemLigneSynthese['classe_matiere_id'];
 
-               $ligneSynthese->save();
-            }
-            // enregistrement du lot de ligne de groupe 
-            foreach ($request->listLigneGroupe as $itemLigneGroupe) {
-                $ligneGroupe = new ligneGoupe();
-                $ligneGroupe->synthese_classe_id = $syntheseClasse->id;
-                $ligneGroupe->etablissement_id = $etablissement->id;
-                $ligneGroupe->eleve_classe_id  = $itemLigneGroupe['eleve_classe_id'];
-                $ligneGroupe->somme_coef  = $itemLigneGroupe['somme_coef'];
-                $ligneGroupe->groupe_matiere_id  = $itemLigneGroupe['groupe_matiere_id'];
-                $ligneGroupe->moyenne_groupe  = $itemLigneGroupe['moyenne_groupe'];
-                $ligneGroupe->somme_point  = $itemLigneGroupe['somme_point'];
- 
-                $ligneGroupe->save();
-            }
-        }   
+                $ligneSynthese->save();
+                }
+                // enregistrement du lot de ligne de groupe 
+                foreach ($request->listLigneGroupe as $itemLigneGroupe) {
+                    $ligneGroupe = ligneGoupe::where([
+                        ['synthese_classe_id',$syntheseClasse->id],
+                        ['eleve_classe_id',$itemLigneGroupe['eleve_classe_id']],
+                        ['etablissement_id',$etablissement->id],
+                        ['groupe_matiere_id', $itemLigneGroupe['groupe_matiere_id']]
+                    ])->first();
+                    if(isset($ligneGroupe) == false){
+                        $ligneGroupe = new ligneGoupe();
+                    }
+                    $ligneGroupe->synthese_classe_id = $syntheseClasse->id;
+                    $ligneGroupe->etablissement_id = $etablissement->id;
+                    $ligneGroupe->eleve_classe_id  = $itemLigneGroupe['eleve_classe_id'];
+                    $ligneGroupe->somme_coef  = $itemLigneGroupe['somme_coef'];
+                    $ligneGroupe->groupe_matiere_id  = $itemLigneGroupe['groupe_matiere_id'];
+                    $ligneGroupe->moyenne_groupe  = $itemLigneGroupe['moyenne_groupe'];
+                    $ligneGroupe->somme_point  = $itemLigneGroupe['somme_point'];
+    
+                    $ligneGroupe->save();
+                }
+            } 
+            return response()->json(true,200);
+        } catch (\Throwable $th) {
+            return response()->json(false,404);
+        }
+          
 
     }
 
     public static function saveSyntheseClasse(Etablissement $etablissement,Request $request){
         try {
-            $syntheseClasse = new SyntheseClasse();
+
+            $syntheseClasse = SyntheseClasse::where([['classe_annee_id',$request->classe_annee_id],['etablissement_id',$etablissement->id],['periode_id',$request->periode_id]])
+                                            ->orWhere([['classe_annee_id',$request->classe_annee_id],['etablissement_id',$etablissement->id],['sous_periode_id',$request->sous_periode_id]])->first();
+
+            if(isset($syntheseClasse) == false){
+                $syntheseClasse = new SyntheseClasse();
+            }
             $syntheseClasse->classe_annee_id = $request->classe_annee_id;
             $syntheseClasse->annee_academique_id = $request->annee_academique_id;
             $syntheseClasse->periode_id = $request->periode_id;

@@ -85,7 +85,7 @@
                             <div class="card-body ">
                                 {{ html()->form('POST', URL::full())->open() }}
                                 @csrf
-                                    <table class="col-md-12">
+                                    <table class="col-md-12" id="list">
                                         <tr>
                                             <td>
 
@@ -127,7 +127,7 @@
 
                             <div class="card-body" class="scroll-area-md">
                                 <!-- <h5 class="card-title">Table with hover</h5> -->
-                                <table class="mb-0 table table-hover">
+                                <table class="mb-0 table table-hover" id="list">
                                     <thead>
                                         <tr>
 

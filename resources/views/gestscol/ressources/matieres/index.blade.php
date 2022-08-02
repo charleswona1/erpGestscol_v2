@@ -42,7 +42,7 @@
                         
                         <div class="card-body" class="scroll-area-md">
                             <!-- <h5 class="card-title">Table with hover</h5> -->
-                            <table class="mb-0 table table-hover">
+                            <table class="mb-0 table table-hover" id="list">
                                 <thead>
                                     <tr>
                                         <th width="5%">

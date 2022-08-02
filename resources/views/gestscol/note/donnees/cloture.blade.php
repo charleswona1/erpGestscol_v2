@@ -57,14 +57,20 @@
                     </div>
                 </div>
             </div>
+            
+            
         </div>
     </div>
+    
 
     <div class="alert alert-danger alert-dismissible fade show d-none" id="alert-danger" role="alert">
         Vous devez choisir la classe, une limitation et une periode.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
         </button>
+    </div>
+    <div class="classAllert w-100">
+
     </div>
     <div class="row">
         <div class="col-lg-8">
@@ -89,7 +95,7 @@
                                 <td style="width: 33%;">
                                     <div class="position-relative form-group"><label for="limitation"
                                             class="">Limitation</label>
-                                            <select name="periode_id" id="limitation" class="form-control" onchange="UI.Module.Cloture.GetLimitation(this.value)" required>
+                                            <select name="periode_id" id="limitation" class="form-control" onchange="UI.getLimitation(this)" required>
                                                 <option value="">selectionnez une limite</option>
                                                 <option value="sp">Sous-Période</option>
                                                 <option value="p">Période</option>
@@ -134,7 +140,7 @@
         <div class="col-lg-4">
             <div class="main-card mb-3 card">
                 <div class="card-body card-shadow-primary" style="float: left; overflow-y: scroll;">
-                    <table class="mb-0 table table-bordered">
+                    <table id="list" class="mb-0 table table-bordered">
                         <thead>
                             <tr>
                                 <th>Elèves Non Classés</th>
@@ -157,19 +163,18 @@
         </div>
     </div>
     @push('javascripts')
-        
-        
-        
-        <script type="text/javascript" src="{{ asset('lib/modules/cloture.js') }}"></script>
+        {{-- <script type="text/javascript" src="{{ asset('modules/cloture.js') }}"></script>
         <script>
-            UI.Module.Cloture.listPeriode = @json($periodes);
-            UI.Module.Cloture.listSousPeriode = @json($sous_periodes)
-        </script>
-        {{-- <script>
+            UI.initViewData()
+            UI.Periodes = @json($sous_periodes);
+            UI.SousPeriodes = @json($periodes);
             
-            
+        </script> --}}
+         
+        <script>
+            elevesExclusCloture = [];
             $('#clotureBtn').prop("disabled", true);
-
+            $('.classAllert').empty();
             $("#classeAnneeId").on('change',function(ev){
                 ressetAll(true);
             })
@@ -251,7 +256,7 @@
                         data : data,
                         success:function(response){
                             console.log(response);
-                            
+                            let checkRecalcule = response.checkExistSynthese;
                             let elevesNotes = response.eleves;
                             let matiereAnnees = response.matieres;
                             let table ="";
@@ -261,7 +266,7 @@
                                 $.each(matiereAnnees, function (i, item) {
                                     matieres.push(item.abreviation);
                                 })
-                                var th = generateRowTh("N°","Nons Apprenant","A","Red","Rang","M.Gen","M.Grp1","M.Grp2","M.Grp3",...matieres);
+                                var th = generateRowTh("N°","Nons Apprenant","A","Red","Rang","M.Gen","M.Grp1","M.Grp2","M.Grp3",...matieres,"Retirer");
                                 
                                 $.each(elevesNotes, function (i, eleve) {
                                     let ancien = eleve.ancien == 0? "Non":"Oui";
@@ -281,12 +286,33 @@
                                         eleve.notesEleve.moyenGrp1,
                                         eleve.notesEleve.moyenGrp2,
                                         eleve.notesEleve.moyenGrp3,
-                                        ...ListNotes
+                                        ...ListNotes,
+                                        '<input type="checkbox" class="studentCloture" data-key="'+eleve.id+'" name="cloture_user" id="'+eleve.id+'">'
                                     );
                                 });
                             }
-                            table +=generateMultiColumnTable(th,tb,msg);
+                            console.log(checkRecalcule);
+                            table +=generateMultiColumnTable(th,tb,msg,checkRecalcule);
                             $('#cloture').append(table);
+                            jQuery(function($){
+                                $('#list').footable({
+                                    "paging": {
+                                        "enabled": true,
+                                        "size": 10,
+                                        "countFormat": "page : {CP} / {TP}",
+                                        "position": "right",
+                                        "limit": 5,
+                                    },
+                                    "filtering": {
+                                        "enabled": true,
+                                        "position": "left"
+                                    },
+                                    "sorting": {
+                                        "enabled": true
+                                    }
+
+                                });
+                            });
 
                             $('#saveCloture').on('click',function(){
                                 let synthese = [];
@@ -382,8 +408,11 @@
                                     listLigneGroupe : ligneGroupeArray
                                 };
 
-                                console.log(datas);
-                                saveCloture(datas);
+                               
+                                let result = saveCloture(datas);
+                            
+                                
+
                             });
                         },
                         error: function(errors){
@@ -398,6 +427,7 @@
 
 
             function saveCloture(data){
+                $('.classAllert').empty();
                 console.log(data);
                 $.ajax({
                         url: "{{route('gestscol.cloture.saveCloture',$etablissement)}}",
@@ -405,20 +435,50 @@
                         data : data,
                         success:function(response){
                             console.log(response);
-                            
+                            let status;
+                            if(response){
+                                
+                                status = `<div class="alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
+                                        Cloture terminer
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
+                            }else{
+                                status = `<div class="alert alert-danger alert-dismissible fade show " id="alert-danger" role="alert">
+                                        Erreur c'est produite lors de la cloture 
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
+                            }
+                           
+                            $('.classAllert').append(status);
                         },
                         error: function(errors){
                             console.log(errors);
+                            status = `<div class="alert alert-danger alert-dismissible fade show " id="alert-danger" role="alert">
+                                        Erreur serveur, actualisez et recommencez 
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>`;
+                            $('.classAllert').append(status);
                         }
                     });
             }
 
-            var generateMultiColumnTable = function (thead, tbody, title) {
-                
+            var generateMultiColumnTable = function (thead, tbody, title, isRecalcule = false) {
+                let value = 'Cloture';
+                if(isRecalcule == true){
+                    value = 'Recloturer'
+                }else{
+                    value = 'Cloture';
+                }
                 var table = '<div class="card-body" style="float: left; overflow-x: scroll;">'+
                                 '<h5 class="card-title" style="color:black;">'+title+'</h5>'+
                                  
-                                '<table id="myTable" class="table border " cellspacing="0" width="100%" style="white-space:nowrap;">'+
+                                '<table id="list" class="table border " cellspacing="0" width="100%" style="white-space:nowrap;">'+
                                     '<thead>'+
                                     '<tr>'+
                                         thead+
@@ -428,8 +488,8 @@
                                         tbody+
                                     '</tbody>'+
                                 '</table>'+
-                                '<button class="m-1 btn btn-info text-white" id="saveCloture">Cloturer</button>'+
-                                '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
+                                '<button class="m-1 btn btn-info text-white" id="saveCloture">'+value+'</button>'+
+                                '<button class="m-1 btn btn-secondary" onclick="removeStudentFormCloture()" id="removeStudent">Retirer</button>'+
                                 
                             '</div>';   
                 return table;
@@ -454,6 +514,16 @@
                 tr = '<tr>'+th+'</tr>';
             
                 return tr;
+            }
+
+            function removeStudentFormCloture(){
+
+                $('.studentCloture').each(function(key,val){
+                    if ($(this)[0].checked) {
+                        elevesExclusCloture.push($(this)[0].id);
+                    }
+                });
+                console.log(elevesExclusCloture);
             }
 
             function ressetAll(limit=false){

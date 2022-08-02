@@ -49,7 +49,7 @@
         <div class="col-lg-6">
             <div class="main-card mb-3 card">
                 <div class="card-body">
-                    <table>
+                    <table id="list">
                         <tr>
                             <td>
                                 <div class="search-wrapper">

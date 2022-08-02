@@ -39,7 +39,7 @@
                                             <div class="col-lg-6">
                                                 <div class="position-relative form-group">
                                                     <label  class="">Nom du niveau <span style="color:red;">*</span></label>
-                                                    <input name="name" placeholder="Nom du cycle" type="texte" class="form-control" required>
+                                                    <input name="name" placeholder="Nom du niveau" type="texte" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">

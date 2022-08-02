@@ -76,7 +76,7 @@
                 
                 <div class="card-body pt-3"> 
                     <h5 class="card-title" style="color:black;">Apprenants sans classe</h5>
-                    <table id="myTable" class="table" cellspacing="0" width="100%">
+                    <table class="table" cellspacing="0" width="100%" id="list">
                         <thead>
                             <tr>
                                 <th>N°</th>
@@ -135,7 +135,7 @@
                 </div>
                 <div class="card-body pt-1">
                     <h5 class="card-title" style="color:black;"> Eleves affectés</h5>
-                    <table class="table" cellspacing="0" width="100%">
+                    <table id="list" class="table" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>N°</th>
