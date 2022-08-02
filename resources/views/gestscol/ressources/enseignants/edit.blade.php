@@ -50,7 +50,7 @@
                                     
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail" class="">Nom complet <span style="color:red;">*</span></label>
-                                        <input name="name" id="name_apprenant" value="{{$enseignantAnnee->name}}" placeholder="Nom complet de l'élève" type="text" class="form-control">
+                                        <input name="name" id="name_apprenant" value="{{$enseignantAnnee->name}}" placeholder="Nom complet" type="text" class="form-control">
                                         <x-errors name="name"/>
                                    </div>
                                     <div class="row">
@@ -175,7 +175,7 @@
                                             </div>
                                             <div class="position-relative form-group">
                                                 <label for="num_cnps" class="">Numéro CNPS</label>
-                                                <input name="num_cnps" value="{{$enseignantAnnee->num_cnps}}" id="cnps" placeholder="N° CNPS père" type="text" class="form-control">
+                                                <input name="num_cnps" value="{{$enseignantAnnee->num_cnps}}" id="cnps" placeholder="N° CNPS" type="text" class="form-control">
                                                 <x-errors name="num_cnps"/>
                                             </div>
                                             <div class="position-relative form-group">

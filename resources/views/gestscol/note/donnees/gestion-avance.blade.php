@@ -541,7 +541,7 @@
                 var generateMultiColumnTable = function (thead, tbody,title) {
                     var table = '<div class="main-card mb-3 card">'+
                                     '<div class="card-body" class="scroll-area-md">'+ 
-                                        '<table class="mb-2 table table-hover">'+
+                                        '<table id="list" class="mb-2 table table-hover">'+
                                             '<thead>'+
                                             '<tr>'+
                                                 thead+
