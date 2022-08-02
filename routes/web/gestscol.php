@@ -269,6 +269,9 @@ Route::middleware('auth')->group(function(){
             Route::get('/','SyntheseController@Bulletins')->name('bulletin-eleve');
             Route::get('/eleve','SyntheseController@eleveByClasse')->name('eleves');
             Route::get('/bulletin-data','SyntheseController@getBulletinData')->name('bulletin-data');
+            Route::prefix('{student_id}/{periode}/{limitation}')->group(function(){
+                Route::get('/bulletin-pdf','SyntheseController@getBulletinPdf')->name('bulletin-pdf');
+            });
         });
 
     });

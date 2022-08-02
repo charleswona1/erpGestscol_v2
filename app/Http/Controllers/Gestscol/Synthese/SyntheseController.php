@@ -19,9 +19,8 @@ use App\Models\Synthese;
 use App\Models\SyntheseClasse;
 use Illuminate\Http\Request;
 use App\SyntheseEntites;
-use App\Models\SyntheseClasse;
-use App\Models\ligneGoupe;
-use App\Models\LigneSynthese;
+use App\Post;
+use PDF;
 
 class SyntheseController extends Controller
 {
@@ -88,115 +87,6 @@ class SyntheseController extends Controller
         $sous_periodes = $etablissement->getSousPeriodes();
         return view("gestscol.note.documents.bulletin",compact('etablissement','classes','periodes','sous_periodes'));
     }
-
-    public function getBulletinEleve(Request $request) {
-        $notes = null;
-        $base_bareme = 20;
-
-        if($request->limitation == 'p') {
-            $notes = Note::leftjoin('evaluation_periodes','evaluation_periodes.id','=','notes.evaluation_periode_id')
-            ->leftjoin('eleve_classes','eleve_classes.id','=','notes.eleve_classe_id')
-            ->leftjoin('classe_matieres','classe_matieres.id','=','evaluation_periodes.classe_matiere_id')
-            ->leftjoin('enseignant_annees','enseignant_annees.id','=','classe_matieres.enseignant_annee_id')
-            ->leftjoin('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
-            ->leftjoin('groupe_matieres','groupe_matieres.id','=','matiere_niveaux.groupe_matiere_id')
-            ->leftjoin('matieres','matieres.id','=','matiere_niveaux.matiere_id')
-            ->where([
-                ['eleve_classe_id', $request->student_id],
-                ['evaluation_periodes.periode_id', $request->periode]
-            ])
-            ->select('matieres.name', 'matieres.id as id_matiere', 'evaluation_periodes.periode_id', 'evaluation_periodes.bareme', 'evaluation_periodes.pourcentage_periode as pourcentage', 'matiere_niveaux.coefficient','matieres.abreviation','enseignant_annees.name as enseignantName', 'groupe_matieres.name as nameGroupe', 'groupe_matieres.numero as group', 'notes.note')
-            ->orderBy('groupe_matieres.numero', 'asc')
-            ->get();
-
-        } else {
-            $notes = Note::leftjoin('evaluation_periodes','evaluation_periodes.id','=','notes.evaluation_periode_id')
-            ->leftjoin('eleve_classes','eleve_classes.id','=','notes.eleve_classe_id')
-            ->leftjoin('classe_matieres','classe_matieres.id','=','evaluation_periodes.classe_matiere_id')
-            ->leftjoin('enseignant_annees','enseignant_annees.id','=','classe_matieres.enseignant_annee_id')
-            ->leftjoin('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
-            ->leftjoin('groupe_matieres','groupe_matieres.id','=','matiere_niveaux.groupe_matiere_id')
-            ->leftjoin('matieres','matieres.id','=','matiere_niveaux.matiere_id')
-            ->where([
-                ['eleve_classe_id', $request->student_id],
-                ['evaluation_periodes.sous_periode_id', $request->periode]
-            ])
-            ->select('matieres.name', 'matieres.id as id_matiere', 'evaluation_periodes.sous_periode_id', 'evaluation_periodes.bareme', 'evaluation_periodes.pourcentage_sous_periode as pourcentage', 'matiere_niveaux.coefficient','matieres.abreviation','enseignant_annees.name as enseignantName', 'groupe_matieres.name as nameGroupe', 'groupe_matieres.numero as group', 'notes.note')
-            ->orderBy('groupe_matieres.numero', 'asc')
-            ->get();
-        }
-
-        $note_periode = $notes;
-        //return $note_periode;
-        $notes = $this::calculNoteMatierPeriode($notes);
-        
-        $result = [];
-        foreach ($notes as $note) {
-            $groups = [];
-            foreach ($notes as $key => $newnote) {
-                if($note->nameGroupe == $newnote->nameGroupe) {
-                    array_push($groups, $newnote);
-                    unset($notes[$key]);
-                }
-            }
-            if(sizeof($groups) > 0) {
-                array_push($result, $groups);	
-            }
-        }
-
-        $eleve = EleveClasse::find($request->student_id);
-        
-        $elevesInClassAnne = EleveClasse::where('classe_annee_id', $eleve->classe_annee_id)->get();
-        
-        $moyennesClass = [];
-        foreach ($elevesInClassAnne as $key => $item) {
-            $notesClass = null;
-            if($request->limitation == 'p') {
-                $notesClass = Note::leftjoin('evaluation_periodes','evaluation_periodes.id','=','notes.evaluation_periode_id')
-                ->leftjoin('eleve_classes','eleve_classes.id','=','notes.eleve_classe_id')
-                ->leftjoin('classe_matieres','classe_matieres.id','=','evaluation_periodes.classe_matiere_id')
-                ->leftjoin('enseignant_annees','enseignant_annees.id','=','classe_matieres.enseignant_annee_id')
-                ->leftjoin('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
-                ->leftjoin('groupe_matieres','groupe_matieres.id','=','matiere_niveaux.groupe_matiere_id')
-                ->leftjoin('matieres','matieres.id','=','matiere_niveaux.matiere_id')
-                ->where([
-                    ['eleve_classe_id', $item->id],
-                    ['evaluation_periodes.periode_id', $request->periode]
-                ])
-                ->select('matieres.id as id_matiere', 'evaluation_periodes.periode_id', 'evaluation_periodes.bareme', 'evaluation_periodes.pourcentage_sous_periode as pourcentage', 'matiere_niveaux.coefficient', 'notes.note')
-                ->get();
-            } else {
-                $notesClass = Note::leftjoin('evaluation_periodes','evaluation_periodes.id','=','notes.evaluation_periode_id')
-                ->leftjoin('eleve_classes','eleve_classes.id','=','notes.eleve_classe_id')
-                ->leftjoin('classe_matieres','classe_matieres.id','=','evaluation_periodes.classe_matiere_id')
-                ->leftjoin('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
-                ->leftjoin('matieres','matieres.id','=','matiere_niveaux.matiere_id')
-                ->where([
-                    ['eleve_classe_id', $item->id],
-                    ['evaluation_periodes.sous_periode_id', $request->periode]
-                ])
-                ->select('matieres.id as id_matiere', 'evaluation_periodes.sous_periode_id', 'evaluation_periodes.bareme', 'evaluation_periodes.pourcentage_sous_periode as pourcentage', 'matiere_niveaux.coefficient', 'notes.note')
-                ->get();
-            }
-
-            $sommeNote = 0;
-            $sumCoef = 0;
-            
-            $notesClass = $this::calculNoteMatierPeriode($notesClass);
-            
-            foreach ($notesClass as $key => $value) {
-                $sumCoef += $value->coefficient;
-                $sommeNote += $value->note * $value->coefficient;
-            }
-            if($sumCoef != 0) {
-                array_push($moyennesClass, $sommeNote / $sumCoef);
-            }
-            
-        }
-        
-        return ["notesStudent" => $result, "notesAllStudents" => $moyennesClass];
-    }
-
 
     public function calculNoteMatierPeriode($notes) {
         $result = [];
@@ -452,6 +342,113 @@ class SyntheseController extends Controller
         }
     }
 
+    public function getBulletinPdf($etablissement, $student_id, $periode, $limitation)
+    {
+
+        $syntheseClasse;
+        $ligneGroupes = [];
+
+        $eleve = EleveClasse::find($student_id);
+        $eleveData = EleveClasse::join('etablissements', 'etablissements.id','=','eleve_classes.etablissement_id')
+                    ->join('annee_academiques','annee_academiques.id','=','eleve_classes.annee_academique_id')
+                    ->join('classe_annees','classe_annees.id','=','eleve_classes.classe_annee_id')
+                    ->leftjoin('enseignant_annees','enseignant_annees.id','=','classe_annees.enseignant_annee_id')
+                    ->where('eleve_classes.id', $student_id)
+                    ->select('annee_academiques.name as anne_academique', 'annee_academiques.*', 'etablissements.name as etablissement',
+                    'etablissements.*', 'eleve_classes.*', 'classe_annees.name as classe_annee', 'classe_annees.*', 'enseignant_annees.name as titulaire')
+                    ->first(); 
+        
+        if($limitation == 'p') {
+            $syntheseClasse = SyntheseClasse::where([
+                ['classe_annee_id', $eleve->classe_annee_id],
+                ['periode_id', $periode]
+            ])
+            ->first();
+        } else {
+            $syntheseClasse = SyntheseClasse::where([
+                ['classe_annee_id', $eleve->classe_annee_id],
+                ['sous_periode_id', $periode]
+            ])
+            ->first();
+        }
+
+        // var_dump($syntheseClasse);die;
+
+        $ligneGroupes = ligneGoupe::join('groupe_matieres','groupe_matieres.id','=','ligne_goupes.groupe_matiere_id')
+        ->where([
+            ['ligne_goupes.eleve_classe_id', $student_id],
+            ['ligne_goupes.synthese_classe_id', $syntheseClasse->id]
+        ])
+        ->select('ligne_goupes.*', 'groupe_matieres.id as groupId', 'groupe_matieres.*')
+        ->get();         
+        
+        if(sizeof($ligneGroupes) == 0) return Array("success" => false);
+
+
+        $points = 0;
+        $coefs = 0;
+        $newLigneGroupes = [];
+        foreach ($ligneGroupes as $key => $ligneGroupe) {
+            $ligneSyntheses = LigneSynthese::join('classe_matieres','classe_matieres.id','=','ligne_syntheses.classe_matiere_id')
+            ->join('matiere_niveaux','matiere_niveaux.id','=','classe_matieres.matiere_niveau_id')
+            ->join('matieres','matieres.id','=','matiere_niveaux.matiere_id')
+            ->join('enseignant_annees','enseignant_annees.id','=','classe_matieres.enseignant_annee_id')
+            ->where([
+                ['eleve_classe_id', $student_id],
+                ['synthese_classe_id', $syntheseClasse->id],
+                ['ligne_syntheses.groupe_matiere_id', $ligneGroupe->groupe_matiere_id]
+            ])
+            ->select('ligne_syntheses.*', 'matieres.id as matiere_id', 'matieres.*', 'enseignant_annees.name as nameEnseignant')
+            ->get();
+
+            $points += $ligneGroupe->somme_point;
+            $coefs += $ligneGroupe->somme_coef;
+            $ligneGroupe->ligneSyntheses = $ligneSyntheses;
+            array_push($newLigneGroupes, $ligneGroupe);
+        }
+
+        if($coefs != 0) {
+            $note = $points / $coefs;
+        }
+
+        $ligneGroupesStudents = EleveClasse::join('ligne_goupes','ligne_goupes.eleve_classe_id','=','eleve_classes.id')
+        ->where([
+            ['eleve_classes.classe_annee_id', $eleve->classe_annee_id],
+            ['ligne_goupes.synthese_classe_id', $syntheseClasse->id]
+        ])
+        ->select('ligne_goupes.*', 'eleve_classes.id as student_id')
+        ->get();
+
+        $eleveClasses = EleveClasse::where('classe_annee_id',$eleve->classe_annee_id)->get();
+        
+        $rang = 1;
+        
+        foreach ($eleveClasses as $key => $eleveClasse) {
+            # code...
+            $points = 0;
+            $coefs = 0;
+            $trouve = false;
+            foreach ($ligneGroupesStudents as $key => $item) {
+                # code...
+                if($item->eleve_classe_id == $eleveClasse->id) {
+                    $points += $item->somme_point;
+                    $coefs += $item->somme_coef;
+                    $trouve = true;
+                }
+            }
+            if($trouve) {
+                $moyenne = $points / $coefs;
+                if($moyenne > $note) {
+                    $rang++;
+                }
+            }
+        }
+
+        $data = Array("rang" => $rang, "syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes, "studentData" => $eleveData);
+        // return $data;
+        // return PDF::loadView("gestscol.note.documents.test", compact("data"))->stream();
+        return view("gestscol.note.documents.bulletinPdf", compact("data"));
+    }
 
 }
 

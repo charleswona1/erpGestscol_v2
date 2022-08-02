@@ -544,6 +544,11 @@
                 getEleve(e.target.value);
             })
 
+            // let studentId = 1;
+            // let periode = 1; 
+            // let $limitation = 'sp';
+            // let etablissement = $etablissement;
+
             function getEleve(val) {
                 $('#liste_eleves').empty();
                 $.ajax({
@@ -571,6 +576,7 @@
                                 );
                             });
 
+                            
                             table +=generateMultiColumnTable(th,tb,"");
                             $('#liste_eleves').append(table);
                             $('.form-check').on('change',function(e) {
@@ -599,6 +605,12 @@
                                         console.log(ligneGroupes);
                                         let syntheseClasse = response["syntheseClasse"];
                                         let tableBul ="";
+                                        
+                                        dataBulletin = {
+                                            "ligneGroupes": ligneGroupes,
+                                            "syntheseClasse": syntheseClasse,
+                                            "rang": rang
+                                        };
 
                                         if(!response["success"]) {
                                             tableBul  += '<div class="page-title-heading p-4">' +
@@ -813,7 +825,7 @@
                             tbody+
                         '</tbody>'+
                     '</table>'+
-                    '<button class="m-1 btn btn-info text-white">Imprimer</button>'+
+                    '<a class="m-1 btn btn-info text-white bulletin.pdf" href="{{ URL::to('/gestscol/1/bulletins/1/1/sp/bulletin-pdf') }}">Export to PDF</a>' +
                     '<button class="m-1 btn btn-success text-white">Imprimer Tous</button>'+
                     '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
                     
