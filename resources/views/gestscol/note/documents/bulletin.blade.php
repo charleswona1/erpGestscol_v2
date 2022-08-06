@@ -451,21 +451,19 @@
                     style="float: left; overflow-y: scroll; height:500px;">
                     <!--<h5 class="card-title"> Matricules des Apprenants</h5> -->
 
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                        <label class="custom-control-label" for="customCheck1">Imprimer l'entête</label>
+                    <div id="filter-bulletin">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="without-header">
+                            <label class="custom-control-label" for="without-header">Imprimer sans entête</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="select-class">
+                            <label class="custom-control-label" for="select-class">Sélectionner toute la classe</label>
+                        </div>
                     </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                        <label class="custom-control-label" for="customCheck2">Imprimer la photo</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck3">
-                        <label class="custom-control-label" for="customCheck3">Sélectionner toute la
-                            Classe</label>
-                    </div>
-                    <br />
-                    <div class="form-check">
+                    
+
+                    {{-- <div class="form-check">
                         <label class="form-check-label">
                             <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1"
                                 value="option1" checked>
@@ -476,7 +474,7 @@
                                 value="option2">
                             Ordre de Mérite
                         </label>
-                    </div>
+                    </div> --}}
                     <br/>
                     {{-- <center>
                         <button class="mt-1 btn btn-info"><a href="index.html"
@@ -498,6 +496,8 @@
             let periode_id = null;
             $('#limitation').prop('selectedIndex',0);
             $('#classe_annee_id').prop('selectedIndex',0);
+
+            $('#filter-bulletin').hide();
             
             $("#limitation").on('change',function(ev){
                 $('.limitation').empty();
@@ -561,10 +561,19 @@
                        
                         let table ="";
 
-                        if(response.length>0) {
+                        if(response.length > 0) {
 
+                            $('#filter-bulletin').show();
                             var tb = "";
-                    
+                            
+                            $('#select-class').on('change',function(e) {
+                                console.log($('.form-check'))
+                                
+                                let isCheck = $('#select-class').prop('checked');
+                                console.log($('#eleve_0'))
+                                $("input[name='eleve']").prop("checked", isCheck);
+                                // $('#eleve_0').prop('checked', isCheck)   
+                            })
                             var th = generateRowTh("N°","Nons Apprenant");
                             
                             $.each(response, function (i, eleve) {
@@ -812,7 +821,7 @@
 
             var generateMultiColumnTable = function (thead, tbody, title) {
                 
-                var table = '<div class="card-body w-100" style="float: left;">'+
+                var table = '<div class="card-body w-100" id="list-student" style="float: left;">'+
                     '<h5 class="card-title" style="color:black;">'+title+'</h5>'+
                         
                     '<table id="myTable" class="table border table-hover" cellspacing="0" width="100%" style="white-space:nowrap;">'+
@@ -826,8 +835,8 @@
                         '</tbody>'+
                     '</table>'+
                     '<a class="m-1 btn btn-info text-white bulletin.pdf" href="{{ URL::to('/gestscol/1/bulletins/1/1/sp/bulletin-pdf') }}">Export to PDF</a>' +
-                    '<button class="m-1 btn btn-success text-white">Imprimer Tous</button>'+
-                    '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
+                    // '<button class="m-1 btn btn-success text-white">Imprimer Tous</button>'+
+                    // '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
                     
                 '</div>';   
                 return table;
