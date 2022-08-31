@@ -491,8 +491,8 @@ class SyntheseController extends Controller
 
         $data = Array("rang" => $rang, "syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes, "studentData" => $eleveData);
         // return $data;
-        return PDF::loadView("gestscol.note.documents.bulletinPdf", compact("data"))->stream();
-        // return view("gestscol.note.documents.bulletinPdf", compact("data"));
+        // return PDF::loadView("gestscol.note.documents.bulletinPdf", compact("data"))->stream();
+        return view("gestscol.note.documents.bulletinPdf", compact("data"));
     }
 
 }

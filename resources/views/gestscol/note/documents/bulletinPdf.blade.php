@@ -72,16 +72,15 @@
                         <div class="subline-entete"></div>
                     </div>
         
-                    <div style="text-align: center">
-                        <div style="color: black; font-size:17px; font-weight:400px; font-family:auto; margin-top: 5px;">ARCHIDIOCESE DE YAOUNDE</div>
+                    <div style="text-align: center;">
+                        <div style="color: black; font-size:17px; ffont-weight:400px; font-family:auto; margin-top: 5px;">ARCHIDIOCESE DE YAOUNDE</div>
                         <div style="color: black; font-size:15px; font-weight:bold; font-family:auto; margin-top: 5px;">Collège Mgr. François Xavier VOGT</div>
                         <div style="color: black; font-size:12px; font-weight:bold; font-family:auto; margin-top: 5px;">BP 765 Yaoundé - Tel.22-31-54-28</div>
                         <div class="subline-entete"></div>
                     </div>
                     
+                    <div style="color: black; font-size:22px; font-weight:bold; font-family:auto;text-align: center;">BULLETIN SÉQUENTIEL N°1</div>
                 </div>
-
-                <div style="color: black; font-size:22px; font-weight:bold; font-family:auto;text-align: center;">BULLETIN SÉQUENTIEL N°1</div>
                 
             </div>
 
