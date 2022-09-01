@@ -365,7 +365,7 @@
             <script>
 
                 var element = document.getElementById('content-body');
-                html2pdf(element);
+                // html2pdf(element);
 
                     // var pdf = new jsPDF('p', 'pt', 'letter');
                     // // source can be HTML-formatted string, or a reference
