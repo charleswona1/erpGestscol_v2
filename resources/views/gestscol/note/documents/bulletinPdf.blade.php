@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Pragma" content="no-cache">
+        <title>Gestion Scolaire | @yield('title')</title>
+
+        <link rel="shortcut icon" href="{{ asset('assets1/images/favicon.png') }}" />
+        
+        
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script> --}}
         
         <style>
+            
             .flex-justify-between {
+                display: -webkit-box; /* wkhtmltopdf uses this one */
                 display: flex;
+                -webkit-box-pack: space-between; /* wkhtmltopdf uses this one */
                 justify-content: space-between;
             }
 
@@ -66,22 +78,21 @@
             <div class="content-entete">
                 <div class="flex-justify-between">
                     <div style="text-align: center;">
-                        <div style="color: black; font-size:17px; font-weight:400px; font-family:auto; margin-top: 5px;">REPUBLIC DU CAMEROUN</div>
-                        <div style="color: black; font-size:15px; font-weight:bold; font-family:auto; margin-top: 5px;">Ministère des Enseignements Secondaires</div>
-                        <div style="color: black; font-size:12px; font-weight:bold; font-family:auto; margin-top: 5px;">Délégation Régionale du Centre</div>
+                        <div style="color: black; font-size:16px; font-weight:400px; font-family:auto; margin-top: 5px;">REPUBLIC DU CAMEROUN</div>
+                        <div style="color: black; font-size:14px; font-weight:bold; font-family:auto; margin-top: 5px;">Ministère des Enseignements Secondaires</div>
+                        <div style="color: black; font-size:11px; font-weight:bold; font-family:auto; margin-top: 5px;">Délégation Régionale du Centre</div>
                         <div class="subline-entete"></div>
                     </div>
         
                     <div style="text-align: center;">
-                        <div style="color: black; font-size:17px; ffont-weight:400px; font-family:auto; margin-top: 5px;">ARCHIDIOCESE DE YAOUNDE</div>
-                        <div style="color: black; font-size:15px; font-weight:bold; font-family:auto; margin-top: 5px;">Collège Mgr. François Xavier VOGT</div>
-                        <div style="color: black; font-size:12px; font-weight:bold; font-family:auto; margin-top: 5px;">BP 765 Yaoundé - Tel.22-31-54-28</div>
+                        <div style="color: black; font-size:16px; ffont-weight:400px; font-family:auto; margin-top: 5px;">ARCHIDIOCESE DE YAOUNDE</div>
+                        <div style="color: black; font-size:14px; font-weight:bold; font-family:auto; margin-top: 5px;">Collège Mgr. François Xavier VOGT</div>
+                        <div style="color: black; font-size:11px; font-weight:bold; font-family:auto; margin-top: 5px;">BP 765 Yaoundé - Tel.22-31-54-28</div>
                         <div class="subline-entete"></div>
                     </div>
                     
-                    <div style="color: black; font-size:22px; font-weight:bold; font-family:auto;text-align: center;">BULLETIN SÉQUENTIEL N°1</div>
                 </div>
-                
+                <div style="color: black; font-size:18px; font-weight:bold; font-family:auto;text-align: center;">BULLETIN SÉQUENTIEL N°1</div>
             </div>
 
             @php
@@ -90,28 +101,28 @@
 
             <div class="table-no-border flex-justify-between">
                 <div style="width: 90%; padding: 10px;">
-                    <div style="display: flex; margin-bottom: 5px;">
+                    <div style="display: flex; margin-bottom: 5px;font-size: 14px;">
                         <div>Année: </div>
-                        <div style="margin-left: 20px; font-weight: bold; font-size: 14px;">Année Scolaire {{$studentData["anne_academique"]}}</div>
+                        <div style="margin-left: 20px; font-weight: bold; font-size: 14px;">{{$studentData["anne_academique"]}}</div>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                        <div style="display: flex">Classe: <div style="margin-left: 20px; font-weight: bold; font-size: 15px;">{{$studentData["classe_annee"]}}</div></div>
-                        <div style="display: flex">Effectif: <div style="margin-left: 5px; font-weight: bold; font-size: 15px;"> {{$studentData["effectif"]}}</div> </div>
-                        <div style="display: flex">Matricule: <div style="margin-left: 5px; font-weight: bold; font-size: 15px;"> {{$studentData["matricule"]}}</div> </div>
-                        <div style="display: flex">Titulaire: <div style="margin-left: 5px; font-weight: bold; font-size: 15px;"> {{$studentData["titulaire"]}}</div> </div> 
+                        <div style="display: flex">Classe: <div style="margin-left: 20px; font-weight: bold; font-size: 14px;">{{$studentData["classe_annee"]}}</div></div>
+                        <div style="display: flex">Effectif: <div style="margin-left: 5px; font-weight: bold; font-size: 14px;"> {{$studentData["effectif"]}}</div> </div>
+                        <div style="display: flex">Matricule: <div style="margin-left: 5px; font-weight: bold; font-size: 14px;"> {{$studentData["matricule"]}}</div> </div>
+                        <div style="display: flex">Titulaire: <div style="margin-left: 5px; font-weight: bold; font-size: 14px;"> {{$studentData["titulaire"]}}</div> </div> 
                     </div>
 
-                    <div style="display: flex; margin-bottom: 5px;">
+                    <div style="display: flex; margin-bottom: 5px; font-size: 14px;">
                         <div>Nom: </div>
-                        <div style="margin-left: 28px; font-weight: bold; font-size: 17px;">{{$studentData["nom"]}}</div>
+                        <div style="margin-left: 28px; font-weight: bold">{{$studentData["nom"]}}</div>
                     </div>
 
                     <div style="display: flex; justify-content: space-between;">
                         <div style="display: flex">Né(e) le: <div style="margin-left: 9px; font-weight: bold;">{{$studentData["date_naissance"]}}</div></div>
-                        <div style="display: flex">à: <div style="margin-left: 5px; font-weight: bold; font-size: 15px;">{{$studentData["lieu_naissance"]}}</div> </div>
+                        <div style="display: flex">à: <div style="margin-left: 5px; font-weight: bold; font-size: 14px;">{{$studentData["lieu_naissance"]}}</div> </div>
                         <div>Redt: {{$studentData["is_redouble"] ? "Oui" : "Non"}}</div>
-                        <div style="display: flex">N°: <div style="margin-left: 5px; font-weight: bold; font-size: 15px;">{{$studentData["numero"]}}</div></div>   
+                        <div style="display: flex">N°: <div style="margin-left: 5px; font-weight: bold; font-size: 14px;">{{$studentData["numero"]}}</div></div>   
                     </div>
                 </div>
                 <div >
@@ -140,7 +151,7 @@
                         $coef += $ligneGroupe['somme_coef'];
                     @endphp
 
-                    <table class="table-border">
+                    <table class="table-border" style="font-size: 14px!important">
                         <tr class="border" style="background-color: rgb(151, 144, 144)">
                             <th>MATIERES / Enseignants</th>
                             <th class="border">Moy.</th>
@@ -171,12 +182,12 @@
                         
                     </table>
                     <div style="padding-left: 10px; display: flex; background-color: rgb(207, 198, 198); padding-top: 5px; padding-bottom: 5px;">
-                        <div style="font-weight: bold; width: 30%">{{$ligneGroupe->name}}</div>
+                        <div style="font-weight: bold; width: 30%; font-size: 14px;">{{$ligneGroupe->name}}</div>
                         <div style="display: flex;  width: 35%;">
-                            <div style="display: flex">Points: <div style="margin-left: 10px; font-weight: bold; font-size: 15px;"> {{$ligneGroupe->somme_point}}</div></div>
-                            <div style="display: flex; margin-left: 50px">Coefs: <div style="margin-left: 10px; font-weight: bold; font-size: 15px;"> {{$ligneGroupe->somme_coef}} </div></div>
+                            <div style="display: flex">Points: <div style="margin-left: 10px; font-weight: bold; font-size: 14px;"> {{$ligneGroupe->somme_point}}</div></div>
+                            <div style="display: flex; margin-left: 50px">Coefs: <div style="margin-left: 10px; font-weight: bold; font-size: 14px;"> {{$ligneGroupe->somme_coef}} </div></div>
                         </div>
-                        <div style="display: flex; width: 25%">Moyenne: <div style="margin-left: 10px; font-weight: bold; font-size: 15px;"> {{$ligneGroupe->moyenne_groupe}}</div></div>
+                        <div style="display: flex; width: 25%">Moyenne: <div style="margin-left: 10px; font-weight: bold; font-size: 14px;"> {{$ligneGroupe->moyenne_groupe}}</div></div>
                     </div>
                     
                 @endfor
@@ -214,10 +225,10 @@
 
             <div style="width: 100%; display: flex; padding-left: 10px; padding-right: 10px; margin-top: 20px;">
                 <div style="width: 30%;">
-                <div class="border" style="color: black; text-align: center; font-weight: bold">DISCIPLINE</div>
+                <div class="border" style="color: black; text-align: center; font-weight: bold; font-size: 14px;">DISCIPLINE</div>
                 <div style="display: flex; justify-content: space-between; margin-top: 5px;">
                         <div class="small-table">
-                            <table class="table-border">
+                            <table class="table-border; font-size: 14px;">
                                 <tr>
                                     <td class="border">Abs.Inj (h):</td>
                                     <td class="border"></td>
@@ -241,7 +252,7 @@
                             </table>
                         </div>
 
-                        <div class="small-table">
+                        <div class="small-table; font-size: 14px;">
                             <table class="table-border">
                                 <tr>
                                     <td class="border">Avert.:</td>
@@ -267,7 +278,7 @@
                         </div>
                 </div>
                 </div>
-                <div style="width: 60%; padding-inline: 20px;">
+                <div style="width: 60%; padding-inline: 20px; font-size: 14px;">
                     <div class="flex-justify-between">
                         <div style="width: 30%">
                             <table class="table-border">
@@ -297,7 +308,7 @@
                             </table>
                         </div>
 
-                        <div style="width: 30%">
+                        <div style="width: 30%; font-size: 14px;">
                             <table class="table-border">
                                 <tr>
                                     <td class="border">M.Cla</td>
@@ -319,23 +330,23 @@
                     @endphp
 
                     <div style="display: flex; justify-content: end; margin-top: 10px;">
-                        <div style="font-size: 17px; margin-top: 2px;">Moyenne Scolaire:</div>
-                        <div class="border" style="font-weight: bold; text-align: center; padding-inline: 20px;font-size: 20px;">{{$moyenneScolaire}}</div>
+                        <div style="font-size: 14px; margin-top: 2px;">Moyenne Scolaire:</div>
+                        <div class="border" style="font-weight: bold; text-align: center; padding-inline: 20px;font-size: 12px;">{{$moyenneScolaire}}</div>
                     </div>
 
                     <div style="display: flex; justify-content: end; margin-top: 10px;">
-                        <div style="font-size: 17px; margin-top: 2px;">Appréciation:</div>
-                        <div class="border" style="font-weight: bold; text-align: center; padding-inline: 75px;font-size: 20px;">{{$appreciation}}</div>
+                        <div style="font-size: 14px; margin-top: 2px;">Appréciation:</div>
+                        <div class="border" style="font-weight: bold; text-align: center; padding-inline: 75px;font-size: 12px;">{{$appreciation}}</div>
                     </div>
                 </div>
                 <div style="width: 30%">
                     <div style="width: 90%">
                         <table class="table-border">
                             <tr>
-                                <td class="border" style="font-weight: bold">MENTION(S) DU TRAVAIL</td>
+                                <td class="border" style="font-weight: bold;font-size: 11px;">MENTION(S) DU TRAVAIL</td>
                             </tr>
                             <tr>
-                                <td class="border">@php if($moyenne > 12) {echo("TABLEAU D'HONNEUR"); } else { echo("---"); } @endphp</td>
+                                <td class="border" style="font-weight: bold;font-size: 11px;">@php if($moyenne > 12) {echo("TABLEAU D'HONNEUR"); } else { echo("---"); } @endphp</td>
                             </tr>
                             
                         </table>
@@ -347,9 +358,9 @@
             <div style="margin-top: 20px;">
                 <table class="table-border">
                     <tr>
-                        <td class="border"><div style="height: 75px; text-align: center;"> Visa des Parents</div></td>
-                        <td class="border"> <div style="height: 75px; text-align: center;"> Le Surveillant Général </div></td>
-                        <td class="border"><div style="height: 75px; text-align: center;"> Le Principal </div> </td>
+                        <td class="border"><div style="height: 75px; text-align: center; font-size: 12px;"> Visa des Parents</div></td>
+                        <td class="border"> <div style="height: 75px; text-align: center; font-size: 12px;"> Le Surveillant Général </div></td>
+                        <td class="border"><div style="height: 75px; text-align: center; font-size: 12px;"> Le Principal </div> </td>
                     </tr>
                 </table>
             </div>
@@ -363,8 +374,11 @@
         
             <script>
 
-                var element = document.getElementById('content-body');
-                // html2pdf(element);
+                for(let i = 0; i < 2; i++) {
+                    var element = document.getElementById('content-body');
+                    // html2pdf(element);
+                }
+                
 
                     // var pdf = new jsPDF('p', 'pt', 'letter');
                     // // source can be HTML-formatted string, or a reference
