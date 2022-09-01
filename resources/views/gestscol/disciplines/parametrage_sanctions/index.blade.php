@@ -1,6 +1,19 @@
 <x-gest-scol title="Liste parametrage des sanctions">
-
-            <div class="page-title-actions">
+    <div class="app-main__inner">
+        <div class="app-page-title" style="position:relative; top:0%;">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-news-paper icon-gradient bg-happy-itmeo">
+                        </i>
+                    </div>
+                    <div>Liste des Sanctions
+                       <!-- <div class="page-title-subheading">Liste des Apprenants.
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="page-title-actions">
                 <a href="">
                     <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal"
                         data-target=".bd-example-modal-lg"">
@@ -51,7 +64,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="row card-body">
@@ -62,7 +75,7 @@
                 <div class="card-body col-md-12">
                     {{ html()->form('POST', URL::full())->open() }}
                     @csrf
-                        <table class="col-md-12" id="list">
+                        <table class="col-md-12">
                             <tr class="col-md-12">
                                 <td class="col-md-6">
                                     <div class="position-relative form-group"><label for="exampleSelect"
@@ -147,7 +160,7 @@
 
                 <div class="card-body" class="scroll-area-md">
                     <!-- <h5 class="card-title">Table with hover</h5> -->
-                    <table class="mb-0 table table-hover">
+                    <table class="mb-0 table table-hover" id="list">
                         <thead>
                             <tr>
                                 <th width="5%">
@@ -196,23 +209,11 @@
                                     </td>
                                 </tr>
                             @endforelse
-
-
-
-
-                            <tr>
-                                <th scope="row" colspan="8">
-
-                            </tr>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-<<<<<<< HEAD
         </div>
     </div>
 </x-gestscol>
-=======
-</x-gest-scol>
->>>>>>> 9e2b752ab9bd5b94279da3873774997e59b5e5ae
+
