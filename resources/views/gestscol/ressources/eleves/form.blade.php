@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 h-100">
+                            <div class="col-md-6">
                                 <div class="main-card mb-3 card ">
                                     <div class="card-body">
                                         <div class="position-relative form-group">
@@ -318,9 +318,10 @@
 
                             </div>
                         </div>
-                        <button type="submit" class="mt-2 btn btn-success" >Enrégistrer</button>
+                        
                     </div>
                 </div>
+                <button type="submit" class="btn btn-success" >Enrégistrer</button>
             {{ html()->form()->close() }}
         </div>
     </div>

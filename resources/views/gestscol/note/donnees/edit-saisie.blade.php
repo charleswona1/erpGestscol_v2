@@ -234,7 +234,7 @@
             let bareme = "{{$evaluationPeriode->bareme}}";
             $('#updateNote').on('click',function(){
                 $('.fieldStudent').each(function(index){
-                    if( parseInt($(this)[0].value)  > parseInt( bareme)){
+                    if( parseFloat($(this)[0].value)  > parseFloat( bareme)){
                         console.log($(this)[0].value+   "{{$evaluationPeriode->bareme}}")
                         $(this).addClass("border border-danger");
                         error = true

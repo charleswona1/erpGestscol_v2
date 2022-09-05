@@ -226,7 +226,7 @@
             $('#periodeId').on('change',function(ev){
                 periodeId = ev.target.value;
                 $.ajax({
-                    url: "{{route('gestscol.notes.get-evaluation-sous-periode',$etablissement)}}",
+                    url: "{{route('gestscol.notes.get-evaluation-periode',$etablissement)}}",
                     type: "GET",
                     data:{
                         "periodeId": periodeId,
@@ -260,11 +260,11 @@
                 let periodeId = $('#periodeId').val();
                 let sousPeriode = $('#sous_periode').val();
                 let evaluation= $('#evaluation_id').val();
-                let bareme = $('#bareme').val();
+                let baremeEvaluation = $('#bareme').val();
                 let dateEvaluation = $('.date_evaluation').val();
                 let commentataire = $('#commentataire').val();
 
-                if(classeAnnee == ""|| matiereNiveau=="" || periodeId=="" || sousPeriode=="" || evaluation=="" || bareme == "" || dateEvaluation == "" ){
+                if(classeAnnee == ""|| matiereNiveau=="" || periodeId=="" || sousPeriode=="" || evaluation=="" || baremeEvaluation == "" || dateEvaluation == "" ){
                     alert('Parameter failure');
                 }else{
 
@@ -279,7 +279,7 @@
                         "sous_periode_id": sousPeriode,
                         "date_evaluation": dateEvaluation,
                         "evaluation_id":evaluation,
-                        "bareme": bareme,
+                        "bareme": baremeEvaluation,
                         "commentataire": commentataire
                     },
 
@@ -326,7 +326,8 @@
                 let error = false;
                 $.each(notes, function(key, elt){
                     let inpute = $('input[data-key="'+key+'"]');
-                    if( parseInt(inpute.val()) > parseInt( bareme)){
+                    console.log(parseInt(inpute.val()));
+                    if( parseFloat(inpute.val()) > parseFloat( bareme)){
                         inpute.addClass("border border-danger");
                         error = true;
                     }else{

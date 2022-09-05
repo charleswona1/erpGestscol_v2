@@ -38,7 +38,7 @@
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="main-card mb-3 card">
+                                <div class="main-card mb-3 card h-auto">
                                     <div class="card-body">
                                         <h5 class="card-title">Identification</h5>
                                         
@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 h-100">
+                            <div class="col-md-6">
                                 <div class="main-card mb-3 card ">
                                     <div class="card-body">
                                         <div class="position-relative form-group">
@@ -301,7 +301,9 @@
                                             <select name="niveau_id" class="form-control">
                                                 <option value="">selectionner le niveau précédent</option>
                                                 @foreach ($niveaux as $niveau)
-                                                <option value="{{$niveau->id}}">{{$niveau->name}}</option>
+                                                <option value="{{$niveau->id}}" @if ($niveau->id == $eleve->niveau_id)
+                                                    selected
+                                                @endif>{{$niveau->name}}</option>
                                                 @endforeach
                                             </select>
                                             <x-errors name="niveau_id"/>
@@ -333,9 +335,9 @@
 
                             </div>
                         </div>
-                        <button type="submit" class="mt-2 btn btn-success" >Enrégistrer</button>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-success" >Enrégistrer</button>
             {{ html()->form()->close() }}
         </div>
     </div>

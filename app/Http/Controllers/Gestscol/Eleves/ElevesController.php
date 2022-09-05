@@ -80,6 +80,7 @@ class ElevesController extends Controller
 
     public function edit(Etablissement $etablissement, EleveClasse $eleve){
         $niveaux = $etablissement->getNiveaux;
+        \Debugbar::info($eleve);
         return view('gestscol.ressources.eleves.edit',compact('etablissement','eleve','niveaux'));
     }
 

@@ -75,7 +75,7 @@
                     <div class="card-body ">
                         {{ html()->form('POST', URL::full())->open() }}
                         @csrf
-                        <table class="col-md-12" id="list">
+                        <table class="col-md-12" >
                             <tr>
                                 <td>
                                     <div class="position-relative form-group"><label for="exampleSelect"
