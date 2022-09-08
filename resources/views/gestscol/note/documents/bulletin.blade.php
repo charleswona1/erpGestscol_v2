@@ -485,6 +485,9 @@
                     <div id="liste_eleves">
 
                     </div>
+                    <div id="btn-export-pdf">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -492,8 +495,10 @@
 
     @push('javascripts')
         <script>
-            let periode_type = '';
-            let periode_id = null;
+            var periode_type = '';
+            var periode_id = null;
+            
+            var student_id = null;
             $('#limitation').prop('selectedIndex',0);
             $('#classe_annee_id').prop('selectedIndex',0);
 
@@ -585,19 +590,20 @@
                                 );
                             });
 
-                            
+                                                        
                             table +=generateMultiColumnTable(th,tb,"");
                             $('#liste_eleves').append(table);
                             $('.form-check').on('change',function(e) {
                                 $('#bulletin-card').empty();
-                            
-                                console.log(periode_id);
+                                var hasHeader = true;
+                                $("input[id='without-header']").prop("checked", false);
+                                student_id = $(this)[0].attributes.id.value,
 
                                 $.ajax({
                                     url: "{{route('gestscol.bulletins.bulletin-data',$etablissement)}}",
                                     type: "GET",
                                     data : {
-                                        student_id: $(this)[0].attributes.id.value,
+                                        student_id: student_id,
                                         limitation: periode_type,
                                         periode: periode_id
                                     },
@@ -611,6 +617,7 @@
                                         
                                         let ligneGroupes = response["ligneGroupes"];
 
+                                        console.log("=========== ligneGroupes")
                                         console.log(ligneGroupes);
                                         let syntheseClasse = response["syntheseClasse"];
                                         let tableBul ="";
@@ -625,7 +632,38 @@
                                             tableBul  += '<div class="page-title-heading p-4">' +
                                                 '<div style="font-size: x-large;">Impossible de fournir le bulletin de note de cet apprenant</div>' +
                                             '</div>'
+
+                                            $('#btn-export-pdf').empty();
                                         } else {
+
+                                            var btn = generateButtonExportPdf(1,student_id,periode_id,periode_type,true);
+                                                $('#btn-export-pdf').empty();
+                                                $('#btn-export-pdf').append(btn);
+
+                                    
+                                            
+                                            $('#without-header').on('change',function(e) {
+                                                console.log(" ==================== success =============")
+                                                console.log(ligneGroupes)
+                                                if(ligneGroupes) {
+                                                    let isCheck = $('#without-header').prop('checked');
+                                                    console.log("============== isCheck ===============")
+                                                    hasHeader = !isCheck
+                                                    console.log(hasHeader)
+                                                    var btn = generateButtonExportPdf(1,student_id,periode_id,periode_type,hasHeader);
+                                                    $('#btn-export-pdf').empty();
+                                                    $('#btn-export-pdf').append(btn);
+                                                }
+                                        
+                                               
+                                                
+                                            })
+                                            
+                                            
+
+                                            console.log(hasHeader);
+
+
                                             for(let i = 0; i < ligneGroupes.length; i++) {
                                                 let ligneSyntheses = ligneGroupes[i]["ligneSyntheses"];
 
@@ -819,7 +857,15 @@
                 });
             }
 
+            var generateButtonExportPdf = function(etablissement, student_id, periode_id, periode_type, hasHeader) {
+                let url = window.location.origin + "/gestscol/" + etablissement + "/bulletins/" + student_id + "/" + periode_id + "/" + periode_type + "/" + hasHeader + "/bulletin-pdf";
+                var btn = '<a class="m-1 btn btn-info text-white bulletin.pdf" href="' + url + '" >Export to PDF</a>';
+                return btn;
+            }
+
             var generateMultiColumnTable = function (thead, tbody, title) {
+
+                // let url = window.location.origin + "/gestscol/" + etablissement + "/bulletins/" + student_id + "/" + periode_id + "/" + periode_type + "/" + $('#without-header').prop('checked') + "/bulletin-pdf";
                 
                 var table = '<div class="card-body w-100" id="list-student" style="float: left;">'+
                     '<h5 class="card-title" style="color:black;">'+title+'</h5>'+
@@ -834,7 +880,10 @@
                             tbody+
                         '</tbody>'+
                     '</table>'+
-                    '<a class="m-1 btn btn-info text-white bulletin.pdf" href="{{ URL::to('/gestscol/1/bulletins/1/1/sp/bulletin-pdf') }}">Export to PDF</a>' +
+
+                    // '<a class="m-1 btn btn-info text-white bulletin.pdf" href="' + url + '" >Export to PDF</a>'
+                    
+                    
                     // '<button class="m-1 btn btn-success text-white">Imprimer Tous</button>'+
                     // '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
                     

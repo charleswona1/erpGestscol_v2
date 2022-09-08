@@ -10,9 +10,9 @@
         <link rel="shortcut icon" href="{{ asset('assets1/images/favicon.png') }}" />
         
         
-        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script> --}}
+        <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
         
         <style>
             
@@ -76,26 +76,35 @@
     <body id="content-body">
         <div class="container">
             <div class="content-entete">
-                <div class="flex-justify-between">
-                    <div style="text-align: center;">
-                        <div style="color: black; font-size:16px; font-weight:400px; font-family:auto; margin-top: 5px;">REPUBLIC DU CAMEROUN</div>
-                        <div style="color: black; font-size:14px; font-weight:bold; font-family:auto; margin-top: 5px;">Ministère des Enseignements Secondaires</div>
-                        <div style="color: black; font-size:11px; font-weight:bold; font-family:auto; margin-top: 5px;">Délégation Régionale du Centre</div>
-                        <div class="subline-entete"></div>
+
+                
+                @if($data["has_header"]  == 'true')         
+                    <div class="flex-justify-between">
+                        <div style="text-align: center;">
+                            <div style="color: black; font-size:16px; font-weight:400px; font-family:auto; margin-top: 5px;">REPUBLIC DU CAMEROUN</div>
+                            <div style="color: black; font-size:14px; font-weight:bold; font-family:auto; margin-top: 5px;">Ministère des Enseignements Secondaires</div>
+                            <div style="color: black; font-size:11px; font-weight:bold; font-family:auto; margin-top: 5px;">Délégation Régionale du Centre</div>
+                            <div class="subline-entete"></div>
+                        </div>
+            
+                        <div style="text-align: center;">
+                            <div style="color: black; font-size:16px; ffont-weight:400px; font-family:auto; margin-top: 5px;">ARCHIDIOCESE DE YAOUNDE</div>
+                            <div style="color: black; font-size:14px; font-weight:bold; font-family:auto; margin-top: 5px;">Collège Mgr. François Xavier VOGT</div>
+                            <div style="color: black; font-size:11px; font-weight:bold; font-family:auto; margin-top: 5px;">BP 765 Yaoundé - Tel.22-31-54-28</div>
+                            <div class="subline-entete"></div>
+                        </div>
+                        
                     </div>
-        
-                    <div style="text-align: center;">
-                        <div style="color: black; font-size:16px; ffont-weight:400px; font-family:auto; margin-top: 5px;">ARCHIDIOCESE DE YAOUNDE</div>
-                        <div style="color: black; font-size:14px; font-weight:bold; font-family:auto; margin-top: 5px;">Collège Mgr. François Xavier VOGT</div>
-                        <div style="color: black; font-size:11px; font-weight:bold; font-family:auto; margin-top: 5px;">BP 765 Yaoundé - Tel.22-31-54-28</div>
-                        <div class="subline-entete"></div>
-                    </div>
-                    
-                </div>
+                @else
+                    <div style="height: 100px"></div>        
+                @endif
+
+                
                 <div style="color: black; font-size:18px; font-weight:bold; font-family:auto;text-align: center;">BULLETIN SÉQUENTIEL N°1</div>
             </div>
 
             @php
+                // var_dump(gettype($data['studentData']));
                 $studentData = $data["studentData"];
             @endphp
 
@@ -171,7 +180,7 @@
                                 <td class="border" style="text-align: center">{{$ligneSynthese->coef}}</td>
                                 <td class="border" style="text-align: center">{{$ligneSynthese->total_point}}</td>
                                 <td class="border" style="text-align: center">{{$ligneSynthese->rang}}e</td>
-                                <td class="border">
+                                <td class="border" style="font-size: 14px">
                                     <div>Cahiers {10/20} Contrôle {13.5/20}</div>
                                     <div>Interrogation {10/20}</div>
                                 </td>
@@ -226,9 +235,9 @@
             <div style="width: 100%; display: flex; padding-left: 10px; padding-right: 10px; margin-top: 20px;">
                 <div style="width: 30%;">
                 <div class="border" style="color: black; text-align: center; font-weight: bold; font-size: 14px;">DISCIPLINE</div>
-                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px;">
                         <div class="small-table">
-                            <table class="table-border; font-size: 14px;">
+                            <table class="table-border;">
                                 <tr>
                                     <td class="border">Abs.Inj (h):</td>
                                     <td class="border"></td>
@@ -252,7 +261,7 @@
                             </table>
                         </div>
 
-                        <div class="small-table; font-size: 14px;">
+                        <div class="small-table;">
                             <table class="table-border">
                                 <tr>
                                     <td class="border">Avert.:</td>
@@ -374,10 +383,10 @@
         
             <script>
 
-                for(let i = 0; i < 2; i++) {
+                // for(let i = 0; i < 2; i++) {
                     var element = document.getElementById('content-body');
-                    // html2pdf(element);
-                }
+                    html2pdf(element);
+                // }
                 
 
                     // var pdf = new jsPDF('p', 'pt', 'letter');
