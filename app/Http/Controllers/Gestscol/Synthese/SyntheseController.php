@@ -20,7 +20,7 @@ use App\Models\SyntheseClasse;
 use Illuminate\Http\Request;
 use App\SyntheseEntites;
 use App\Post;
-use PDF;
+// use PDF;
 
 class SyntheseController extends Controller
 {
@@ -496,22 +496,22 @@ class SyntheseController extends Controller
         return view("gestscol.note.documents.bulletinPdf", compact("data"));
     }
 
-    public function getAllBulletinPdfInClass($etablissement, $classId, $periode, $limitation) {
-        $students = EleveClasse::where('classe_annee_id',$classId)->get();
+    // public function getAllBulletinPdfInClass($etablissement, $classId, $periode, $limitation) {
+    //     $students = EleveClasse::where('classe_annee_id',$classId)->get();
 
-        $html = '';
-        foreach ($students as $key => $student) {
-            # code...
-            $data = $this::getBulletinPdf($etablissement, $student->id, $periode, $limitation);
-            var_dump(gettype($data['studentData']));
-            return view("gestscol.note.documents.bulletinPdf",compact('data'));
-            $view = view("gestscol.note.documents.bulletinPdf", compact("data"));
-            $html .= $view->render();
-        }
-        $pdf = PDF::loadHTML($html);
-        $sheet = $pdf->setPaper('a4');
-        return $sheet->download('bulletins.pdf');
-    }
+    //     $html = '';
+    //     foreach ($students as $key => $student) {
+    //         # code...
+    //         $data = $this::getBulletinPdf($etablissement, $student->id, $periode, $limitation);
+    //         var_dump(gettype($data['studentData']));
+    //         return view("gestscol.note.documents.bulletinPdf",compact('data'));
+    //         $view = view("gestscol.note.documents.bulletinPdf", compact("data"));
+    //         $html .= $view->render();
+    //     }
+    //     $pdf = PDF::loadHTML($html);
+    //     $sheet = $pdf->setPaper('a4');
+    //     return $sheet->download('bulletins.pdf');
+    // }
 
 }
 
