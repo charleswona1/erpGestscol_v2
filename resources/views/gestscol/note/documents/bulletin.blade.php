@@ -131,315 +131,16 @@
         </div>
     </div>
 
-
     <div class="row">
 
         <!-- section Bulletin -->
         <div class="col-lg-8">
             <div class="main-card mb-1 card">
-                {{-- <div class="card-body" style="float: left;">
-                    <h5 class="card-title" style="color:black; text-align:center;">Bulletin Séquenciel 1
-                    </h5>
-                    <table id="myTable" class="table border " cellspacing="0" width="100%"
-                        style="white-space:nowrap;">
-                        <thead>
-                            <tr>
-                                <th class="border" colspan="2">Nom(s) & Prénom(s)</th>
-                                <td class="border" colspan="6" style="margin:auto; width:auto;">Gilles
-                                    Fabrizio ZANETTIN</td>
-                                <th class="border">Classe</th>
-                                <td class="border">6e 1</td>
-                                <th class="border">Effectif</th>
-                                <td class="border">51</td>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th class="border">Né(e) Le</th>
-                                <td class="border">10/02/2002</td>
-                                <th class="border">A</th>
-                                <td class="border">Youndé</td>
-                                <th class="border">Red</th>
-                                <td class="border">Non</td>
-                                <th class="border">Matricule</th>
-                                <td class="border">FGI2017YDE </td>
-                                <th class="border">N°</th>
-                                <td class="border">50</td>
-                                <th class="border">Prof T.</th>
-                                <td class="border">ATANGANA Jean</td>
-
-                            </tr>
-                        </tbody>
-
-                    </table>
-
-                </div> --}}
-
+                
             </div>
 
             <div class="main-card mb-3 card" id="bulletin-card">
                 
-              
-                <!-- <div class="card-body"
-                    style="float: left; ">
-
-                    <table id="myTable" class="table border " cellspacing="0" width="100%"
-                        style="white-space:nowrap;">
-
-                        <tbody>
-
-                            <tr>
-                                <td class="border">
-                                    <strong>Anglais</strong>
-                                    <br><span style="font-size:0.8em;">DJUIKOM Chantal</span>
-                                </td>
-                                <td class="border">16,00</td>
-                                <td class="border">4,0</td>
-                                <td class="border">64,00</td>
-                                <td class="border">3e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {16/20}
-                                        <br />Contrôle {16/20}</span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="border">
-                                    <strong>Expression Ecrite</strong>
-                                    <br><span style="font-size:0.8em;">NGUIMBOUS Jean Calvin</span>
-                                </td>
-                                <td class="border">8,00</td>
-                                <td class="border">2,0</td>
-                                <td class="border">16,00</td>
-                                <td class="border">16e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {08/20}
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="border">
-                                    <strong>Anglais</strong>
-                                    <br><span style="font-size:0.8em;">DJUIKOM Chantal</span>
-                                </td>
-                                <td class="border">16,00</td>
-                                <td class="border">4,0</td>
-                                <td class="border">64,00</td>
-                                <td class="border">3e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {16/20}
-                                        <br />Contrôle {16/20}</span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="border">
-                                    <strong>Expression Ecrite</strong>
-                                    <br><span style="font-size:0.8em;">NGUIMBOUS Jean Calvin</span>
-                                </td>
-                                <td class="border">8,00</td>
-                                <td class="border">2,0</td>
-                                <td class="border">16,00</td>
-                                <td class="border">16e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {08/20}
-
-                                </td>
-
-                            </tr>
-                        </tbody>
-
-                    </table>
-
-                </div>
-                <div class="card mb-0" style="text-align:center;">
-                    <table>
-                        <tr>
-                            <th>Matières Littéraires</th>
-                            <td>Points</td>
-                            <th>138,50</th>
-                            <td>Coefs</td>
-                            <th>13.0</th>
-                            <td>Moyenne</td>
-                            <th>10,65</th>
-                    </table>
-                </div>
-                <div class="card-body"
-                    style="float: left; ">
-                    <table id="myTable" class="table border " cellspacing="0" width="100%"
-                        style="white-space:nowrap;">
-
-                        <tbody>
-
-                            <tr>
-                                <td class="border">
-                                    <strong>Informatique</strong>
-                                    <br><span style="font-size:0.8em;">NTSA Armand Clement</span>
-                                </td>
-                                <td class="border">05,00</td>
-                                <td class="border">2,0</td>
-                                <td class="border">10,00</td>
-                                <td class="border">42e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé
-                                        {10/20}<br />Contrôle {0/20}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="border">
-                                    <strong>EPS</strong>
-                                    <br><span style="font-size:0.8em;">MBOULE MBOULE Ismael</span>
-                                </td>
-                                <td class="border">10,00</td>
-                                <td class="border">2,0</td>
-                                <td class="border">20,00</td>
-                                <td class="border">32e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {10/20}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="border">
-                                    <strong>E.S.F</strong>
-                                    <br><span style="font-size:0.8em;">BILOA Laurencia</span>
-                                </td>
-                                <td class="border">14,00</td>
-                                <td class="border">1,0</td>
-                                <td class="border">14,00</td>
-                                <td class="border">28e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {14/20}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="border">
-                                    <strong>T.M</strong>
-                                    <br><span style="font-size:0.8em;">AHANDA ALAIN</span>
-                                </td>
-                                <td class="border">15,00</td>
-                                <td class="border">1,0</td>
-                                <td class="border">15,00</td>
-                                <td class="border">12e</td>
-                                <td class="border">
-                                    <span style="font-size:0.8em;">Devoir surveillé {15/20}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card mb-0" style="text-align:center;">
-                    <table>
-                        <tr>
-                            <th>Matières de Formation Humaine</th>
-                            <td>Points</td>
-                            <th>59,00</th>
-                            <td>Coefs</td>
-                            <th>6.0</th>
-                            <td>Moyenne</td>
-                            <th>9,83</th>
-                        </tr>
-                    </table>
-                </div> 
-                
-                <div class="card-body bulletin-summary" style="float: left;">
-                    <div class="row" style="margin:auto;">
-                        <div class="col-sm-4">
-                            <table id="myTable" class="table-cell w-100" cellspacing="0"
-                                style="white-space:nowrap;">
-                                <thead>
-                                    <tr>
-                                        <th class="border bg-light"  colspan=" 2">Discipline
-                                        <th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <tr>
-                                        <td class="border">Abs.Inj (h)</td>
-                                        <th class="border"> 02</th>
-                                    </tr>
-                                    <tr>
-                                        <td class="border">Abs.Jus (h)</td>
-                                        <td class="border"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border">Punition</td>
-                                        <td class="border"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border">Retards</td>
-                                        <td class="border"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border">Retenues</td>
-                                        <td class="border"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border">Avert. (h)</td>
-                                        <td class="border"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border">Blâmes</td>
-                                        <td class="border"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border">Exclusion</td>
-                                        <td class="border"> </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                        <div class="col-sm-8">
-                            <table id="myTable" class="table" cellspacing="0"
-                                style="white-space:nowrap;">
-                                <thead>
-                                    <tr>
-                                        <th class="border bg-light">Points</th>
-                                        <th class="border bg-light">Coefs</th>
-                                        <th class="border bg-light">Moyenne</th>
-                                        <th class="border bg-light">Rang</th>
-                                        <th class="border bg-light">M.Cla</th>
-                                        <th class="border bg-light">Min</th>
-                                        <th class="border bg-light">Max</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="border">265,50</td>
-                                        <td class="border">25.0</td>
-                                        <th class="border bg-success">10,62</th>
-                                        <th class="border">52e</th>
-                                        <td class="border">10,95</td>
-                                        <td class="border">5,10</td>
-                                        <td class="border">16,20</td>
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-                            <table id="myTable" class="table" cellspacing="0"
-                                style="white-space:nowrap;">
-                                <thead>
-                                    <tr>
-                                        <td class="border">Appréciation</td>
-                                        <th class="border">Passable</th>
-                                    </tr>
-                                </thead>
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3 bulletin-summary" style="text-align:center;">
-                    <table>
-                        <tr>
-                            <th>Visa des Parents</th>
-                            <th>Le Surveillant Général</th>
-                            <th>Le Principal</th>
-                    </table>
-                </div>-->
             </div>
         </div>
 
@@ -458,29 +159,12 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="select-class">
+                            <input id="etablissement" name="etablissement" type="hidden" value={{$etablissement->id}}>
                             <label class="custom-control-label" for="select-class">Sélectionner toute la classe</label>
                         </div>
                     </div>
                     
-
-                    {{-- <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1"
-                                value="option1" checked>
-                            Ordre Alphabétique
-                        </label>
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2"
-                                value="option2">
-                            Ordre de Mérite
-                        </label>
-                    </div> --}}
                     <br/>
-                    {{-- <center>
-                        <button class="mt-1 btn btn-info"><a href="index.html"
-                                style="color:white; text-decoration:none;">Imprimer</a></button>
-                        <a href="index.html"><button class="mt-1 btn btn-primary">Exporter</button></a>
-                    </center> --}}
                       
                     <div id="liste_eleves">
 
@@ -499,6 +183,9 @@
             var periode_id = null;
             
             var student_id = null;
+            var etablissement_id = $('#etablissement')[0].attributes.value.value;
+
+            console.log(etablissement_id);
             $('#limitation').prop('selectedIndex',0);
             $('#classe_annee_id').prop('selectedIndex',0);
 
@@ -508,6 +195,7 @@
                 $('.limitation').empty();
                 $('#cloture').empty();
                 $('#clotureBtn').prop("disabled", true);
+                
                 
                 limit = ev.target.value;
                 periode_type = limit;
@@ -565,6 +253,9 @@
                     success:function(response) {
                        
                         let table ="";
+
+                        // console.log("====================== etablissement");
+                        // console.log(etablissement);
 
                         if(response.length > 0) {
 
@@ -650,7 +341,7 @@
                                                     console.log("============== isCheck ===============")
                                                     hasHeader = !isCheck
                                                     console.log(hasHeader)
-                                                    var btn = generateButtonExportPdf(1,student_id,periode_id,periode_type,hasHeader);
+                                                    var btn = generateButtonExportPdf(etablissement_id, student_id,periode_id,periode_type,hasHeader);
                                                     $('#btn-export-pdf').empty();
                                                     $('#btn-export-pdf').append(btn);
                                                 }
