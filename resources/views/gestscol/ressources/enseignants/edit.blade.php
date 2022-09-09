@@ -93,7 +93,7 @@
                                 <div class="card-body">
                                     <!--<h5 class="card-title">Sizing</h5> -->
                                     <div class="position-relative form-group">
-                                        <label for="exampleSelect" class="">Statut au sein de l'établissement</label>
+                                        <label for="exampleSelect" class="">Statut au sein de l'établissement <span style="color:red;">*</span></label>
                                         <select name="status" id="status" class="form-control">
                                             <option value="Permanent" @if($enseignantAnnee->status == "Permanent") selected  @endif>Permanent</option>
                                             <option value="Vacataire" @if($enseignantAnnee->status == "Vacataire") selected  @endif>Vacataire</option>
@@ -102,7 +102,7 @@
                                     </div>
     
                                     <div class="position-relative form-group">
-                                        <label for="exampleSelect" class="">Niveau Scolaire</label>
+                                        <label for="exampleSelect" class="">Niveau Scolaire <span style="color:red;">*</span></label>
                                         <select name="diplome" id="niveau" class="form-control">
                                             <option value="BEPC" @if($enseignantAnnee->diplome == "BEPC") selected  @endif>BEPC</option>
                                             <option value="Probatoire" @if($enseignantAnnee->diplome == "Probatoire") selected  @endif>Probatoire</option>
@@ -133,7 +133,7 @@
                                         <x-errors name="email"/>
                                     </div>
                                     <div class="position-relative form-group">
-                                        <label for="telephone" class="">Contact</label>
+                                        <label for="telephone" class="">Contact <span style="color:red;">*</span></label>
                                         <input name="telephone" value="{{$enseignantAnnee->telephone}}" id="contact" placeholder="Téléphone de l'enseignant" type="text" class="form-control">
                                         <x-errors name="telephone"/>
                                     </div>
@@ -169,17 +169,17 @@
                                     <div>
                                         <div class="position-relative form-group">
                                             <div class="position-relative form-group">
-                                                <label for="matricule" class="">Matricule</label>
+                                                <label for="matricule" class="">Matricule <span style="color:red;">*</span></label>
                                                 <input name="matricule" value="{{$enseignantAnnee->matricule}}" id="matricule" placeholder="Matricule" type="text" class="form-control">
                                                 <x-errors name="matricule"/>
                                             </div>
                                             <div class="position-relative form-group">
-                                                <label for="num_cnps" class="">Numéro CNPS</label>
+                                                <label for="num_cnps" class="">Numéro CNPS <span style="color:red;">*</span></label>
                                                 <input name="num_cnps" value="{{$enseignantAnnee->num_cnps}}" id="cnps" placeholder="N° CNPS" type="text" class="form-control">
                                                 <x-errors name="num_cnps"/>
                                             </div>
                                             <div class="position-relative form-group">
-                                                <label for="num_cni" class="">Numéro CNI</label>
+                                                <label for="num_cni" class="">Numéro CNI <span style="color:red;">*</span></label>
                                                 <input name="num_cni" value="{{$enseignantAnnee->num_cni}}" id="cni" placeholder="N° CNI" type="text" class="form-control">
                                                 <x-errors name="num_cni"/>
                                             </div>
@@ -207,7 +207,7 @@
                                     </div>
                                 
                                     <div class="position-relative form-group">
-                                        <label for="num_autorisation" class="">numero d'autorisation</label>
+                                        <label for="num_autorisation" class="">numero d'autorisation <span style="color:red;">*</span></label>
                                         <input name="num_autorisation" value="{{$enseignantAnnee->num_autorisation}}" id="num_autorisation" placeholder="Numero d'autorisation" type="text" class="form-control">
                                         <x-errors name="num_autorisation"/>
                                     </div>

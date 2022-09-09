@@ -297,7 +297,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Niveau courant</h5>
                                         <div class="position-relative form-group">
-                                            <label for="exampleEmail" class="">Niveau courant</label>
+                                            <label for="exampleEmail" class="">Niveau courant <span style="color:red;">*</span></label>
                                             <select name="niveau_id" class="form-control">
                                                 <option value="">selectionner le niveau précédent</option>
                                                 @foreach ($niveaux as $niveau)
