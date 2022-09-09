@@ -20,7 +20,7 @@ use App\Models\SyntheseClasse;
 use Illuminate\Http\Request;
 use App\SyntheseEntites;
 use App\Post;
-use PDF;
+// use PDF;
 
 class SyntheseController extends Controller
 {
@@ -387,9 +387,10 @@ class SyntheseController extends Controller
         }
     }
 
-    public function getBulletinPdf($etablissement, $student_id, $periode, $limitation)
+    public function getBulletinPdf($etablissement, $student_id, $periode, $limitation, $has_header)
     {
 
+        
         $syntheseClasse;
         $ligneGroupes = [];
 
@@ -489,11 +490,28 @@ class SyntheseController extends Controller
             }
         }
 
-        $data = Array("rang" => $rang, "syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes, "studentData" => $eleveData);
+        $data = Array("rang" => $rang, "syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes, "studentData" => $eleveData, "has_header" => $has_header);
         // return $data;
-        // return PDF::loadView("gestscol.note.documents.test", compact("data"))->stream();
+        // return PDF::loadView("gestscol.note.documents.bulletinPdf", compact("data"))->stream();
         return view("gestscol.note.documents.bulletinPdf", compact("data"));
     }
+
+    // public function getAllBulletinPdfInClass($etablissement, $classId, $periode, $limitation) {
+    //     $students = EleveClasse::where('classe_annee_id',$classId)->get();
+
+    //     $html = '';
+    //     foreach ($students as $key => $student) {
+    //         # code...
+    //         $data = $this::getBulletinPdf($etablissement, $student->id, $periode, $limitation);
+    //         var_dump(gettype($data['studentData']));
+    //         return view("gestscol.note.documents.bulletinPdf",compact('data'));
+    //         $view = view("gestscol.note.documents.bulletinPdf", compact("data"));
+    //         $html .= $view->render();
+    //     }
+    //     $pdf = PDF::loadHTML($html);
+    //     $sheet = $pdf->setPaper('a4');
+    //     return $sheet->download('bulletins.pdf');
+    // }
 
 }
 
