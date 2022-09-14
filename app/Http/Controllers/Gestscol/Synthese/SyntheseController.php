@@ -288,7 +288,6 @@ class SyntheseController extends Controller
        
     }
 
-
     public function getBulletinData(Request $request) {
         $syntheseClasse;
         $ligneGroupes = [];
@@ -386,6 +385,7 @@ class SyntheseController extends Controller
             return Array("success" => false);
         }
     }
+
 
     public function getBulletinPdf($etablissement, $student_id, $periode, $limitation, $has_header)
     {
@@ -490,28 +490,26 @@ class SyntheseController extends Controller
             }
         }
 
-        $data = Array("rang" => $rang, "syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes, "studentData" => $eleveData, "has_header" => $has_header);
-        // return $data;
+        $data = Array("success" => true ,"rang" => $rang, "syntheseClasse" => $syntheseClasse, "ligneGroupes" => $newLigneGroupes, "studentData" => $eleveData, "has_header" => $has_header);
+        return $data;
         // return PDF::loadView("gestscol.note.documents.bulletinPdf", compact("data"))->stream();
-        return view("gestscol.note.documents.bulletinPdf", compact("data"));
+        // return view("gestscol.note.documents.bulletinPdf", compact("data"));
     }
 
-    // public function getAllBulletinPdfInClass($etablissement, $classId, $periode, $limitation) {
-    //     $students = EleveClasse::where('classe_annee_id',$classId)->get();
+    public function getAllBulletinPdfInClass($etablissement, $classId, $periode, $limitation, $has_header) {
+        $students = EleveClasse::where('classe_annee_id',$classId)->get();
 
-    //     $html = '';
-    //     foreach ($students as $key => $student) {
-    //         # code...
-    //         $data = $this::getBulletinPdf($etablissement, $student->id, $periode, $limitation);
-    //         var_dump(gettype($data['studentData']));
-    //         return view("gestscol.note.documents.bulletinPdf",compact('data'));
-    //         $view = view("gestscol.note.documents.bulletinPdf", compact("data"));
-    //         $html .= $view->render();
-    //     }
-    //     $pdf = PDF::loadHTML($html);
-    //     $sheet = $pdf->setPaper('a4');
-    //     return $sheet->download('bulletins.pdf');
-    // }
+        $dataBullletin = [];
+        foreach ($students as $key => $student) {
+            # code...
+            $item = $this::getBulletinPdf($etablissement, $student->id, $periode, $limitation, $has_header);
+            if($item['success'] == true) {
+                array_push($dataBullletin, $item);
+            }
+        }
+        // echo sizeof($dataBullletin);
+        return view("gestscol.note.documents.bulletinPdf", compact("dataBullletin"));
+    }
 
 }
 
