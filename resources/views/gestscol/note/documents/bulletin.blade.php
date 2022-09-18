@@ -233,11 +233,14 @@
                 getEleve();
             });
 
+            let classId;
+            let isClass = false;
             $('#classe_annee_id').on('change',function(e){
+                classId = e.target.value;
                 getEleve(e.target.value);
             })
 
-            // let studentId = 1;
+            
             // let periode = 1; 
             // let $limitation = 'sp';
             // let etablissement = $etablissement;
@@ -266,9 +269,17 @@
                                 console.log($('.form-check'))
                                 
                                 let isCheck = $('#select-class').prop('checked');
+                                isClass = isCheck;
                                 console.log($('#eleve_0'))
                                 $("input[name='eleve']").prop("checked", isCheck);
                                 // $('#eleve_0').prop('checked', isCheck)   
+                                let isCheckH = $('#without-header').prop('checked');
+                                console.log("============== isCheckH ===============")
+                                hasHeader = !isCheckH
+                                console.log(hasHeader)
+                                var btn = generateButtonExportPdf(etablissement_id, classId, periode_id, periode_type, hasHeader, isClass);
+                                $('#btn-export-pdf').empty();
+                                $('#btn-export-pdf').append(btn);
                             })
                             var th = generateRowTh("N°","Nons Apprenant");
                             
@@ -327,12 +338,10 @@
                                             $('#btn-export-pdf').empty();
                                         } else {
 
-                                            var btn = generateButtonExportPdf(1,student_id,periode_id,periode_type,true);
+                                            var btn = generateButtonExportPdf(etablissement_id, student_id,periode_id,periode_type,true,isClass);
                                                 $('#btn-export-pdf').empty();
                                                 $('#btn-export-pdf').append(btn);
 
-                                    
-                                            
                                             $('#without-header').on('change',function(e) {
                                                 console.log(" ==================== success =============")
                                                 console.log(ligneGroupes)
@@ -341,7 +350,7 @@
                                                     console.log("============== isCheck ===============")
                                                     hasHeader = !isCheck
                                                     console.log(hasHeader)
-                                                    var btn = generateButtonExportPdf(etablissement_id, student_id,periode_id,periode_type,hasHeader);
+                                                    var btn = generateButtonExportPdf(etablissement_id, student_id,periode_id,periode_type,hasHeader, isClass);
                                                     $('#btn-export-pdf').empty();
                                                     $('#btn-export-pdf').append(btn);
                                                 }
@@ -548,15 +557,19 @@
                 });
             }
 
-            var generateButtonExportPdf = function(etablissement, student_id, periode_id, periode_type, hasHeader) {
-                let url = window.location.origin + "/gestscol/" + etablissement + "/bulletins/" + student_id + "/" + periode_id + "/" + periode_type + "/" + hasHeader + "/bulletin-pdf";
+            var generateButtonExportPdf = function(etablissement, student_id, periode_id, periode_type, hasHeader, isClass) {
+                let url = '';
+                if(!isClass) {
+                    url = window.location.origin + "/gestscol/" + etablissement + "/bulletins/" + student_id + "/" + periode_id + "/" + periode_type + "/" + hasHeader + "/bulletin-pdf";
+                } else {
+                    url = window.location.origin + "/gestscol/" + etablissement + "/bulletins/" + classId + "/" + periode_id + "/" + periode_type + "/" + hasHeader + "/bulletins-pdf";
+                }
                 var btn = '<a class="m-1 btn btn-info text-white bulletin.pdf" href="' + url + '" >Export to PDF</a>';
                 return btn;
             }
 
             var generateMultiColumnTable = function (thead, tbody, title) {
 
-                // let url = window.location.origin + "/gestscol/" + etablissement + "/bulletins/" + student_id + "/" + periode_id + "/" + periode_type + "/" + $('#without-header').prop('checked') + "/bulletin-pdf";
                 
                 var table = '<div class="card-body w-100" id="list-student" style="float: left;">'+
                     '<h5 class="card-title" style="color:black;">'+title+'</h5>'+
@@ -572,12 +585,7 @@
                         '</tbody>'+
                     '</table>'+
 
-                    // '<a class="m-1 btn btn-info text-white bulletin.pdf" href="' + url + '" >Export to PDF</a>'
-                    
-                    
-                    // '<button class="m-1 btn btn-success text-white">Imprimer Tous</button>'+
-                    // '<button class="m-1 btn btn-secondary" id="updateNote">Exporter</button>'+
-                    
+        
                 '</div>';   
                 return table;
             }

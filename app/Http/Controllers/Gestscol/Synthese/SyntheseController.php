@@ -496,7 +496,14 @@ class SyntheseController extends Controller
         // return view("gestscol.note.documents.bulletinPdf", compact("data"));
     }
 
-    public function getAllBulletinPdfInClass($etablissement, $classId, $periode, $limitation, $has_header) {
+    public function getOneBulletinPdf($etablissement, $studentId, $periode, $limitation, $has_header) {
+        
+        $data = $this::getBulletinPdf($etablissement, $studentId, $periode, $limitation, $has_header);
+
+        return view("gestscol.note.documents.bulletinPdf", compact("data"));
+    }
+
+    public function getAllBulletinsPdfInClass($etablissement, $classId, $periode, $limitation, $has_header) {
         $students = EleveClasse::where('classe_annee_id',$classId)->get();
 
         $dataBullletin = [];
@@ -508,7 +515,7 @@ class SyntheseController extends Controller
             }
         }
         // echo sizeof($dataBullletin);
-        return view("gestscol.note.documents.bulletinPdf", compact("dataBullletin"));
+        return view("gestscol.note.documents.bulletinsPdf", compact("dataBullletin"));
     }
 
 }

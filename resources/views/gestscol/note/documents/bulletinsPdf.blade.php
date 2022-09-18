@@ -83,6 +83,7 @@
     </head>
     <body id="main">
 
+        @foreach ($dataBullletin as $data)
             <div class="container content-body">
                 <div class="content-entete">
 
@@ -384,6 +385,7 @@
                 </div>
             
             </div>
+        @endforeach
 
         
     </body>
