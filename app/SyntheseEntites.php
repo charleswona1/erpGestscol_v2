@@ -50,7 +50,7 @@ class SyntheseEntites
         $matieres= ClasseMatiere::join('matiere_niveaux','classe_matieres.matiere_niveau_id','=','matiere_niveaux.id')
         ->join('matieres','matiere_niveaux.matiere_id','=','matieres.id')
         ->select("classe_matieres.id as classe_matiere_id","matiere_niveaux.groupe_matiere_id","matieres.*","matiere_niveaux.coefficient")
-        ->where('Classe_matieres.classe_annee_id',$classe_annee)
+        ->where('classe_matieres.classe_annee_id',$classe_annee)
         ->get();
 
         $eleves= EleveClasse::where('classe_annee_id',$classe_annee)
