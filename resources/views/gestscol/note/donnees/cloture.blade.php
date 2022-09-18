@@ -95,7 +95,7 @@
                                 <td style="width: 33%;">
                                     <div class="position-relative form-group"><label for="limitation"
                                             class="">Limitation</label>
-                                            <select name="periode_id" id="limitation" class="form-control" onchange="UI.getLimitation(this)" required>
+                                            <select name="periode_id" id="limitation" class="form-control"  required>
                                                 <option value="">selectionnez une limite</option>
                                                 <option value="sp">Sous-Période</option>
                                                 <option value="p">Période</option>
@@ -417,9 +417,9 @@
                         },
                         error: function(errors){
                             console.log(errors);
-                            setTimeout(() => {
-                                location.reload(); 
-                            }, 1000);
+                            // setTimeout(() => {
+                            //     location.reload(); 
+                            // }, 1000);
                         }
                     });
                 });
